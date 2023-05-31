@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@300;400;500;600&family=Poppins:wght@200;300;400;500;600;700&family=Roboto:wght@300;400;500;700;900&display=swap');
+
+body{
+    font-size: system-ui, -apple-system ,Roboto , Oxygen ,Ubuntu , "open-sans", sans-serif;
+    background: #f6f6f5;
+    scroll-behavior: smooth;
+    user-select: none;
+}
+
+input, select{
+    outline: none;
+}
+
+.batch_heart{
+    background: tomato;
+    width: 15px;
+    height: 15px;
+    display: flex;
+    align-items: center;
+    border-radius: 100%;
+    position: absolute;
+    right: -24%;
+    top: -9%;
+    cursor: pointer;
+}
+
