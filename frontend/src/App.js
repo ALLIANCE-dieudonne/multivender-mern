@@ -85,7 +85,13 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-        <Route path="/dashboard/*" element={ <ShopDashboard> <ShopHomePage /> </ShopDashboard>
+        <Route
+          path="/dashboard/*"
+          element={
+            <ShopDashboard>
+              {" "}
+              <ShopHomePage />{" "}
+            </ShopDashboard>
           }
         />
       </Routes>

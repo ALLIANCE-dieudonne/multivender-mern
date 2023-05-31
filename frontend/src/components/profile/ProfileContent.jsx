@@ -23,7 +23,7 @@ const ProfileContent = ({ active }) => {
   };
   return (
     <div className="w-full ml-4">
-      {/* profile  */}
+       {/* profile  */}
       {active === 1 && (
         <>
           <div className="flex justify-center w-full">
@@ -43,13 +43,13 @@ const ProfileContent = ({ active }) => {
 
           <br />
 
-          <div className="w-full px-5 ">
+        <div className="w-full px-5 ">
             <form onClick={handleSubmit} aria-required={true}>
               <div className="w-full 800px:flex pb-3">
-                <div className=" 800px:w-[50%] ">
-                  <label htmlFor="names" className="font-medium">
-                    Full Names
-                  </label>
+               <div className=" 800px:w-[50%] ">
+                 <label htmlFor="names" className="font-medium">
+                   Full Names
+                 </label>
                   <input
                     type="text"
                     className={`${styles.input} !w-[95%] mt-2`}
@@ -69,14 +69,12 @@ const ProfileContent = ({ active }) => {
                     onChange={(e) => setEmail(e.target.value)}
                   />
 
-                  <label htmlFor="phone" className="font-medium">
-                    Phone Number
-                  </label>
-                  <input
-                    type="number"
-                    className={`${styles.input} !w-[95%] mt-2`}
-                    required
-                    value={phoneNumber}
+              <label htmlFor="phone" className="font-medium">
+                  Phone Number
+              </label>
+              <input
+                type="number"
+                className={`${styles.input} !w-[95%] mt-2`}                 required                 value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
                   />
                 </div>
@@ -125,8 +123,8 @@ const ProfileContent = ({ active }) => {
         </>
       )}
 
-      {/* Order  */}
-      {active === 2 && (
+     {/* Order  */}
+       {active === 2 && (
         <div className="">
           <AllOrders />
         </div>
@@ -150,18 +148,18 @@ const ProfileContent = ({ active }) => {
         </div>
       )}
       {/* adress  */}
-      {active === 7 && (
+       {active === 7 && (
         <div className="">
-          <Adress />
+          <Address />
         </div>
       )}
 
-
-
-
     </div>
+   
   );
 };
+export default ProfileContent;
+
 
 const AllOrders = () => {
   const orders = [
@@ -241,8 +239,13 @@ const AllOrders = () => {
     });
   return (
     <div className="mt-10">
-      <DataGrid rows={row} columns={columns} pageSize={10}
-      disableSelectionOnClick autoHeight />
+      <DataGrid
+        rows={row}
+        columns={columns}
+        pageSize={10}
+        disableSelectionOnClick
+        autoHeight
+      />
     </div>
   );
 };
@@ -324,14 +327,18 @@ const AllRefundOrders = () => {
     });
   return (
     <div className="mt-10">
-      <DataGrid rows={row} columns={columns} pageSize={10}
-      disableSelectionOnClick autoHeight />
+      <DataGrid
+        rows={row}
+        columns={columns}
+        pageSize={10}
+        disableSelectionOnClick
+        autoHeight
+      />
     </div>
   );
 };
 
-const TrackOrders = () =>{
-
+const TrackOrders = () => {
   const orders = [
     {
       _id: "45",
@@ -396,7 +403,7 @@ const TrackOrders = () =>{
     },
   ];
 
-  const row =[];
+  const row = [];
 
   orders &&
     orders.forEach((item) => {
@@ -406,7 +413,7 @@ const TrackOrders = () =>{
         total: "US$" + item.totalPrice,
         status: item.orderStatus,
       });
-    })
+    });
 
   return (
     <div className="mt-10">
@@ -419,9 +426,9 @@ const TrackOrders = () =>{
       />
     </div>
   );
-}
+};
 
-const PaymentMethod = () =>{
+const PaymentMethod = () => {
   return (
     <div className="w-full p-5">
       <div className="flex w-full items-center justify-between">
@@ -453,8 +460,8 @@ const PaymentMethod = () =>{
       </div>
     </div>
   );
-}
-const Adress = () =>{
+};
+const Address = () => {
   return (
     <div className="w-full p-5">
       <div className="flex w-full items-center justify-between">
@@ -467,12 +474,13 @@ const Adress = () =>{
 
       <div className="w-full bg-white h-[60px] rounded-md mt-4 shadow-md items-center flex justify-between">
         <div className="flex items-center">
-
           <h5 className="font-[500] text-[18px] px-2 ">Default</h5>
         </div>
 
         <div className="flex items-center pr-2 ">
-          <h6 className="text-[16px] font-[500] ">456 kigali rwanda, Gogos road</h6>
+          <h6 className="text-[16px] font-[500] ">
+            456 kigali rwanda, Gogos road
+          </h6>
         </div>
 
         <div className="flex items-center pr-2 ">
@@ -488,5 +496,7 @@ const Adress = () =>{
       </div>
     </div>
   );
-}
-export default ProfileContent;
+};
+
+
+

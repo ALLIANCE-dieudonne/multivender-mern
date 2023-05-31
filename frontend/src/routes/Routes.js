@@ -11,6 +11,7 @@ import ProfilePage from "../pages/profilePage/ProfilePage";
 import ShopCreate from "../pages/shopCreate/ShopCreate";
 import SellerActivationPage from "../pages/sellerActivationPage/SellerActivationPage";
 import SellerLoginPage from "../pages/sellerLoginPage/SellerLoginPage.jsx";
+
 export {
   LoginPage,
   SignupPage,

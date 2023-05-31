@@ -28,8 +28,10 @@ const SidebarItem = () => {
               >
                 <span className="ml-3 text-[30px]">{icon}</span>
                 <h5
-                  className={`pl-2 text-[18px] font-400 ${
-                    active === 1 && name === selectedItem ? "text-[green]" : ""
+                  className={`pl-2 text-[18px] font-400 800px:flex hidden${
+                    active === 1 && name === selectedItem
+                      ? "text-[green] 800px:flex hidden"
+                      : ""
                   }`}
                 >
                   {name}

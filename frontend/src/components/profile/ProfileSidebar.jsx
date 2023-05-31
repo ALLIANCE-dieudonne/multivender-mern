@@ -1,16 +1,41 @@
-import { useNavigate } from "react-router-dom";
-import { RxPerson } from "react-icons/rx";
-import { HiOutlineShoppingCart, HiOutlineReceiptRefund } from "react-icons/hi";
-import { AiOutlineMessage, AiOutlineLogout } from "react-icons/ai";
-import { MdOutlineTrackChanges } from "react-icons/md";
-import { BsCreditCard } from "react-icons/bs";
+// import { useNavigate } from "react-router-dom";
+// import { toast } from "react-toastify";
+// import axios from "axios";
+// import { server } from "../../server";
+// import SingleProfileItem from "./SingleProfileItem";
+// const ProfileSidebar = ({ active, setActive }) => {
+//   const navigate = useNavigate();
+
+
+//   return (
+//     <div className="w-full bg-white shadow-sm rounded-lg p-4 my-auto">
+//       <SingleProfileItem />
+
+//     </div>
+//   );
+// };
+// export default ProfileSidebar;
+
+
+import React from "react";
+import { AiOutlineCreditCard, AiOutlineLogin, AiOutlineMessage } from "react-icons/ai";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { HiOutlineReceiptRefund, HiOutlineShoppingBag } from "react-icons/hi";
+import {
+
+  MdOutlineTrackChanges,
+} from "react-icons/md";
 import { TbAddressBook } from "react-icons/tb";
-import { toast } from "react-toastify";
+import { RxPerson } from "react-icons/rx";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { server } from "../../server";
-const ProfileSidebar = ({ active, setActive }) => {
-  const navigate = useNavigate();
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
+const ProfileSidebar = ({ setActive, active }) => {
+  const navigate = useNavigate();
+  const { user } = useSelector((state) => state.user);
   const logoutHandler = () => {
     axios
       .get(`${server}/user/logout`, { withCredentials: true })
@@ -22,115 +47,118 @@ const ProfileSidebar = ({ active, setActive }) => {
       .catch((err) => console.log(err));
   };
   return (
-    <div className="w-full bg-white shadow-sm rounded-lg p-4 mt-10">
+    <div className="w-full bg-white shadow-sm rounded-[10px] p-4 pt-8 mt-12 800px:mt-0">
       <div
-        className="flex items-center cursor-pointer w-full 800px:p-0 pb-3"
+        className="flex items-center cursor-pointer w-full mb-5"
         onClick={() => setActive(1)}
       >
-        <RxPerson size={20} color={active === 1 ? "green" : ""} />
+        <RxPerson size={25} color={active === 1 ? "green" : ""} />
         <span
-          className={`pl-3 ${
+          className={`pl-3  font-[500] text-[20px] ${
             active === 1 ? "text-[green]" : ""
-          } font-medium text-[17px] 800px:block hidden`}
+          } 800px:block hidden`}
         >
-          Person
+          Profile
         </span>
       </div>
       <div
-        className="flex items-center cursor-pointer w-full 800px:p-0 pb-3"
+        className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(2)}
       >
-        <HiOutlineShoppingCart size={20} color={active === 2 ? "Green" : ""} />
+        <HiOutlineShoppingBag size={25} color={active === 2 ? "green" : ""} />
         <span
-          className={`p-3 ${
+          className={`pl-3 font-[500] text-[20px] ${
             active === 2 ? "text-[green]" : ""
-          } font-medium text-[17px] 800px:block hidden`}
+          } 800px:block hidden`}
         >
           Orders
         </span>
       </div>
       <div
-        className="flex items-center cursor-pointer w-full 800px:p-0 pb-3"
+        className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(3)}
       >
-        <HiOutlineReceiptRefund size={20} color={active === 3 ? "Green" : ""} />
+        <HiOutlineReceiptRefund size={20} color={active === 3 ? "green" : ""} />
         <span
-          className={`p-3 ${
-            active === 3 ? "text-[Green]" : ""
-          } font-medium text-[17px] 800px:block hidden`}
+          className={`pl-3 font-[500] text-[20px] ${
+            active === 3 ? "text-[green]" : ""
+          } 800px:block hidden`}
         >
           Refunds
         </span>
       </div>
+
       <div
-        className="flex items-center cursor-pointer w-full 800px:p-0 pb-3"
-        onClick={() => setActive(4)}
+        className="flex items-center cursor-pointer w-full mb-8"
+        onClick={() => setActive(4) || navigate("/inbox")}
       >
-        <AiOutlineMessage size={20} color={active === 4 ? "Green" : ""} />
+        <AiOutlineMessage size={20} color={active === 4 ? "green" : ""} />
         <span
-          className={`p-3 ${
-            active === 4 ? "text-[Green]" : ""
-          } font-medium text-[17px] 800px:block hidden`}
+          className={`pl-3 font-[500] text-[20px] ${
+            active === 4 ? "text-[green]" : ""
+          } 800px:block hidden`}
         >
           Inbox
         </span>
       </div>
+
       <div
-        className="flex items-center cursor-pointer w-full 800px:p-0 pb-3"
+        className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(5)}
       >
-        <MdOutlineTrackChanges size={20} color={active === 5 ? "Green" : ""} />
+        <MdOutlineTrackChanges size={20} color={active === 5 ? "green" : ""} />
         <span
-          className={`p-3 ${
-            active === 5 ? "text-[Green]" : ""
-          } font-medium text-[17px] 800px:block hidden`}
+          className={`pl-3 font-[500] text-[20px] ${
+            active === 5 ? "text-[green]" : ""
+          } 800px:block hidden`}
         >
           Track Order
         </span>
       </div>
+
       <div
-        className="flex items-center cursor-pointer w-full 800px:p-0 pb-3"
+        className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(6)}
       >
-        <BsCreditCard size={20} color={active === 6 ? "Green" : ""} />
+        <AiOutlineCreditCard size={20} color={active === 6 ? "green" : ""} />
         <span
-          className={`p-3 ${
-            active === 6 ? "text-[Green]" : ""
-          } font-medium text-[17px] 800px:block hidden`}
+          className={`pl-3 font-[500] text-[20px] ${
+            active === 6 ? "text-[green]" : ""
+          } 800px:block hidden`}
         >
-          Payment Methods
+          Payment Methods 
         </span>
       </div>
+
       <div
-        className="flex items-center cursor-pointer w-full 800px:p-0 pb-3"
+        className="flex items-center cursor-pointer w-full mb-8"
         onClick={() => setActive(7)}
       >
-        <TbAddressBook size={20} color={active === 7 ? "Green" : ""} />
+        <TbAddressBook size={20} color={active === 7 ? "green" : ""} />
         <span
-          className={`p-3 ${
-            active === 7 ? "text-[Green]" : ""
-          } font-medium text-[17px] 800px:block hidden`}
+          className={`pl-3 font-[500] text-[20px] ${
+            active === 7 ? "text-[green]" : ""
+          } 800px:block hidden`}
         >
-          Adress
+          Address
         </span>
       </div>
+
       <div
-        className="flex items-center cursor-pointer w-full 800px:p-0 pb-3"
-        onClick={() => {
-          setActive(8);
-          logoutHandler();
-        }}
+        className="single_item flex items-center cursor-pointer w-full mb-8"
+        onClick={logoutHandler}
       >
-        <AiOutlineLogout size={20} color={active === 8 ? "Green" : ""} />
+        <AiOutlineLogin size={20} color={active === 8 ? "green" : ""} />
         <span
-          className={`p-3 ${
-            active === 8 ? "text-[Green]" : ""
-          } font-medium text-[17px] 800px:block hidden `}
+          className={`pl-3 font-[500] text-[20px]${
+            active === 8 ? "text-[green]" : ""
+          } 800px:block hidden`}
         >
-          Log Out
+          Log out
         </span>
       </div>
     </div>
   );
 };
+
 export default ProfileSidebar;

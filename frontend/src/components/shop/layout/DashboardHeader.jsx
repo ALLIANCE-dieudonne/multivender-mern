@@ -20,8 +20,8 @@ const DashboardHeader = () => {
         </Link>
       </div>
 
-      <div className="flex items-center">
-        <div className="flex items-center mr-4">
+      <div className="flex items-center ">
+        <div className="hidden items-center mr-4 800px:flex">
           <Link to="/dashboard/cupouns">
             <AiOutlineGift
               color="#555"
@@ -53,16 +53,16 @@ const DashboardHeader = () => {
               className="cursor-pointer mx-4"
             />
           </Link>
-
-          <Link to={`/shop/${seller?._id}`}>
-            <img
-              crossorigin="anonymous"
-              src={`${backend_url}${seller?.avatar}`}
-              alt="shop"
-              className="w-[40px] h-[40px] rounded-full object-cover"
-            />
-          </Link>
         </div>
+
+        <Link to={`/shop/${seller?._id}`}>
+          <img
+            crossorigin="anonymous"
+            src={`${backend_url}${seller?.avatar}`}
+            alt="shop"
+            className="w-[40px] h-[40px] rounded-full object-cover"
+          />
+        </Link>
       </div>
     </div>
   );

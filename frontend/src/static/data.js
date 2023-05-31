@@ -1,11 +1,16 @@
-import { AiOutlineFolderAdd, AiOutlineGift } from "react-icons/ai";
+import { AiOutlineFolderAdd, AiOutlineGift, AiOutlineMessage, AiOutlineLogout  } from "react-icons/ai";
+import { RxPerson, RxDashboard } from "react-icons/rx";
 import { FiPackage, FiShoppingBag } from "react-icons/fi";
-import { RxDashboard } from "react-icons/rx";
 import { VscNewFile } from "react-icons/vsc";
 import { CiMoneyBill, CiSettings } from "react-icons/ci";
 import { BiMessageSquareDetail } from "react-icons/bi";
-import { HiOutlineReceiptRefund } from "react-icons/hi";
-import {MdOutlineLocalOffer} from "react-icons/md"
+import {
+  HiOutlineReceiptRefund,
+  HiOutlineShoppingCart,
+} from "react-icons/hi";
+import { MdOutlineLocalOffer, MdOutlineTrackChanges } from "react-icons/md";
+import { BsCreditCard } from "react-icons/bs";
+import { TbAddressBook } from "react-icons/tb";
 
 // navigation Data
 export const navItems = [
@@ -28,6 +33,51 @@ export const navItems = [
   {
     title: "FAQ",
     url: "/faq",
+  },
+];
+
+//profile links
+
+export const profileLinks = [
+  {
+    name: "Person",
+    icon: <RxPerson />,
+    link: "/profile",
+  },
+  {
+    name: "Orders",
+    icon: <HiOutlineShoppingCart />,
+    link: "/profile/all-orders",
+  },
+  {
+    name: "Refunds",
+    icon: <HiOutlineReceiptRefund />,
+    link: "/profile/refunds",
+  },
+  {
+    name: "Inbox",
+    icon: <AiOutlineMessage />,
+    link: "/profile/inbox",
+  },
+  {
+    name: "Track Orders",
+    icon: <MdOutlineTrackChanges />,
+    link: "/profile/track-orders",
+  },
+  {
+    name: "Payment Methods",
+    icon: <BsCreditCard />,
+    link: "/profile/payment-methods",
+  },
+  {
+    name: "Adress",
+    icon: <TbAddressBook />,
+    link: "/profile/adress",
+  },
+  {
+    name: "Log Out",
+    icon: <AiOutlineLogout />,
+    link: "/profile/logout",
   },
 ];
 
