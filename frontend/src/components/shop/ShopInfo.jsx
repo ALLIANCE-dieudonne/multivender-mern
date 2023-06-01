@@ -20,8 +20,8 @@ const ShopInfo = ({ isOwner }) => {
       <h3 className="text-center pt-3 font-medium text-[18px] text-[#000000a6]">
         {seller.name}
       </h3>
-
       <p className="flex items-center p-2 text-center">{seller.description}</p>
+
 
       <Info />
 

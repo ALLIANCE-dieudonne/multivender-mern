@@ -12,11 +12,12 @@ import { HiOutlineReceiptRefund } from "react-icons/hi";
 import { MdOutlineLocalOffer } from "react-icons/md";
 
 import { Link } from "react-router-dom";
+import SidebarItem from "./SidebarItem";
 const DashboardSidebar = ({ active }) => {
   return (
     <div className="w-full shadow-sm bg-white h-[89vh] overflow-y-scroll sticky  top-0 left-0  z-10 ">
       {/* single item */}
-      <div className="w-full items-center pt-4 z-10">
+      {/* <div className="w-full items-center pt-4 z-10">
         <div className="w-full flex items-center mb-5">
           <Link
             to="/dashboard"
@@ -150,7 +151,8 @@ const DashboardSidebar = ({ active }) => {
             </h5>
           </Link>
         </div>
-      </div>
+      </div> */}
+      <SidebarItem/>
     </div>
   );
 };

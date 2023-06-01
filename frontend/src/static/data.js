@@ -141,6 +141,65 @@ export const sidebarItems = [
   },
 ];
 
+// //dashboard links
+// export const dashboardItems = [
+//   {
+//     name: "Dashboard",
+//     icon: <RxDashboard />,
+//     link: "/dashboard",
+//   },
+//   {
+//     name: "All Orders",
+//     icon: <FiPackage />,
+//     link: "/dashboard/products",
+//   },
+//   {
+//     name: "All Products",
+//     icon: <FiShoppingBag />,
+//     link: "/dashboard/orders",
+//   },
+//   {
+//     name: "Create Product",
+//     icon: <AiOutlineFolderAdd />,
+//     link: "/dashboard/create-product",
+//   },
+//   {
+//     name: "All Events",
+//     icon: <MdOutlineLocalOffer />,
+//     link: "/dashboard/events",
+//   },
+//   {
+//     name: "Create Event",
+//     icon: <VscNewFile />,
+//     link: "/dashboard/create-event",
+//   },
+//   {
+//     name: "Withdraw Money",
+//     icon: <CiMoneyBill />,
+//     link: "/dashboard/withdraw-money",
+//   },
+//   {
+//     name: "Shop Inbox",
+//     icon: <BiMessageSquareDetail />,
+//     link: "/dashboard/inbox",
+//   },
+//   {
+//     name: "Cupoun Codes",
+//     icon: <AiOutlineGift />,
+//     link: "/dashboard/cupouns",
+//   },
+//   {
+//     name: "Refunds",
+//     icon: <HiOutlineReceiptRefund />,
+//     link: "/dashboard/refunds",
+//   },
+//   {
+//     name: "Settings",
+//     icon: <CiSettings />,
+//     link: "/dashboard/settings",
+//   },
+// ];
+
 // branding data
 export const brandingData = [
   {

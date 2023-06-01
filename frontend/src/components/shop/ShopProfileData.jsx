@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ProductCard from "../Route/ProductCard/ProductCard";
 import { productData } from "../../static/data";
+import styles from "../../styles/styles";
+import { Link } from "react-router-dom";
 const ShopProfileData = ({ isOwner }) => {
   const [active, setActive] = useState(1);
   return (
@@ -33,6 +35,15 @@ const ShopProfileData = ({ isOwner }) => {
             Shop Reviews
           </h5>
         </div>
+
+        {isOwner &&(
+
+          <Link to="/dashboard">
+          <div className={`${styles.button}`}>
+            <span className="text-white text-[17px]">Go Dashboard</span>
+          </div>
+          </Link>
+        )}
       </div>
       <hr />
 

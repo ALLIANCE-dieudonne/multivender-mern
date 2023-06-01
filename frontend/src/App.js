@@ -34,14 +34,26 @@ import { loadSeller } from "./redux/actions/seller";
 
 import {
   Profile,
-  
   Address,
   PaymentMethod,
   TrackOrders,
   AllRefundOrders,
   AllOrders,
-  Inbox
+  Inbox,
 } from "./components/profile/ProfileContent";
+
+import {
+  Products,
+  DashboardEvents,
+  DashboardInbox,
+  DashboardOrders,
+  Settings,
+  Refunds,
+  Cupouns,
+  WithdrawMoney,
+  CreateEvent,
+  CreateProduct,
+} from "./components/shop/DashoardComponents";
 
 const App = () => {
   useEffect(() => {
@@ -81,7 +93,6 @@ const App = () => {
           }
         /> */}
         <Route
-         
           element={
             <ProtectedRoute>
               <ProfilePage />
@@ -112,15 +123,19 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-        <Route
-          path="/dashboard/*"
-          element={
-            <ShopDashboard>
-              {" "}
-              <ShopHomePage />{" "}
-            </ShopDashboard>
-          }
-        />
+        
+        <Route path="/dashboard" element={<ShopDashboard />}>
+          <Route path="/dashboard/products" element={<Products />} />
+          <Route path="/dashboard/orders" element={<DashboardOrders />} />
+          <Route path="/dashboard/create-product" element={<CreateProduct />} />
+          <Route path="/dashboard/events" element={<DashboardEvents />} />
+          <Route path="/dashboard/create-event" element={<CreateEvent />} />
+          <Route path="/dashboard/withdraw-money" element={<WithdrawMoney />} />
+          <Route path="/dashboard/inbox" element={<DashboardInbox />} />
+          <Route path="/dashboard/cupouns" element={<Cupouns />} />
+          <Route path="/dashboard/refunds" element={<Refunds />} />
+          <Route path="/dashboard/settings" element={<Settings />} />
+        </Route>
       </Routes>
       <ToastContainer
         position="top-center"

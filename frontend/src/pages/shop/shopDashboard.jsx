@@ -1,3 +1,4 @@
+import { Outlet } from "react-router-dom";
 import DashboardHeader from "../../components/shop/layout/DashboardHeader";
 import DashboardSidebar from "../../components/shop/layout/DashboardSidebar.jsx";
 const shopDashboard = () => {
@@ -12,6 +13,8 @@ const shopDashboard = () => {
           <DashboardSidebar active={1} />
         </div>
       </div>
+
+      <Outlet/>
     </>
   );
 };
