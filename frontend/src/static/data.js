@@ -75,9 +75,9 @@ export const profileLinks = [
     link: "/profile/adress",
   },
   {
-    name: "Log Out",
+    name: "LogOut",
     icon: <AiOutlineLogout />,
-    link: "/profile/logout",
+    link: "",
   },
 ];
 

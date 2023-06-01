@@ -32,6 +32,17 @@ import ProtectedRoute from "./routes/protectedRoute";
 import SellerProtectedRoute from "./routes/sellerProtectedRoute";
 import { loadSeller } from "./redux/actions/seller";
 
+import {
+  Profile,
+  
+  Address,
+  PaymentMethod,
+  TrackOrders,
+  AllRefundOrders,
+  AllOrders,
+  Inbox
+} from "./components/profile/ProfileContent";
+
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
@@ -61,14 +72,31 @@ const App = () => {
             </ProtectedRoute>
           }
         /> */}
-        <Route
+        {/* <Route
           path="/profile"
           element={
             <ProtectedRoute>
               <ProfilePage />
             </ProtectedRoute>
           }
-        />
+        /> */}
+        <Route
+         
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/all-orders" element={<AllOrders />} />
+          <Route path="/profile/refunds" element={<AllRefundOrders />} />
+          <Route path="/profile/inbox" element={<Inbox />} />
+          <Route path="/profile/track-orders" element={<TrackOrders />} />
+          <Route path="/profile/payment-methods" element={<PaymentMethod />} />
+          <Route path="/profile/adress" element={<Address />} />
+          {/* <Route path="/profile/logout" element={<Logout />} /> */}
+        </Route>
 
         {/* shop routes */}
         <Route path="/login-seller" element={<SellerLoginPage />} />
