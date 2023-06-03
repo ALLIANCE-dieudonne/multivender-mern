@@ -92,12 +92,12 @@ export const sidebarItems = [
   {
     name: "All Orders",
     icon: <FiPackage />,
-    link: "/dashboard/products",
+    link: "/dashboard/orders",
   },
   {
     name: "All Products",
     icon: <FiShoppingBag />,
-    link: "/dashboard/orders",
+    link: "/dashboard/products",
   },
   {
     name: "Create Product",

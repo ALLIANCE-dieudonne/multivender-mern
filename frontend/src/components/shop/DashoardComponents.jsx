@@ -1,11 +1,13 @@
+import ProductCreate from "./sidebarCopenents/CreateProduct.jsx";
+
 const Products = () => {
-  return <div className=""></div>;
+<div className=""></div>
 };
 const DashboardOrders = () => {
   return <div className=""></div>;
 };
 const CreateProduct = () => {
-  return <div className=""></div>;
+  return <ProductCreate />;
 };
 const CreateEvent = () => {
   return <div className=""></div>;
@@ -28,6 +30,9 @@ const Settings = () => {
 const DashboardInbox = () => {
   return <div className=""></div>;
 };
+const Dashboard = () => {
+  return <div className=""></div>;
+};
 
 export {
   Products,
@@ -40,4 +45,5 @@ export {
   WithdrawMoney,
   CreateEvent,
   CreateProduct,
+  Dashboard,
 };

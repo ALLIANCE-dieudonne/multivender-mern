@@ -12,7 +12,7 @@ const SidebarItem = () => {
         const { name, icon, link } = item;
 
         return (
-          <div className="w-full flex items-center pt-4 z-10" key={index}>
+          <div className="w-[90%] flex items-center m-3 z-10" key={index}>
             <Link
               to={link}
               className="w-full flex items-center"

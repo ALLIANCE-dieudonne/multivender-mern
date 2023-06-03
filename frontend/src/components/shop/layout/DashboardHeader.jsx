@@ -5,12 +5,21 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { backend_url } from "../../../server";
+import { useState } from "react";
 const DashboardHeader = () => {
   const { seller } = useSelector((state) => state.seller);
+  const [active, setActive] = useState(false);
 
-  console.log(seller);
+   window.addEventListener("scroll", () => {
+     if (window.scrollY > 60) {
+       setActive(true);
+     } else {
+       setActive(false);
+     }
+   });
+
   return (
-    <div className="w-full h-[80px] shadow-md top-0 left-0 sticky flex items-center justify-between p-4 bg-white z-30">
+    <div className="w-full h-[80px] shadow-md top-0 left-0  flex items-center justify-between p-4 bg-white z-30">
       <div>
         <Link to="/dashboard">
           <img

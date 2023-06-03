@@ -23,26 +23,9 @@ import {
   SellerActivationPage,
 } from "./routes/Routes";
 
-import { ShopHomePage, ShopDashboard } from "./routes/shopRoutes.js";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import store from "./redux/store";
-import { loadUser } from "./redux/actions/user";
-import ProtectedRoute from "./routes/protectedRoute";
-import SellerProtectedRoute from "./routes/sellerProtectedRoute";
-import { loadSeller } from "./redux/actions/seller";
-
 import {
-  Profile,
-  Address,
-  PaymentMethod,
-  TrackOrders,
-  AllRefundOrders,
-  AllOrders,
-  Inbox,
-} from "./components/profile/ProfileContent";
-
-import {
+  ShopHomePage,
+  ShopDashboard,
   Products,
   DashboardEvents,
   DashboardInbox,
@@ -53,7 +36,25 @@ import {
   WithdrawMoney,
   CreateEvent,
   CreateProduct,
-} from "./components/shop/DashoardComponents";
+  Dashboard,
+  Profile,
+  Address,
+  PaymentMethod,
+  TrackOrders,
+  AllRefundOrders,
+  AllOrders,
+  Inbox,
+} from "./routes/shopRoutes.js";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import store from "./redux/store";
+import { loadUser } from "./redux/actions/user";
+import ProtectedRoute from "./routes/protectedRoute";
+import SellerProtectedRoute from "./routes/sellerProtectedRoute";
+import { loadSeller } from "./redux/actions/seller";
+
+
+
 
 const App = () => {
   useEffect(() => {
@@ -123,10 +124,11 @@ const App = () => {
             </SellerProtectedRoute>
           }
         />
-        
-        <Route path="/dashboard" element={<ShopDashboard />}>
-          <Route path="/dashboard/products" element={<Products />} />
+
+        <Route element={<ShopDashboard />}>
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/orders" element={<DashboardOrders />} />
+          <Route path="/dashboard/products" element={<Products />} />
           <Route path="/dashboard/create-product" element={<CreateProduct />} />
           <Route path="/dashboard/events" element={<DashboardEvents />} />
           <Route path="/dashboard/create-event" element={<CreateEvent />} />
