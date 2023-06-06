@@ -1,8 +1,8 @@
-import ProductCreate from "./sidebarCopenents/CreateProduct.jsx";
+import ProductCreate from "./sidebarCopenents/CreateProduct";
+import AllProducts from "./sidebarCopenents/AllProducts.jsx";
 
 const Products = () => {
-<div className=""></div>
-};
+return <AllProducts/>};
 const DashboardOrders = () => {
   return <div className=""></div>;
 };
@@ -31,7 +31,7 @@ const DashboardInbox = () => {
   return <div className=""></div>;
 };
 const Dashboard = () => {
-  return <div className=""></div>;
+  return <div className="">dashboard</div>;
 };
 
 export {

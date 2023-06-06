@@ -8,11 +8,12 @@ export const loadSeller = () => async (dispatch) => {
     dispatch({
       type: "LoadSellerRequest",
     });
+    
     const { data } = await axios.get(`${server}/shop/getseller`, {
       withCredentials: true,
     });
 
-    console.log(data);
+    // console.log(data);
     
     dispatch({
       type: "LoadSellerSuccess",

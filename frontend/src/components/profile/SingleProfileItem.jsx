@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { profileLinks } from "../../static/data";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
  import axios from "axios";
 import { server } from "../../server";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ const SingleProfileItem = () => {
   const [selected, setSelected] = useState("");
   const logout = profileLinks[profileLinks.length-1];
   const navigate = useNavigate()
+  const location = useLocation()
 
     const logoutHandler = () => {
     axios
@@ -34,7 +35,9 @@ const SingleProfileItem = () => {
               <Link
                 key={index}
                 to={link}
-                className="flex items-center cursor-pointer w-full mb-8"
+                className={`flex items-center cursor-pointer w-full mb-8 ${
+              link === location.pathname ? "text-[green]" : ""
+            }`}
                 onClick={() => {
                   setActive(1);
                   setSelected(name);
@@ -44,9 +47,7 @@ const SingleProfileItem = () => {
                 }}
               >
                 <div
-                  className={`${
-                    active === 1 && selected === name ? "text-[green]" : ""
-                  } flex`}
+                  className="flex"
                 >
                   <span className="text-[25px]">{icon}</span>
                   <span

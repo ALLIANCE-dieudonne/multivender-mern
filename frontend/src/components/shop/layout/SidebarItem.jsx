@@ -1,10 +1,11 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import { sidebarItems } from "../../../static/data";
 
 const SidebarItem = () => {
   const [active, setActive] = useState();
   const [selectedItem, setSelectedItem] = useState("");
+  const location = useLocation();
 
   return (
     <>
@@ -12,28 +13,16 @@ const SidebarItem = () => {
         const { name, icon, link } = item;
 
         return (
-          <div className="w-[90%] flex items-center m-3 z-10" key={index}>
-            <Link
-              to={link}
-              className="w-full flex items-center"
-              onClick={() => {
-                setActive(1);
-                setSelectedItem(name);
-              }}
-            >
-              <div
-                className={`${
-                  active === 1 && name === selectedItem ? "text-[green]" : ""
-                } flex`}
-              >
+          <div
+            className={` w-[90%] flex items-center 800px:m-3 mt-3 z-10 ${
+              link === location.pathname ? "text-[green]" : ""
+            }`}
+            key={index}
+          >
+            <Link to={link} className="w-full flex items-center">
+              <div className="flex">
                 <span className="ml-3 text-[30px]">{icon}</span>
-                <h5
-                  className={`pl-2 text-[18px] font-400 800px:flex hidden${
-                    active === 1 && name === selectedItem
-                      ? "text-[green] 800px:flex hidden"
-                      : ""
-                  }`}
-                >
+                <h5 className="pl-2 text-[18px] font-400 800px:flex hidden">
                   {name}
                 </h5>
               </div>

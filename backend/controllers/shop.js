@@ -43,6 +43,7 @@ router.post("/shop-create", upload.single("file"), async (req, res, next) => {
       address: address,
       zipCode: zipCode,
       phoneNumber: phoneNumber,
+    
     };
 
     const activationToken = createActivationToken(seller);

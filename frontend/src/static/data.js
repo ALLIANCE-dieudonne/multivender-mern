@@ -102,7 +102,7 @@ export const sidebarItems = [
   {
     name: "Create Product",
     icon: <AiOutlineFolderAdd />,
-    link: "/dashboard/create-product",
+    link: "/dashboard/product-create",
   },
   {
     name: "All Events",

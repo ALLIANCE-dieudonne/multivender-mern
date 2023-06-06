@@ -35,16 +35,17 @@ import {
   Cupouns,
   WithdrawMoney,
   CreateEvent,
-  CreateProduct,
   Dashboard,
   Profile,
   Address,
   PaymentMethod,
+  CreateProduct,
   TrackOrders,
   AllRefundOrders,
   AllOrders,
   Inbox,
 } from "./routes/shopRoutes.js";
+
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import store from "./redux/store";
@@ -129,7 +130,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/orders" element={<DashboardOrders />} />
           <Route path="/dashboard/products" element={<Products />} />
-          <Route path="/dashboard/create-product" element={<CreateProduct />} />
+          <Route path="/dashboard/product-create" element={<CreateProduct />} />
           <Route path="/dashboard/events" element={<DashboardEvents />} />
           <Route path="/dashboard/create-event" element={<CreateEvent />} />
           <Route path="/dashboard/withdraw-money" element={<WithdrawMoney />} />
