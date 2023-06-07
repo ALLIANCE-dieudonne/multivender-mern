@@ -1,7 +1,3 @@
-import { AiOutlineFolderAdd, AiOutlineGift } from "react-icons/ai";
-import { RxDashboard } from "react-icons/rx";
-import { FiPackage, FiShoppingBag } from "react-icons/fi";
-import { VscNewFile } from "react-icons/vsc";
 
 import SidebarItem from "./SidebarItem";
 const DashboardSidebar = ({ active }) => {

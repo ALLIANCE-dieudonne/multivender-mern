@@ -7,7 +7,7 @@ const sendMail = require("../utils/sendMail");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendShopToken = require("../utils/shopToken");
 const ErrorHandler = require("../utils/errorHandler");
-const { isAuthenticated, isSeller } = require("../middleware/auth");
+const {  isSeller } = require("../middleware/auth");
 const Shop = require("../model/shop");
 const { upload } = require("../multer");
 
@@ -172,20 +172,20 @@ router.get(
 //log out from shop
 router.get(
   "/logout",
-  isSeller,
-  catchAsyncErrors(async ( res, next) => {
+  catchAsyncErrors(async (req, res, next) => {
     try {
       res.clearCookie("seller_token");
 
-      res.status(201).json({
+      res.status(200).json({
         success: true,
-        message: "Log out success!",
+        message: "Logout successful!",
       });
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
   })
 );
+
 
 module.exports = router;
 

@@ -7,7 +7,7 @@ const ShopProfileData = ({ isOwner }) => {
   const [active, setActive] = useState(1);
   return (
     <>
-      <div className="w-full items-center justify-between flex p-3 ">
+      <div className="w-full items-center justify-between 800px:flex p-3 grid grid-cols-2 ">
         <div className="flex items-center" onClick={() => setActive(1)}>
           <h5
             className={`font-[500] text-[18px] cursor-pointer ${
