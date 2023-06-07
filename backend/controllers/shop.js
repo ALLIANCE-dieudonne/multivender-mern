@@ -125,6 +125,8 @@ router.post(
 
       const seller = await Shop.findOne({ email }).select("+password");
 
+      // console.log(seller)
+
       if (!seller) {
         return next(new ErrorHandler("seller doesn't exist!"), 400);
       }
@@ -161,10 +163,26 @@ router.get(
         seller,
       });
 
-      // console.log(user);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
-      // console.log(error);
+    }
+  })
+);
+
+//log out from shop
+router.get(
+  "/logout",
+  isSeller,
+  catchAsyncErrors(async ( res, next) => {
+    try {
+      res.clearCookie("seller_token");
+
+      res.status(201).json({
+        success: true,
+        message: "Log out success!",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
     }
   })
 );

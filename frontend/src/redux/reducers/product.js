@@ -70,18 +70,33 @@ export const productReducer = createReducer(initialState, {
   },
 
   // get all products
-  getAllShopProductsRequest: (state) => {
+  getAllshopProductsRequest: (state) => {
     state.isLoading = true;
   },
-  getAllShopProductsSuccess: (state, action) => {
+  getAllshopProductsSuccess: (state, action) => {
     state.isLoading = false;
     state.products = action.payload;
     state.success = true;
   },
-  getAllShopProductsFail: (state, action) => {
+  getAllshopProductsFail: (state, action) => {
     state.isLoading = false;
     state.error = action.payload;
     state.success = false;
+  },
+
+  //delete product
+
+  deleteProductRequest: (state) => {
+    state.isLoading = true;
+  },
+
+  deleteProductSuccess: (state, action) => {
+    state.isLoading = false;
+    state.message = action.payload;
+  },
+  deleteProductFails: (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
   },
   clearErrors: (state) => {
     state.error = null;

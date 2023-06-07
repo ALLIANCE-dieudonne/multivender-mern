@@ -6,6 +6,7 @@ const Product = require("../model/product");
 const ErrorHandler = require("../utils/errorHandler");
 const Shop = require("../model/shop");
 const fs = require("fs");
+const { isSeller } = require("../middleware/auth");
 
 // Create product
 router.post(
@@ -56,20 +57,42 @@ router.post(
   })
 );
 
-
 //get all products
 router.get(
   "/all-shop-products/:id",
-  catchAsyncErrors(async(req, res, next) => {
+  catchAsyncErrors(async (req, res, next) => {
     try {
-
       const products = await Product.find({ shopId: req.params.id });
 
       res.status(200).json({
         success: true,
-        products
-      })
+        products,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
 
+//delete shop product
+
+router.delete(
+  "/delete-shop-product/:id",
+  isSeller,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const productId = req.params.id;
+      console.log(productId);
+      const product = await Product.findByIdAndDelete(productId);
+
+      if (!product) {
+        return next(new ErrorHandler("Product not found", 404));
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "Product deleted successfully!",
+      });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
     }

@@ -13,7 +13,7 @@ export const loadSeller = () => async (dispatch) => {
       withCredentials: true,
     });
 
-    // console.log(data);
+    console.log(data.seller);
     
     dispatch({
       type: "LoadSellerSuccess",

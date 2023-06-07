@@ -24,15 +24,8 @@ const ProductCreate = () => {
 
 
   useEffect(() => {
-    if (error) {
-      toast.error(error);
-    }  
-    
-    if (success) {
-      toast.success("Product created successfully!");
-      navigate("/dashboard");
-      window.location.reload();
-    }
+
+ 
   }, [error, success, dispatch]);
 
   const handleSubmit = (e) => {
@@ -54,6 +47,15 @@ const ProductCreate = () => {
     newForm.append("shopId", seller._id);
 
     dispatch(createProduct(newForm));
+
+    if (success) {
+      toast.success("Product created successfully!");
+      navigate("/dashboard");
+      window.location.reload();
+    }
+        if (error) {
+          toast.error(error);
+        }  
   };
 
   const handleImageChange = (e) => {

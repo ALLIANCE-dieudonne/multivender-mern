@@ -1,10 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
 import { sidebarItems } from "../../../static/data";
 
 const SidebarItem = () => {
-  const [active, setActive] = useState();
-  const [selectedItem, setSelectedItem] = useState("");
   const location = useLocation();
 
   return (

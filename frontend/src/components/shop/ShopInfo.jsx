@@ -1,11 +1,14 @@
 import { useSelector } from "react-redux";
-import { backend_url } from "../../server";
+import { backend_url, server } from "../../server";
 import styles from "../../styles/styles";
+
 
 const ShopInfo = ({ isOwner }) => {
   const { isSeller, seller } = useSelector((state) => state.seller);
 
-  const handleLogout = () => {};
+  const handleLogout = () => {
+    axios.get(`${server}/shop/logout`)
+  };
 
   return (
     <div className="w-full py-5">
