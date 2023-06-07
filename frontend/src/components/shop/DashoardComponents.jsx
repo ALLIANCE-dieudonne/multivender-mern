@@ -1,6 +1,6 @@
 import ProductCreate from "./sidebarCopenents/CreateProduct";
 import AllProducts from "./sidebarCopenents/AllProducts.jsx";
-
+import EventCreate from "./sidebarCopenents/EventCreate.jsx";
 const Products = () => {
 return <AllProducts/>};
 const DashboardOrders = () => {
@@ -10,8 +10,7 @@ const CreateProduct = () => {
   return <ProductCreate />;
 };
 const CreateEvent = () => {
-  return <div className=""></div>;
-};
+return <EventCreate />;};
 const DashboardEvents = () => {
   return <div className=""></div>;
 };
