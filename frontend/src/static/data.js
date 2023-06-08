@@ -125,7 +125,7 @@ export const sidebarItems = [
     link: "/dashboard/inbox",
   },
   {
-    name: "Cupoun Codes",
+    name: "Discount Codes",
     icon: <AiOutlineGift />,
     link: "/dashboard/cupouns",
   },

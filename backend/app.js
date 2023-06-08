@@ -35,11 +35,13 @@ const user = require("./controllers/user");
 const shop = require("./controllers/shop");
 const product = require("./controllers/product");
 const event = require("./controllers/event");
+const couponCodes = require("./controllers/couponCode");
 
 app.use("/api/v2/user", user);
 app.use("/api/v2/shop", shop);
 app.use("/api/v2/product", product);
 app.use("/api/v2/event", event);
+app.use("/api/v2/coupon", couponCodes);
 
 //for error handling
 app.use(ErrorHandler);

@@ -24,34 +24,34 @@ export const eventReducer = createReducer(initialState, {
   },
 
   // get all events
-//   getAllshopEventsRequest: (state) => {
-//     state.isLoading = true;
-//   },
-//   getAllshopEventsSuccess: (state, action) => {
-//     state.isLoading = false;
-//     state.events = action.payload;
-//     state.success = true;
-//   },
-//   getAllshopEventsFail: (state, action) => {
-//     state.isLoading = false;
-//     state.error = action.payload;
-//     state.success = false;
-//   },
+  getAllshopEventsRequest: (state) => {
+    state.isLoading = true;
+  },
+  getAllshopEventsSuccess: (state, action) => {
+    state.isLoading = false;
+    state.events = action.payload;
+    state.success = true;
+  },
+  getAllshopEventsFail: (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
+    state.success = false;
+  },
 
-//   //delete event
+  //delete event
 
-//   deleteEventRequest: (state) => {
-//     state.isLoading = true;
-//   },
+  deleteEventRequest: (state) => {
+    state.isLoading = true;
+  },
 
-//   deleteEventSuccess: (state, action) => {
-//     state.isLoading = false;
-//     state.message = action.payload;
-//   },
-//   deleteEventFails: (state, action) => {
-//     state.isLoading = false;
-//     state.error = action.payload;
-//   },
+  deleteEventSuccess: (state, action) => {
+    state.isLoading = false;
+    state.message = action.payload;
+  },
+  deleteEventFails: (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
+  },
   clearErrors: (state) => {
     state.error = null;
   },

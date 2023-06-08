@@ -27,55 +27,52 @@ export const createEvent = (newForm) => async (dispatch) => {
   }
 };
 
-// // Get all events
-// export const getAllShopEvents = (id) => async (dispatch) => {
-//   try {
-//     dispatch({
-//       type: "getAllshopEventsRequest",
-//     });
+// Get all events
+export const getAllShopEvents = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllshopEventsRequest",
+    });
 
-//     const { data } = await axios.get(
-//       `${server}/event/all-shop-events/${id}`,
-//       {
-//         withCredentials: true,
-//       }
-//     );
+    const { data } = await axios.get(`${server}/event/all-shop-events/${id}`, {
+      withCredentials: true,
+    });
 
-//     console.log(data.events);
+    console.log(data.events);
 
-//     dispatch({
-//       type: "getAllshopEventsSuccess",
-//       payload: data.events,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: "getAllshopEventsFail",
-//       payload: error.response.data.message,
-//     });
-//   }
-// };
+    dispatch({
+      type: "getAllshopEventsSuccess",
+      payload: data.events,
+    });
+  } catch (error) {
+    dispatch({
+      type: "getAllshopEventsFail",
+      payload: error.response.data.message,
+    });
+  }
+};
 
-// //delete event
+//delete event
 
-// export const deleteEvent = (id) => async (dispatch) => {
-//   try {
-//     dispatch({ type: "deleteEventRequest" });
+export const deleteEvents = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "deleteEventRequest" });
 
-//     const { data } = await axios.delete(
-//       `${server}/event/delete-shop-event/${id}`,
-//       {
-//         withCredentials: true,
-//       }
-//     );
+    const { data } = await axios.delete(
+      `${server}/event/delete-shop-event/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
 
-//     dispatch({
-//       type: "deleteEventSuccess",
-//       payload: data.message,
-//     });
-//   } catch (error) {
-//     dispatch({
-//       type: "deleteEventFails",
-//       payload: error.response.data.message,
-//     });
-//   }
-// };
+    dispatch({
+      type: "deleteEventSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "deleteEventFails",
+      payload: error.response.data.message,
+    });
+  }
+};

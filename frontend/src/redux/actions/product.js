@@ -41,7 +41,6 @@ export const getAllShopProducts = (id) => async (dispatch) => {
       }
     );
 
-    console.log(data.products);
 
     dispatch({
       type: "getAllshopProductsSuccess",

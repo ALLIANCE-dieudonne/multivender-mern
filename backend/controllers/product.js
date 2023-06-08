@@ -20,7 +20,7 @@ router.post(
         return new ErrorHandler("Invalid shop id", 400);
       } else {
         const files = req.files;
-        const imageUrls = files.map((file) => `${file.fileName}`);
+        const imageUrls = files.map((file) => `${file.filename}`);
         const productData = req.body;
 
         productData.images = imageUrls;
@@ -82,8 +82,23 @@ router.delete(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const productId = req.params.id;
-      console.log(productId);
+      const productData = await Product.findById(productId);
+
+      productData.images.forEach((imageUrl) => {
+        const fileName = imageUrl;
+        const filePath = `uploads/${fileName}`;
+
+        fs.unlink(filePath, (err) => {
+          if (err) {
+            res.status(500).json({ message: "error in deletin a file" });
+          } else {
+            res.status(200).json({ message: "file deleted successfully" });
+          }
+        });
+      });
+
       const product = await Product.findByIdAndDelete(productId);
+
 
       if (!product) {
         return next(new ErrorHandler("Product not found", 404));

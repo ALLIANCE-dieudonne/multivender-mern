@@ -1,6 +1,9 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteProduct, getAllShopProducts } from "../../../redux/actions/product";
+import {
+  deleteProduct,
+  getAllShopProducts,
+} from "../../../redux/actions/product";
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
@@ -13,22 +16,17 @@ const AllProducts = () => {
   const dispatch = useDispatch();
 
 
-
-  const handleDelete=(id)=>{
-    dispatch(deleteProduct(id))
-      window.location.reload();
-
-  }
-
+  const handleDelete = (id) => {
+    dispatch(deleteProduct(id));
+    window.location.reload();
+  };
 
   useEffect(() => {
     if (seller) {
       dispatch(getAllShopProducts(seller._id));
     }
-
   }, [dispatch, seller]);
 
-  
   const columns = [
     { field: "id", headerName: "Product Id", minWidth: 150, flex: 0.5 },
     { field: "name", headerName: "Name", minWidth: 150, flex: 0.8 },
@@ -65,7 +63,7 @@ const AllProducts = () => {
       renderCell: (params) => {
         return (
           <>
-            <Button onClick={()=>handleDelete(params.id)}>
+            <Button onClick={() => handleDelete(params.id)}>
               <AiOutlineDelete size={20} />
             </Button>
           </>
@@ -75,7 +73,7 @@ const AllProducts = () => {
   ];
 
   const rows =
-    products.length != 0
+    products.length !== 0
       ? products.map((product) => ({
           id: product._id,
           name: product.name,
@@ -90,7 +88,8 @@ const AllProducts = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full  800px:w-[70%] h-[85vh] justify-center flex mt-1 overflow-x-scroll ">
+        <div className="w-full  800px:w-[70%] h-[85vh] justify-center flex mt-1 overflow-x-scroll flex-col">
+         
           <DataGrid
             rows={rows}
             columns={columns}
@@ -98,6 +97,8 @@ const AllProducts = () => {
             disableSelectionOnClick
             autoHeight
           />
+
+         
         </div>
       )}
     </>

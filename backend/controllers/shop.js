@@ -18,7 +18,7 @@ router.post("/shop-create", upload.single("file"), async (req, res, next) => {
     const { email, name, password, address, zipCode, phoneNumber } = req.body;
     const existingShop = await Shop.findOne({ email });
 
-    if (existingShop) {
+    if (existingShop ) {
       const filename = req.file.filename;
       const filePath = `uploads/${filename}`;
       fs.unlink(filePath, (err) => {

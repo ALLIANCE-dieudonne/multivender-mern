@@ -1,6 +1,8 @@
 import ProductCreate from "./sidebarCopenents/CreateProduct";
-import AllProducts from "./sidebarCopenents/AllProducts.jsx";
-import EventCreate from "./sidebarCopenents/EventCreate.jsx";
+import AllProducts from "./sidebarCopenents/AllProducts";
+import EventCreate from "./sidebarCopenents/EventCreate";
+import AllProductsEvents from "./sidebarCopenents/AllProductsEvents.jsx";
+import CouponCodes from "./sidebarCopenents/CouponCodes.jsx";
 const Products = () => {
 return <AllProducts/>};
 const DashboardOrders = () => {
@@ -12,14 +14,12 @@ const CreateProduct = () => {
 const CreateEvent = () => {
 return <EventCreate />;};
 const DashboardEvents = () => {
-  return <div className=""></div>;
-};
+return <AllProductsEvents/>};
 const WithdrawMoney = () => {
   return <div className=""></div>;
 };
 const Cupouns = () => {
-  return <div className=""></div>;
-};
+return <CouponCodes/>};
 const Refunds = () => {
   return <div className=""></div>;
 };

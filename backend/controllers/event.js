@@ -5,6 +5,9 @@ const router = express.Router();
 const Shop = require("../model/shop");
 const Event = require("../model/events");
 const ErrorHandler = require("../utils/errorHandler");
+const { isSeller } = require("../middleware/auth");
+const fs = require("fs");
+
 
 
 // Create event
@@ -55,5 +58,65 @@ router.post(
     }
   })
 );
+
+//get all events
+router.get(
+  "/all-shop-events/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const events = await Event.find({ shopId: req.params.id });
+
+      res.status(200).json({
+        success: true,
+        events,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+//delete shop event
+
+router.delete(
+  "/delete-shop-event/:id",
+  isSeller,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const eventId = req.params.id;
+
+       const eventData = await Event.findById(eventId);
+
+       eventData.images.forEach((imageUrl) => {
+         const fileName = imageUrl;
+         const filePath = `uploads/${fileName}`;
+
+         fs.unlink(filePath, (err) => {
+           if (err) {
+             res.status(500).json({ message: "error in deletin a file" });
+           } else {
+             res.status(200).json({ message: "file deleted successfully" });
+           }
+         });
+       });
+
+      const event = await Event.findByIdAndDelete(eventId);
+
+      if (!event) {
+        return next(new ErrorHandler("event not found!", 404));
+      }
+
+      res.status(200).json({
+        success: true,
+        message: "event deleted successfully!",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+module.exports = router;
+
 
 module.exports = router;
