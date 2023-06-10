@@ -57,12 +57,14 @@ router.post(
   })
 );
 
-//get all products
+//get all products shop products
 router.get(
   "/all-shop-products/:id",
   catchAsyncErrors(async (req, res, next) => {
     try {
+      const shopId = req.params.id
       const products = await Product.find({ shopId: req.params.id });
+      console.log(shopId)
 
       res.status(200).json({
         success: true,
@@ -85,7 +87,7 @@ router.delete(
       const productData = await Product.findById(productId);
 
       productData.images.forEach((imageUrl) => {
-        const fileName = imageUrl;
+        const fileName = imageUrl;  
         const filePath = `uploads/${fileName}`;
 
         fs.unlink(filePath, (err) => {
@@ -107,6 +109,25 @@ router.delete(
       res.status(200).json({
         success: true,
         message: "Product deleted successfully!",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+
+//getting all products
+
+router.get(
+  "/all-products",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const allproducts = await Product.find();
+
+      res.status(200).json({
+        success: true,
+        allproducts,
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));

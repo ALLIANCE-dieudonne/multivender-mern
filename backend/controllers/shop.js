@@ -145,8 +145,7 @@ router.post(
   })
 );
 
-
-//load seller
+// Load seller
 router.get(
   "/getseller",
   isSeller,
@@ -155,12 +154,12 @@ router.get(
       const seller = await Shop.findById(req.seller.id);
 
       if (!seller) {
-        return next(new ErrorHandler("Shop doesn't exist!"), 400);
+        return next(new ErrorHandler("Shop doesn't exist!", 400));
       }
 
       res.status(200).json({
         success: true,
-        seller,
+        seller: seller,
       });
 
     } catch (error) {
@@ -168,6 +167,7 @@ router.get(
     }
   })
 );
+
 
 //log out from shop
 router.get(
@@ -180,6 +180,30 @@ router.get(
         success: true,
         message: "Logout successful!",
       });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+
+//get shop information
+
+router.get(
+  "/getshop-info/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const shop = await Shop.findById(req.params.id);
+
+      if (!shop) {
+        return next(new ErrorHandler("Shop doesn't exist!", 400));
+      }
+
+      res.status(200).json({
+        success: true,
+        shop: shop,
+      });
+
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }

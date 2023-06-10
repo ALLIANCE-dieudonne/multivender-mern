@@ -17,9 +17,7 @@ const shopSchema = new mongoose.Schema({
     minLength: [6, "Password should be greater than 6 characters"],
     select: false,
   },
-  phoneNumber: {
-    type: Number,
-  },
+ 
   address: {
     type: String,
     required: true,

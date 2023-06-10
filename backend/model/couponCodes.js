@@ -21,7 +21,7 @@ const couponCodesSchema = new mongoose.Schema({
     required: true,
   },
   selectedProducts: {
-    type: String,
+    type: [String],
   },
   createdAt: {
     type: Date,

@@ -31,10 +31,11 @@ const productSchema = new mongoose.Schema({
   },
 
   images: [{ type: String }],
+  
   shopId: {
     type: String,
     required: true,
-  },
+},
   shop: {
     type: Object,
     required: true,

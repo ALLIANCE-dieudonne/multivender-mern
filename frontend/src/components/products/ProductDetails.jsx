@@ -8,12 +8,14 @@ import {
   AiOutlineMessage,
 } from "react-icons/ai";
 import styles from "../../styles/styles";
+import { backend_url } from "../../server";
 
 const ProductDetails = ({ data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(1);
   const navigate = useNavigate();
+
 
   const handleMessageSend = () => {
     navigate("/inbox?conversation=567890oihjbvbn");
@@ -33,20 +35,24 @@ const ProductDetails = ({ data }) => {
         <div className={`${styles.section} w:[90%] 800px:[80%] h-[100%]`}>
           <div className="w-full py-5">
             <div className="block 800px:flex w-full ">
-              <div className="w-full 800px:w-[50%] ">
+              <div className="w-full 800px:w-[50%]  ">
                 <img
-                  src={data.image_Url[select].url}
+                  crossorigin="anonymous"
+                  src={`${backend_url}${data?.images && data?.images[select]}`}
                   alt=""
-                  className="w-[80%] mt-10 800px:mt-0"
+                  className="800px:w-[65%] mt-10 rounded-md w-[90%] h-[420px]"
                 />
                 <div className="w-full flex my-4">
                   <div
-                    className={`${select === 0 ? "border" : ""} cursor-pointer`}
+                    className={`${
+                      select === 0 ? "border" : ""
+                    } cursor-pointer  mr-2`}
                   >
                     <img
-                      src={data?.image_Url[0].url}
+                      crossorigin="anonymous"
+                      src={`${backend_url}${data?.images && data?.images[0]}`}
                       alt="image"
-                      className="h-[200px] "
+                      className="h-[200px] rounded-md "
                       onClick={() => setSelect(0)}
                     />
                   </div>
@@ -54,9 +60,10 @@ const ProductDetails = ({ data }) => {
                     className={`${select === 1 ? "border" : ""} cursor-pointer`}
                   >
                     <img
-                      src={data?.image_Url[1].url}
+                      crossorigin="anonymous"
+                      src={`${backend_url}${data?.images && data?.images[1]}`}
                       alt="image"
-                      className="h-[200px] "
+                      className="h-[200px] rounded-md"
                       onClick={() => setSelect(1)}
                     />
                   </div>
@@ -68,11 +75,11 @@ const ProductDetails = ({ data }) => {
                 <p className="mt-2 text-[17px]">{data.description}</p>
                 <div className="mt-3 flex">
                   <h4 className={`${styles.productDiscountPrice}`}>
-                    {data.discount_price}$
+                    {data.discountPrice}$
                   </h4>
 
                   <h3 className={styles.price}>
-                    {data.price ? data.price + "$" : ""}
+                    {data.orginalPrice ? data.orginalPrice + "$" : ""}
                   </h3>
                 </div>
 
@@ -126,7 +133,8 @@ const ProductDetails = ({ data }) => {
 
                 <div className="flex items-center mt-8">
                   <img
-                    src={data.shop.shop_avatar.url}
+                    crossorigin="anonymous"
+                    src={`${backend_url}${data?.shop?.avatar}`}
                     alt="shop image"
                     className="w-[50px] h-[50px] rounded-full mr-3"
                   />
@@ -134,10 +142,7 @@ const ProductDetails = ({ data }) => {
                     <h3 className={`${styles.shop_name}pb-1`}>
                       {data.shop.name}
                     </h3>
-                    <h4 className="text-[15px] font-medium">
-                      {" "}
-                      ({data.shop.ratings}) Ratings
-                    </h4>
+                    <h4 className="text-[15px] font-medium"> (4.5) Ratings</h4>
                   </div>
 
                   <div className="">
@@ -268,10 +273,11 @@ const ProductDetailsInfo = ({ data }) => {
                 Total Reviews: <span className="font-[400]">29 </span>
               </h5>
               <Link to="/">
-            <div className={`${styles.button} text-white font-[500]`}>Visit Shop</div>
+                <div className={`${styles.button} text-white font-[500]`}>
+                  Visit Shop
+                </div>
               </Link>
             </div>
-
           </div>
         </div>
       ) : (

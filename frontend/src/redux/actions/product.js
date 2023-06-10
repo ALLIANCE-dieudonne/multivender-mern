@@ -15,6 +15,7 @@ export const createProduct = (newForm) => async (dispatch) => {
       config
     );
 
+
     dispatch({
       type: "productCreateSuccess",
       payload: data.product,
@@ -27,7 +28,7 @@ export const createProduct = (newForm) => async (dispatch) => {
   }
 };
 
-// Get all products
+// Get all products shop 
 export const getAllShopProducts = (id) => async (dispatch) => {
   try {
     dispatch({
@@ -40,15 +41,41 @@ export const getAllShopProducts = (id) => async (dispatch) => {
         withCredentials: true,
       }
     );
-
-
     dispatch({
       type: "getAllshopProductsSuccess",
       payload: data.products,
     });
+
   } catch (error) {
     dispatch({
       type: "getAllshopProductsFail",
+      payload: error.response.data.message,
+    });
+  }
+};
+
+//get all products
+
+export const getAllProducts = (id) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "getAllProductsRequest",
+    });
+
+    const { data } = await axios.get(
+      `${server}/product/all-products`,
+      {
+        withCredentials: true,
+      }
+    );
+    dispatch({
+      type: "getAllProductsSuccess",
+      payload: data.allproducts,
+    });
+    
+  } catch (error) {
+    dispatch({
+      type: "getAllProductsFail",
       payload: error.response.data.message,
     });
   }

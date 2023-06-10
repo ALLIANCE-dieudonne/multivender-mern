@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductCard from "../Route/ProductCard/ProductCard";
 import { productData } from "../../static/data";
 import styles from "../../styles/styles";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllShopProducts } from "../../redux/actions/product";
 const ShopProfileData = ({ isOwner }) => {
+  const dispatch = useDispatch();
+
+  const { products} = useSelector((state) => state.product);
+  const {id} = useParams();
+  useEffect(() => {
+    dispatch(getAllShopProducts(id));
+
+  },[dispatch,id]);
   const [active, setActive] = useState(1);
+
   return (
     <>
       <div className="w-full items-center justify-between 800px:flex p-3 grid grid-cols-2 ">
@@ -36,24 +47,25 @@ const ShopProfileData = ({ isOwner }) => {
           </h5>
         </div>
 
-        {isOwner &&(
-
+        {isOwner && (
           <Link to="/dashboard">
-          <div className={`${styles.button}`}>
-            <span className="text-white text-[17px]">Go Dashboard</span>
-          </div>
+            <div className={`${styles.button}`}>
+              <span className="text-white text-[17px]">Go Dashboard</span>
+            </div>
           </Link>
         )}
       </div>
       <hr />
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4  mb-12 mx-3 mt-4 ">
-        {productData &&
-          productData.map((item, index) => (
-            <ProductCard key={index} data={item} isShop ={true}/>
-          ))}
-      </div>
+      {active === 1 && (
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4  mb-12 mx-3 mt-4 ">
+          {products &&
+            products.map((item) => (
+              <ProductCard key={item._id} data={item} isShop={true} />
+            ))}
+        </div>
+      )}
     </>
   );
 };
 export default ShopProfileData;
+

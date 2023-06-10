@@ -7,6 +7,7 @@ import {
   AiFillHeart,
   AiOutlineShoppingCart,
 } from "react-icons/ai";
+import { backend_url } from "../../../server";
 const ProductDetailsCard = ({ setOpen, data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
@@ -26,7 +27,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
     <div className="bg-white">
       {data ? (
         <div className="fixed top-12 left-0 w-full h-scree z-40 flex justify-center items-center ">
-          <div className="w-[90%] 800px:w-[60%] h-[80vh] overflow-y-scroll 800px:h-[75vh] rounded-md bg-white shadow-sm relative pr-7">
+          <div className="w-[90%] 800px:w-[60%] h-[82vh] overflow-y-scroll 800px:h-[75vh] rounded-md bg-white shadow-sm relative pr-7">
             <RxCross2
               size={25}
               onClick={() => setOpen((prev) => !prev)}
@@ -34,20 +35,28 @@ const ProductDetailsCard = ({ setOpen, data }) => {
             />
 
             <div className="block 800px:flex w-full">
-              <div className="w-full 800px:w-[50%] pt-10">
-                <img src={data.image_Url[0].url} alt="image" />
+              <div className="w-full 800px:w-[50%] pt-10 pb-2">
+                <img
+                  crossorigin="anonymous"
+                  src={`${backend_url}${data.images && data.images[0]}`}
+                  alt="image"
+                  className="w-[90%] mx-auto rounded-md  "
+                />
 
                 <div className="flex ml-2.5 mb-4 mt-5">
                   <img
-                    src={data.shop.shop_avatar.url}
+                    crossorigin="anonymous"
+                    src={`${backend_url}${
+                       data?.shop?.avatar
+                    }`}
                     alt="shop image"
                     className="w-[50px] h-[50px] rounded-full "
                   />
 
                   <div className="ml-2">
-                    <h1 className={`${styles.shop_name}`}>{data.shop.name}</h1>
+                    <h1 className={`${styles.shop_name}`}>{data.name}</h1>
                     <h5 className="pb-2 text-[17px]">
-                      ( {data.shop.ratings} )Ratings
+                      ( 4.5 )Ratings
                     </h5>
                   </div>
                 </div>
@@ -62,22 +71,22 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                 </div>
 
                 <h5 className="font-[500] text-[red] mt-2 ml-3">
-                  ({data.total_sell}) Sold out
+                  ({data.sold_out}) Sold out
                 </h5>
               </div>
 
               <div className="w-full 800px:w-[50%] mt-[50px] px-[10px]">
                 <h1 className={`${styles.productTitle}`}>{data.name}</h1>
 
-                <p className="pt-3">{ data.description}</p>
+                <p className="pt-3">{data.description}</p>
 
                 <div className="flex pt-3">
                   <h3 className={styles.productDiscountPrice}>
-                    {data.discount_price}$
+                    {data.discountPrice}$
                   </h3>
 
                   <h4 className={`${styles.price}`}>
-                    {data.price ? data.price + "$" : null}
+                    {data.orginalPrice ? data.orginalPrice + "$" : null}
                   </h4>
                 </div>
 
@@ -110,7 +119,6 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                         onClick={() => setClick((prev) => !prev)}
                         color={click ? "red" : "#333"}
                         title="remove from white list"
-                        
                       />
                     ) : (
                       <AiOutlineHeart
@@ -125,7 +133,8 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                 </div>
 
                 <div className={`${styles.button} text-white font-[500]`}>
-                  Add to cart <AiOutlineShoppingCart size={25} className="ml-1"/>
+                  Add to cart{" "}
+                  <AiOutlineShoppingCart size={25} className="ml-1" />
                 </div>
               </div>
             </div>

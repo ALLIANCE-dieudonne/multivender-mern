@@ -1,18 +1,25 @@
-import { useEffect, useState } from "react"
-import { productData } from "../../../static/data";
+import { useEffect, useState } from "react";
 import styles from "../../../styles/styles";
 import ProductCard from "../ProductCard/ProductCard";
+import { useDispatch, useSelector } from "react-redux";
 
 const BestDeals = () => {
+  const { allproducts } = useSelector((state) => state.product);
 
-    const [data, setData] = useState();
+  const dispatch = useDispatch();
+  const [data, setData] = useState([]);
 
-    useEffect(()=>{
-        const d= productData &&productData.sort((a,b)=> a.total_sell - b.total_sell);
-        const firstFive = d.slice(0,5);
+  useEffect(() => {
+    const sortedProducts = [...allproducts]?.sort(
+      (a, b) => a.sold_out - b.sold_out
+    ).slice(0, 5);
+    const firstFive = sortedProducts;
 
-        setData(firstFive);
-    },[])
+    setData(firstFive);
+  }, [allproducts]);
+
+
+
   return (
     <div>
       <div className={`${styles.section}`}>
@@ -21,12 +28,13 @@ const BestDeals = () => {
         </div>
 
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5 xl:gap-7 mb-12">
-            {data && data.map((item, index) => (
-                <ProductCard key={index} data={item}/>
+          {data &&
+            data.map((item, index) => (
+              <ProductCard key={item.id} data={item} />
             ))}
         </div>
       </div>
     </div>
   );
-}
-export default BestDeals
+};
+export default BestDeals;

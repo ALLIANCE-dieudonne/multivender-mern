@@ -13,6 +13,8 @@ import { DataGrid } from "@material-ui/data-grid";
 const AllProducts = () => {
   const { products, isLoading } = useSelector((state) => state.product);
   const { seller } = useSelector((state) => state.seller);
+
+  console.log(seller);
   const dispatch = useDispatch();
 
 

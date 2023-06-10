@@ -19,7 +19,8 @@ const WithdrawMoney = () => {
   return <div className=""></div>;
 };
 const Cupouns = () => {
-return <CouponCodes/>};
+return <CouponCodes/>
+};
 const Refunds = () => {
   return <div className=""></div>;
 };

@@ -13,7 +13,6 @@ export const loadUser = () => async (dispatch) => {
      });
 
   
-    console.log(data);
     dispatch({
       type: "LoadUserSuccess",
       payload: data.user,

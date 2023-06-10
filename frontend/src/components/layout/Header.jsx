@@ -28,14 +28,15 @@ const Header = ({ activeHeading }) => {
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
+  const allProducts  = useSelector((state) => state.product.allproducts)
 
   const handleSearch = (e) => {
     const term = e.target.value;
     setSearchTerm(term);
 
     const filteredProducts =
-      productData &&
-      productData
+      allProducts &&
+      allProducts
         .filter(
           (product) =>
             term && product.name.toLowerCase().includes(term.toLowerCase())
@@ -113,15 +114,16 @@ const Header = ({ activeHeading }) => {
 
                     return (
                       <Link
-                        to={`/product/${product_name}`}
+                        to={`/product/${item._id}`}
                         key={index}
                         onClick={handleBlur}
                       >
-                        <div className="w-full flex items-start py-3">
+                        <div className="w-full flex items-start py-3 ">
                           <img
-                            src={item.image_Url[0].url}
+                          crossOrigin="anonymous"
+                            src={`${backend_url}${item.images && item.images[0]}`}
                             alt="product-mage"
-                            className="w-10 h-10 mr-2.5"
+                            className="w-10 h-10 mr-2.5 rounded-md"
                           />
                           <h1>{item.name}</h1>
                         </div>
@@ -311,15 +313,18 @@ const Header = ({ activeHeading }) => {
 
                         return (
                           <Link
-                            to={`/product/${product_name}`}
+                            to={`/product/${item._id}`}
                             key={index}
                             onClick={() => handleBlur()}
                           >
                             <div className="w-full flex items-start py-3">
                               <img
-                                src={item.image_Url[0].url}
+                                crossOrigin="anonymous"
+                                src={`${backend_url}${
+                                  item.images && item.images[0]
+                                }`}
                                 alt="product-mage"
-                                className="w-10 h-10 mr-2.5 pt-4"
+                                className="w-10 h-10 mr-2.5 pt-4 rounded-md"
                               />
                               <h1>{item.name}</h1>
                             </div>

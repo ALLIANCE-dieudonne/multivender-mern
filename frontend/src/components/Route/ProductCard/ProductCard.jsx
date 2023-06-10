@@ -9,6 +9,7 @@ import {
   AiFillHeart,
 } from "react-icons/ai";
 import ProductDetailsCard from "../productDetailsCard/ProductDetailsCard";
+import { backend_url } from "../../../server";
 
 const ProductCard = ({ data }) => {
   const [click, setClick] = useState(false);
@@ -56,11 +57,12 @@ const ProductCard = ({ data }) => {
         ) : null}
       </div>
 
-      <Link to={`/product/${product_name}`}>
+      <Link to={`/product/${data._id}`}>
         <img
-          src={data.image_Url[0].url}
+          crossorigin="anonymous"
+          src={`${backend_url}/${data.images && data.images[0]}`}
           alt="product image"
-          className="w-full h-[170px] object-contain"
+          className="w-[90%] h-[250px] object-cover mb-2 rounded-lg"
         />
       </Link>
 
@@ -85,11 +87,11 @@ const ProductCard = ({ data }) => {
       <div className="py-2 flex items-center justify-between">
         <div className="flex">
           <h5 className={`${styles.productDiscountPrice}`}>
-            {data.price === 0 ? data.price : data.discount_price} $
+            {data.price === 0 ? data.price : data.discountPrice} $
           </h5>
 
           <h4 className={`${styles.price}`}>
-            {data.price ? data.price + "$" : null}
+            {data.orginalPrice ? data.orginalPrice + "$" : null}
           </h4>
         </div>
 
