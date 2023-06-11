@@ -28,7 +28,6 @@ const DropDown = ({ categoriesData, setDropdown }) => {
                 marginLeft: "1rem",
                 cursor: "pointer",
               }}
-              //   className="w-25px h-2px object-contain select-none"
             />
             <h3 className="m-3 cursor-pointer">{item.title}</h3>
           </div>

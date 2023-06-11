@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
@@ -13,9 +13,8 @@ import { backend_url } from "../../server";
 const ProductDetails = ({ data }) => {
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
-  const [select, setSelect] = useState(1);
+  const [select, setSelect] = useState(0);
   const navigate = useNavigate();
-
 
   const handleMessageSend = () => {
     navigate("/inbox?conversation=567890oihjbvbn");
@@ -38,7 +37,7 @@ const ProductDetails = ({ data }) => {
               <div className="w-full 800px:w-[50%]  ">
                 <img
                   crossorigin="anonymous"
-                  src={`${backend_url}${data?.images && data?.images[select]}`}
+                  src={`${backend_url}${data?.images && data?.images[select ? select: 0]}`}
                   alt=""
                   className="800px:w-[65%] mt-10 rounded-md w-[90%] h-[420px]"
                 />
@@ -202,25 +201,7 @@ const ProductDetailsInfo = ({ data }) => {
       </div>
       {active === 1 ? (
         <div className="block 800px:flex flex-col gap-3 ">
-          <p className=" whitespace-pre-line leading-7">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
-            laudantium autem ipsa blanditiis quo fuga culpa? Inventore dolore
-            accusamus laboriosam iure, amet blanditiis animi? Rerum, pariatur
-            commodi. Nesciunt, aliquid itaque.
-          </p>
-
-          <p className="whitespace-pre-line leading-7">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora
-            doloribus explicabo illum provident quia magni, facere sunt quis
-            obcaecati veritatis ducimus sapiente ullam amet minima eveniet et
-            aliquam nam tempore!
-          </p>
-          <p className="whitespace-pre-line leading-7">
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora
-            doloribus explicabo illum provident quia magni, facere sunt quis
-            obcaecati veritatis ducimus sapiente ullam amet minima eveniet et
-            aliquam nam tempore!
-          </p>
+          {data.description}
         </div>
       ) : (
         " "
@@ -241,16 +222,15 @@ const ProductDetailsInfo = ({ data }) => {
           <div className=" w-full 800px:w-[50%]">
             <div className="flex items-center">
               <img
-                src={data.shop.shop_avatar.url}
+                crossorigin="anonymous"
+                src={`${backend_url}${data?.shop?.avatar}`}
                 alt=""
                 className="w-[50px] h-[50px] rounded-full mr-3"
               />
 
               <div className="">
                 <h3 className={`${styles.shop_name} `}>{data.shop.name}</h3>
-                <h4 className="text-[15px] font-medium">
-                  ({data.shop.ratings}) Ratings
-                </h4>
+                <h4 className="text-[15px] font-medium">(4.5) Ratings</h4>
               </div>
             </div>
             <p className="mt-2">
@@ -264,7 +244,10 @@ const ProductDetailsInfo = ({ data }) => {
           <div className="w-full 800px:w-[50%] 800px:items-end flex flex-col pt-3 lg:pt-0">
             <div className="text-left text-[16px]">
               <h5 className="font-[600]">
-                Joined On: <span className="font-[400]">29 04 2023</span>
+                Joined On:{" "}
+                <span className="font-[400]">
+                  {data.shop.createdAt.slice(0, 10)}
+                </span>
               </h5>
               <h5 className="font-[600] py-1">
                 Total Products: <span className="font-[400]">999</span>
@@ -272,7 +255,7 @@ const ProductDetailsInfo = ({ data }) => {
               <h5 className="font-[600]">
                 Total Reviews: <span className="font-[400]">29 </span>
               </h5>
-              <Link to="/">
+              <Link to={`/shop/${data.shop._id}`}>
                 <div className={`${styles.button} text-white font-[500]`}>
                   Visit Shop
                 </div>

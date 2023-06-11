@@ -62,7 +62,7 @@ const ProductCard = ({ data }) => {
           crossorigin="anonymous"
           src={`${backend_url}/${data.images && data.images[0]}`}
           alt="product image"
-          className="w-[90%] h-[250px] object-cover mb-2 rounded-lg"
+          className="w-[90%] h-[200px] object-cover mb-2 rounded-lg"
         />
       </Link>
 
@@ -87,7 +87,7 @@ const ProductCard = ({ data }) => {
       <div className="py-2 flex items-center justify-between">
         <div className="flex">
           <h5 className={`${styles.productDiscountPrice}`}>
-            {data.price === 0 ? data.price : data.discountPrice} $
+            {data.orginalPrice === 0 ? data.orginalPrice : data.discountPrice} $
           </h5>
 
           <h4 className={`${styles.price}`}>
@@ -96,7 +96,7 @@ const ProductCard = ({ data }) => {
         </div>
 
         <span className="font-[500] text-[17px] text-[#68d284]">
-          {data.total_sell ? data.total_sell : null} sold
+          {data.sold_out ? data.sold_out : null} sold
         </span>
       </div>
     </div>

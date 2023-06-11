@@ -28,7 +28,10 @@ router.post(
 
         const productName = productData.name;
         console.log(productName);
-        const existingProduct = await Product.findOne({ name: productName });
+        const existingProduct = await Product.findOne({
+          name: productName,
+          "shop._id": shopId,
+        });
 
         if (existingProduct) {
           for (const imageUrl of imageUrls) {

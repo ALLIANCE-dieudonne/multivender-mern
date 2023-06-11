@@ -54,12 +54,14 @@ import ProtectedRoute from "./routes/protectedRoute";
 import SellerProtectedRoute from "./routes/sellerProtectedRoute";
 import { loadSeller } from "./redux/actions/seller";
 import { getAllProducts } from "./redux/actions/product";
+import { getAllEvents } from "./redux/actions/event";
 
 const App = () => {
   useEffect(() => {
     store.dispatch(loadUser());
     store.dispatch(loadSeller());
     store.dispatch(getAllProducts());
+    store.dispatch(getAllEvents());
   }, []);
 
   return (

@@ -42,7 +42,7 @@ const productSchema = new mongoose.Schema({
   },
   sold_out: {
     type: Number,
-    default: 0,
+    default: 5,
   },
   createdAt: {
     type: Date,

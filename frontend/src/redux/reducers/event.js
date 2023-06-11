@@ -1,10 +1,11 @@
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
-  events: [], // Initialize with an empty array
+  events: [], 
   isLoading: false,
   error: null,
   success: false,
+  allEvents: [],
 };
 
 export const eventReducer = createReducer(initialState, {
@@ -23,7 +24,7 @@ export const eventReducer = createReducer(initialState, {
     state.success = false;
   },
 
-  // get all events
+  // get all shop events
   getAllshopEventsRequest: (state) => {
     state.isLoading = true;
   },
@@ -33,6 +34,21 @@ export const eventReducer = createReducer(initialState, {
     state.success = true;
   },
   getAllshopEventsFail: (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
+    state.success = false;
+  },
+
+  //get all events
+  getAllEventsRequest: (state) => {
+    state.isLoading = true;
+  },
+  getAllEventsSuccess: (state, action) => {
+    state.isLoading = false;
+    state.allEvents = action.payload;
+    state.success = true;
+  },
+  getAllEventsFail: (state, action) => {
     state.isLoading = false;
     state.error = action.payload;
     state.success = false;
