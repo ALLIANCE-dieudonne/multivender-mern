@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import styles from "../../../styles/styles";
 import EventsCard from "./EventsCard";
-import { useEffect } from "react";
-import { getAllEvents } from "../../../redux/actions/event";
+
 const Events = () => {
   const allEvents = useSelector((state) => state.events.allEvents);
   const event = allEvents.filter((event) => event[0]);

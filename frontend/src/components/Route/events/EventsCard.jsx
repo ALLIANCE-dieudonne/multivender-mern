@@ -38,7 +38,7 @@ const EventsCard = ({ active, data }) => {
             120 Sold
           </span>
         </div>
-        <CountDown />.
+        <CountDown data={data}/>.
         <div className={`${styles.button} text-white`}>
           <Link to={`/shop/${data.shopId}`}>
             <h4>Buy now</h4>

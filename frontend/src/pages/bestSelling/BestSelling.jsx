@@ -6,11 +6,12 @@ import ProductCard from "../../components/Route/ProductCard/ProductCard";
 import { useSelector } from "react-redux";
 const BestSelling = () => {
   const [data, setData] = useState([]);
-  const allProducts = useSelector((state)=> state.product.allproducts)
+  const allProducts = useSelector((state) => state.product.allproducts);
 
   useEffect(() => {
     const d =
-      allProducts && allProducts.slice().sort((a, b) => b.total_sell - a.total_sell);
+      allProducts &&
+      [...allProducts].sort((a, b) => b.sold_out - a.sold_out);
     setData(d);
   }, []);
   return (
