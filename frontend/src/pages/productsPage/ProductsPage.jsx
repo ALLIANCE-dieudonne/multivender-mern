@@ -1,46 +1,54 @@
-import { useEffect, useState } from "react";
+import { useMemo } from "react";
 import Header from "../../components/layout/Header";
 import styles from "../../styles/styles";
 import { useSearchParams } from "react-router-dom";
 import ProductCard from "../../components/Route/ProductCard/ProductCard";
 import { useSelector } from "react-redux";
+import Loader from "../../components/layout/Loader";
 
 const ProductsPage = () => {
   const [searchParams] = useSearchParams();
-
   const categoryData = searchParams.get("category");
-  const [data, setData] = useState([]);
-  const allProducts = useSelector((state)=> state.product.allproducts)
+  const { allproducts, isLoading } = useSelector((state) => state.product);
 
-  useEffect(() => {
+  const data = useMemo(() => {
     if (categoryData === null) {
-      const d =
-        allProducts && allProducts.slice().sort((a, b) => a.total_sell - b.total_sell);
-      setData(d);
+      return (
+        allproducts &&
+        [...allproducts].sort((a, b) => a.total_sell - b.total_sell)
+      );
     } else {
-      const d =
-        allProducts &&
-        allProducts.filter((item) => item.category === categoryData);
-      setData(d);
+      return (
+        allproducts &&
+        allproducts.filter((item) => item.category === categoryData)
+      );
     }
-  }, [categoryData,allProducts]);
+  }, [categoryData, allproducts]);
 
   return (
-    <div>
-      <Header activeHeading={3} />
+    <>
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <div>
+          <Header activeHeading={3} />
 
-      <div className={`${styles.section}`}>
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5 xl:gap-7 800px:my-12 mt-20 mb-12 ">
-          {data &&
-            data.map((item, index) => <ProductCard data={item} key={index} />)}
+          <div className={`${styles.section}`}>
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5 xl:gap-7 800px:my-12 mt-20 mb-12 ">
+              {data.map((item, index) => (
+                <ProductCard data={item} key={index} />
+              ))}
+            </div>
+            {data.length === 0 && (
+              <h1 className="text-center font-[500] text-[30px] w-full">
+                No Products Found !
+              </h1>
+            )}
+          </div>
         </div>
-        {data && data.length === 0 ? (
-          <h1 className="text-center font-[500] text-[30px] w-full">
-            No Products Found !
-          </h1>
-        ) : null}
-      </div>
-    </div>
+      )}
+    </>
   );
 };
+
 export default ProductsPage;
