@@ -8,10 +8,15 @@ import {
   AiOutlineShoppingCart,
 } from "react-icons/ai";
 import { backend_url } from "../../../server";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { addToCart } from "../../../redux/actions/cart";
+
 const ProductDetailsCard = ({ setOpen, data }) => {
+  const { cart } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   const [count, setCount] = useState(1);
   const [click, setClick] = useState(false);
-  const [select, setSelect] = useState(false);
 
   const handleMessageSend = () => {};
 
@@ -22,6 +27,21 @@ const ProductDetailsCard = ({ setOpen, data }) => {
   };
   const incrementCount = () => {
     setCount(count + 1);
+  };
+
+  const handleAddToCart = (id) => {
+    const existItem = cart && cart.find((i) => i._id === id);
+    if (existItem) {
+      toast.error("cart already exists!");
+    } else {
+      if (data.stock < count) {
+        toast.error("Exceed stock limit!");
+      } else {
+        const cartData = { ...data, qty: count };
+        dispatch(addToCart(cartData));
+        toast.success("cart added successfully!");
+      }
+    }
   };
   return (
     <div className="bg-white">
@@ -46,18 +66,14 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                 <div className="flex ml-2.5 mb-4 mt-5">
                   <img
                     crossorigin="anonymous"
-                    src={`${backend_url}${
-                       data?.shop?.avatar
-                    }`}
+                    src={`${backend_url}${data?.shop?.avatar}`}
                     alt="shop image"
                     className="w-[50px] h-[50px] rounded-full "
                   />
 
                   <div className="ml-2">
                     <h1 className={`${styles.shop_name}`}>{data.name}</h1>
-                    <h5 className="pb-2 text-[17px]">
-                      ( 4.5 )Ratings
-                    </h5>
+                    <h5 className="pb-2 text-[17px]">( 4.5 )Ratings</h5>
                   </div>
                 </div>
 
@@ -132,7 +148,10 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                   </div>
                 </div>
 
-                <div className={`${styles.button} text-white font-[500]`}>
+                <div
+                  className={`${styles.button} text-white font-[500]`}
+                  onClick={() => handleAddToCart(data._id)}
+                >
                   Add to cart{" "}
                   <AiOutlineShoppingCart size={25} className="ml-1" />
                 </div>

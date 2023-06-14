@@ -19,6 +19,7 @@ import Cart from "../cart/Cart.jsx";
 import Wishlist from "../wishlist/Wishlist.jsx";
 import { RxCross1 } from "react-icons/rx";
 
+
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user, loading } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,6 +30,7 @@ const Header = ({ activeHeading }) => {
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
   const allProducts  = useSelector((state) => state.product.allproducts)
+  const {cart} =useSelector((state) => state.cart);
 
   const handleSearch = (e) => {
     const term = e.target.value;
@@ -120,8 +122,10 @@ const Header = ({ activeHeading }) => {
                       >
                         <div className="w-full flex items-start py-3 ">
                           <img
-                          crossOrigin="anonymous"
-                            src={`${backend_url}${item.images && item.images[0]}`}
+                            crossOrigin="anonymous"
+                            src={`${backend_url}${
+                              item.images && item.images[0]
+                            }`}
                             alt="product-mage"
                             className="w-10 h-10 mr-2.5 rounded-md"
                           />
@@ -200,7 +204,7 @@ const Header = ({ activeHeading }) => {
                 onClick={() => setOpenWishlist(true)}
               />
               <span className="absolute rounded-full right-0 top-0 bg-[#3bc177] w-4 h-4 p-0 m-0 text-white text-[12px] text-center leading-tight font-medium  ">
-                0
+                {cart && cart.length}
               </span>
             </div>
             <div
@@ -209,7 +213,7 @@ const Header = ({ activeHeading }) => {
             >
               <AiOutlineShoppingCart size={30} color="#fff" />
               <span className="absolute rounded-full right-0 top-0 bg-[#3bc177] w-4 h-4 p-0 m-0 text-white text-[12px] text-center leading-tight font-medium  ">
-                1
+                {cart && cart.length}
               </span>
             </div>
 
@@ -267,7 +271,7 @@ const Header = ({ activeHeading }) => {
           <div className="mr-5 flex">
             <AiOutlineShoppingCart size={30} />
             <span className="absolute rounded-full right-4 top-1.5 bg-[#3bc177] w-4 h-4 p-0 m-0 text-white text-[12px] text-center leading-tight font-medium  ">
-              0
+              {cart && cart.length}
             </span>
           </div>
         </div>

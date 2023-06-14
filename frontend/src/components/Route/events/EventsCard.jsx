@@ -26,11 +26,11 @@ const EventsCard = ({ active, data }) => {
         <div className="flex justify-between py-3">
           <div className="flex  gap-5 ">
             <h1 className="font-[500] text-[#f14a4a] line-through text-[18px]">
-              {data.orginalPrice}
+              {data.orginalPrice} $
             </h1>
 
             <h1 className="text-[20px] font-bold font-Roboto  text-[#333]">
-              {data.discountPrice}
+              {data.discountPrice} $
             </h1>
           </div>
 
