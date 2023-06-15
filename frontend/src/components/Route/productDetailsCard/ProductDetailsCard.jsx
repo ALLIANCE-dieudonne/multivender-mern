@@ -12,11 +12,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/actions/cart";
 
-const ProductDetailsCard = ({ setOpen, data }) => {
+const ProductDetailsCard = ({
+  setOpen,
+  data,
+  handleAddToWishlist,
+  handleRemoveFromWishlist,
+  click,
+}) => {
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const [count, setCount] = useState(1);
-  const [click, setClick] = useState(false);
 
   const handleMessageSend = () => {};
 
@@ -43,6 +48,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
       }
     }
   };
+
   return (
     <div className="bg-white">
       {data ? (
@@ -132,7 +138,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                       <AiFillHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => setClick((prev) => !prev)}
+                        onClick={() => handleRemoveFromWishlist(data)}
                         color={click ? "red" : "#333"}
                         title="remove from white list"
                       />
@@ -140,7 +146,7 @@ const ProductDetailsCard = ({ setOpen, data }) => {
                       <AiOutlineHeart
                         size={30}
                         className=" cursor-pointer "
-                        onClick={() => setClick((prev) => !prev)}
+                        onClick={() => handleAddToWishlist(data)}
                         color={click ? "red" : "#333"}
                         title="remove from white list"
                       />

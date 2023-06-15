@@ -9,12 +9,21 @@ import {
 } from "react-icons/ai";
 import styles from "../../styles/styles";
 import { backend_url } from "../../server";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "../../redux/actions/cart";
+import { addToWishlist } from "../../redux/actions/wishlist";
+import { removeFromWishlist } from "../../redux/actions/wishlist";
 
 const ProductDetails = ({ data }) => {
+  const { cart } = useSelector((state) => state.cart);
+  const { wishlist } = useSelector((state) => state.wishlist)
   const [count, setCount] = useState(1);
+
   const [click, setClick] = useState(false);
   const [select, setSelect] = useState(0);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleMessageSend = () => {
     navigate("/inbox?conversation=567890oihjbvbn");
@@ -28,6 +37,40 @@ const ProductDetails = ({ data }) => {
   const incrementCount = () => {
     setCount(count + 1);
   };
+
+   const handleAddToCart = (id) => {
+     const existItem = cart && cart.find((i) => i._id === id);
+     if (existItem) {
+       toast.error("cart already exists!");
+     } else {
+       if (data.stock < count) {
+         toast.error("Exceed stock limit!");
+       } else {
+         const cartData = { ...data, qty: count };
+         dispatch(addToCart(cartData));
+         toast.success("cart added successfully!");
+       }
+     }
+   };
+
+  useEffect(()=>{
+    const existItem = wishlist && wishlist.find((i)=> i._id === data._id)
+    if(existItem){
+      setClick(true);
+    }
+
+  })
+
+  const handleRemoveFromWishlist = (data) => {
+    setClick((prev) => !prev);
+    dispatch(removeFromWishlist(data));
+  };
+
+  const handleAddToWishlist = (data) => {
+    setClick((prev) => !prev);
+    dispatch(addToWishlist(data));
+  };
+
   return (
     <div className="bg-white">
       {data ? (
@@ -37,7 +80,9 @@ const ProductDetails = ({ data }) => {
               <div className="w-full 800px:w-[50%]  ">
                 <img
                   crossorigin="anonymous"
-                  src={`${backend_url}${data?.images && data?.images[select ? select: 0]}`}
+                  src={`${backend_url}${
+                    data?.images && data?.images[select ? select : 0]
+                  }`}
                   alt=""
                   className="800px:w-[65%] mt-10 rounded-md w-[90%] h-[420px]"
                 />
@@ -108,23 +153,26 @@ const ProductDetails = ({ data }) => {
                       <AiFillHeart
                         size={30}
                         className="cursor-pointer"
-                        onClick={() => setClick((prev) => !prev)}
+                        onClick={() => handleRemoveFromWishlist(data)}
                         color={click ? "red" : "#333"}
-                        title="remove from white list"
+                        title="add to  from whishlist"
                       />
                     ) : (
                       <AiOutlineHeart
                         size={30}
                         className=" cursor-pointer "
-                        onClick={() => setClick((prev) => !prev)}
+                        onClick={() => handleAddToWishlist(data)}
                         color={click ? "red" : "#333"}
-                        title="remove from white list"
+                        title="remove from whishlist"
                       />
                     )}
                   </div>
                 </div>
                 <div>
-                  <span className={`${styles.button} text-white font-[500] `}>
+                  <span
+                    className={`${styles.button} text-white font-[500] `}
+                    onClick={()=>handleAddToCart(data._id)}
+                  >
                     Add to cart{" "}
                     <AiOutlineShoppingCart size={20} className="ml-1" />
                   </span>

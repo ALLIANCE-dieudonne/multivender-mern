@@ -31,6 +31,8 @@ const Header = ({ activeHeading }) => {
   const [open, setOpen] = useState(false);
   const allProducts  = useSelector((state) => state.product.allproducts)
   const {cart} =useSelector((state) => state.cart);
+  const {wishlist} =useSelector((state) => state.wishlist);
+  
 
   const handleSearch = (e) => {
     const term = e.target.value;
@@ -204,7 +206,7 @@ const Header = ({ activeHeading }) => {
                 onClick={() => setOpenWishlist(true)}
               />
               <span className="absolute rounded-full right-0 top-0 bg-[#3bc177] w-4 h-4 p-0 m-0 text-white text-[12px] text-center leading-tight font-medium  ">
-                {cart && cart.length}
+                {wishlist && wishlist.length}
               </span>
             </div>
             <div

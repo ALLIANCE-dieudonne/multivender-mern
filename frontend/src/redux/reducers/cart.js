@@ -12,7 +12,7 @@ export const cartReducer = createReducer(initialState, {
     const existItem = state.cart.find((i) => {
       return i._id === item._id;
     });
-
+    
     if (existItem) {
       return {
         ...state,

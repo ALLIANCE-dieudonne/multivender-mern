@@ -3,14 +3,15 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { BsCartPlus } from "react-icons/bs";
 import styles from "../../styles/styles";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { backend_url } from "../../server";
+import { removeFromWishlist } from "../../redux/actions/wishlist";
+import { addToCart } from "../../redux/actions/cart";
+import { toast } from "react-toastify";
 
 const Wishlist = ({ setOpenWishlist }) => {
-  const cartData = [
-    { name: "Iphone14 Pro Max", description: "The best phone", price: 222 },
-    { name: "Samsang Galaxy", description: "The best phone", price: 200 },
-    { name: "Iphone14 Pro Max", description: "The best phone", price: 288 },
-  ];
+  const { wishlist } = useSelector((state) => state.wishlist);
+
   return (
     <div className="w-full fixed top-0 right-0 bg-[#0000004b] h-screen  z-10 transition">
       <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full ">
@@ -18,50 +19,70 @@ const Wishlist = ({ setOpenWishlist }) => {
           <RxCross2 size={30} onClick={() => setOpenWishlist(false)} />
         </div>
 
-        {/* Item length */}
-        <div className={`${styles.normalFlex} w-full mb-5`}>
-          <AiOutlineHeart size={25} className="ml-4" />
-          <p className="pl-2 text-[20px] font-[500]">3 items</p>
-        </div>
-
-        {/* Single cart item */}
-        <div className="w-full border-top">
-          {cartData &&
-            cartData.map((item, index) => (
-              <SingleCart key={index} data={item} />
-            ))}
-        </div>
-
-        {/* checkout button */}
-
-        <div className="my-auto ">
-          <Link to="/checkout">
-            <div className="h-[45px] rounded-md bg-[#e44343] justify-center w-[90%] flex items-center mx-auto ">
-              <h1 className="text-white font-[500] text-[17px]">
-                Checkout now US$ 1058
-              </h1>
+        {wishlist.length === 0 ? (
+          <div className="font-[500] text-[22px] flex  items-center justify-center h-[500px]">
+            <h2>Empty Wishlist!</h2>
+          </div>
+        ) : (
+          <>
+            {/* Item length */}
+            <div className={`${styles.normalFlex} w-full mb-5`}>
+              <AiOutlineHeart size={25} className="ml-4" />
+              <p className="pl-2 text-[20px] font-[500]">
+                {wishlist.length} items
+              </p>
             </div>
-          </Link>
-        </div>
+
+            <div className="w-full border-top">
+              {/* Single wishlist item */}
+              {wishlist &&
+                wishlist.map((item, index) => (
+                  <SingleWishlist key={index} data={item} />
+                ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
 };
 
-const SingleCart = ({ data }) => {
+const SingleWishlist = ({ data }) => {
   const [value, setValue] = useState(1);
-  const totalPrice = data.price * value;
+  const totalPrice = data.discountPrice * value;
+  const { cart } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
+
+  const handleRemoveFromWishlist = (data) => {
+    dispatch(removeFromWishlist(data));
+  };
+
+  const handleAddToCart = (data) => {
+    dispatch(addToCart(data)).then(() => {
+      const existItem = cart && cart.find((i) => i._id === data._id);
+      if (existItem) {
+        toast.error("Cart already exists!");
+      } else {
+        toast.success("Carxt added successfully!");
+      }
+    });
+  };
 
   return (
     <div className="border-y p-4">
       <div className="w-full flex justify-between">
-        <BsCartPlus size={20} className="cursor-pointer my-auto" />
+        <BsCartPlus
+          size={20}
+          className="cursor-pointer my-auto"
+          onClick={() => handleAddToCart(data)}
+        />
 
         <div className="">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvBQPQMVNRd6TtDkGs2dCri0Y-rxKkFOiEWw&usqp=CAU"
+            crossOrigin="anonymous"
+            src={`${backend_url}${data.images[0]}`}
             alt=""
-            className="w-[80px] h-[80px] ml-3"
+            className="w-[70px] h-[60px] ml-3 rounded-md"
           />
         </div>
 
@@ -72,7 +93,7 @@ const SingleCart = ({ data }) => {
             US$ {totalPrice}
           </h5>
         </div>
-        <div className="my-auto">
+        <div className="my-auto" onClick={() => handleRemoveFromWishlist(data)}>
           <RxCross2 />
         </div>
       </div>

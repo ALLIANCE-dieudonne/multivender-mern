@@ -25,6 +25,7 @@ const DashboardHeader = () => {
           <img
             src="https://shopo.quomodothemes.website/assets/images/logo.svg"
             alt="logo"
+            
           />{" "}
         </Link>
       </div>

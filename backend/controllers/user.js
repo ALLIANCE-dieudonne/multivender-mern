@@ -58,7 +58,6 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     });
   } catch (err) {
     return next(new ErrorHandler(err, 500));
-    // console.log(err);
   }
 });
 
@@ -72,7 +71,7 @@ const createActivationToken = (user) => {
 //activate the user
 router.post(
   "/activation",
-  catchAsyncErrors(async (req, res) => {
+  catchAsyncErrors(async (req, res,next) => {
     try {
       const { activation_token } = req.body;
       const newUser = jwt.verify(
@@ -95,7 +94,6 @@ router.post(
       sendToken(newUser, 201, res);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
-      // console.log(error.message);
     }
   })
 );

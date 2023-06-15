@@ -26,7 +26,7 @@ const Cart = ({ setOpenCart }) => {
 
   return (
     <div className="w-full fixed top-0 right-0 bg-[#0000004b] h-screen  z-10 transition">
-      <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full justify-between">
+      <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full justify-between ">
         <div>
           <div className="w-full flex justify-end pt-3 pr-3">
             <RxCross2 size={30} onClick={() => setOpenCart(false)} />
@@ -78,7 +78,6 @@ const Cart = ({ setOpenCart }) => {
 };
 
 const SingleCart = ({ data, quantityChangeHandler, handleRemoveFromCart }) => {
-  const { cart } = useSelector((state) => state.cart);
   const [value, setValue] = useState(data.qty);
 
   const increment = () => {
