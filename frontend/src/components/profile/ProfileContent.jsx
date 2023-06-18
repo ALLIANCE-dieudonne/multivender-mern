@@ -1,8 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { backend_url, server } from "../../server";
-import { AiOutlineCamera, AiOutlineDelete } from "react-icons/ai";
+import {
+  AiOutlineCamera,
+  AiOutlineDelete,
+} from "react-icons/ai";
 import styles from "../../styles/styles";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import { Button } from "@material-ui/core";
@@ -284,34 +287,77 @@ const TrackOrders = () => {
   );
 };
 
-const PaymentMethod = () => {
+const ChangePassword = () => {
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [comfirmPassword, setComfirmPassword] = useState("");
+  const [visible, setVisible] = useState(false);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .put(
+        `${server}/user/change-password`,
+        { oldPassword, newPassword, comfirmPassword },
+        { withCredentials: true }
+      )
+      .then(() => {
+        toast.success("Password Changed Successfully");
+        setOldPassword("");
+        setNewPassword("");
+        setComfirmPassword("");
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
   return (
     <div className="w-full p-5">
-      <div className="flex w-full items-center justify-between">
-        <h1 className="text-[25px] font-[600] "> Payment Methods</h1>
+      <div className=" w-full items-center">
+        <h1 className="text-[25px] font-[600] pt-5"> Change Password</h1>
+        <div className="flex w-full items-center pt-5">
+          <form aria-required onSubmit={handleSubmit}>
+            <div className=" w-[70%] ">
+              <label htmlFor="oldPassword" className="font-medium pl-1">
+                Old Password
+              </label>
+              <input
+                type="password"
+                className={`${styles.input} !w-[95%] mt-2 mb-3`}
+                required
+                value={oldPassword}
+                onChange={(e) => setOldPassword(e.target.value)}
+              />
 
-        <div className={`${styles.button}`}>
-          <span className="text-white font-medium text-[17px]">Add New</span>
-        </div>
-      </div>
-
-      <div className="w-full bg-white h-[60px] rounded-md mt-4 shadow-md items-center flex justify-between">
-        <div className="flex items-center">
-          <img src="" alt="" />
-
-          <h5 className="font-[500] text-[18px] px-2 ">silver seeker</h5>
-        </div>
-
-        <div className="flex items-center pr-2 ">
-          <h6 className="text-[16px] font-[500] ">123***** **</h6>
-          <h5 className="font-[500] px-3">03/06</h5>
-        </div>
-
-        <div className="pr-8 items-center">
-          <AiOutlineDelete
-            size={25}
-            className="cursor-pointer hover:text-red-500"
-          />
+              <label htmlFor="newPassword" className="font-medium pl-1">
+                New Password{" "}
+              </label>
+              <input
+                type="password"
+                className={`${styles.input} !w-[95%] mt-2 mb-3`}
+                required
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+              <label htmlFor="comfirmPassword" className="font-medium pl-1">
+                Comfirm Password{" "}
+              </label>
+              <input
+                type="password"
+                className={`${styles.input} !w-[95%] mt-2 mb-3`}
+                required
+                value={comfirmPassword}
+                onChange={(e) => setComfirmPassword(e.target.value)}
+              />
+           
+            </div>
+            <input
+              type="submit"
+              className="w-40 rounded-md h-10 border border-blue-500 cursor-pointer  text-center justify-center font-medium text-[#3a24db] hover:bg-blue-100 hover:text-black"
+              value="Update"
+            />
+          </form>
         </div>
       </div>
     </div>
@@ -358,6 +404,12 @@ const Address = () => {
     ).then(() => {
       toast.success("Adress added successfully!");
       setOpen(false);
+      setCountry("");
+      setState("");
+      setAddress1("");
+      setAddress2("");
+      setZipCode(null);
+      setAddressType("");
       window.location.reload();
     });
   };
@@ -365,14 +417,14 @@ const Address = () => {
     dispatch(deleteUserAddress(item._id))
       .then(() => {
         toast.success("Address deleted successfully!");
+        window.location.reload();
+
         setOpen(false);
-        // window.location.reload();
       })
       .catch((err) => {
         toast.error(err.message);
       });
   };
-
 
   return (
     <div className="w-full p-5">
@@ -387,38 +439,47 @@ const Address = () => {
         </div>
       </div>
 
-      {user &&
-        user.addresses &&
-        user.addresses.map((address, index) => (
-          <div
-            className="w-full bg-white h-[60px] rounded-md mt-4 shadow-md items-center flex justify-between"
-            key={index}
-          >
-            <div className="flex items-center">
-              <h5 className="font-[500] text-[18px] px-2 ">
-                {address.addressType}
-              </h5>
-            </div>
+      {user && user.addresses && user.addresses.length === 0 ? (
+        <div className="flex items-center justify-center text-[25px] font-[500] h-[80%]">
+          <h1>No Added Address!</h1>
+        </div>
+      ) : (
+        <>
+          {" "}
+          {user &&
+            user.addresses &&
+            user.addresses.map((address, index) => (
+              <div
+                className="w-full bg-white 800px:h-[60px] rounded-md mt-4 shadow-md items-center block 800px:flex justify-between p-2 800px:p-0"
+                key={index}
+              >
+                <div className="flex items-center mb-2 800px:mb-0">
+                  <h5 className="font-[500] text-[18px] 800px:px-2 ">
+                    {address.addressType}
+                  </h5>
+                </div>
 
-            <div className="flex items-center pr-2 ">
-              <h6 className="text-[16px] font-[500] ">
-                {address.address1 + " " + address.address2}{" "}
-              </h6>
-            </div>
+                <div className="flex items-center pr-2 mb-2 800px:mb-0">
+                  <h6 className="text-[16px] font-[500] ">
+                    {address.address1 + ", " + address.address2}{" "}
+                  </h6>
+                </div>
 
-            <div className="flex items-center pr-2 ">
-              <h6 className="text-[16px] font-[500] ">{address.zipCode}</h6>
-            </div>
+                <div className="flex items-center pr-2 justify-between  ">
+                  <h6 className="text-[16px] font-[500] ">{address.zipCode}</h6>
 
-            <div className="pr-2 800px:pr-8 items-center">
-              <AiOutlineDelete
-                size={25}
-                className="cursor-pointer hover:text-red-500"
-                onClick={() => handleDelete(address)}
-              />
-            </div>
-          </div>
-        ))}
+                  <div className="pr-2 800px:pr-8 items-center  800px:ml-20">
+                    <AiOutlineDelete
+                      size={25}
+                      className="cursor-pointer hover:text-red-500"
+                      onClick={() => handleDelete(address)}
+                    />
+                  </div>
+                </div>
+              </div>
+            ))}
+        </>
+      )}
 
       {open && (
         <div className="fixed w-full flex bg-[#0000006a]  h-screen top-0 left-0 items-center justify-center">
@@ -641,7 +702,7 @@ const Profile = () => {
       <br />
 
       <div className="w-full px-5 ">
-        <form onSubmit={handleSubmit} aria-required="true">
+        <form onSubmit={handleSubmit} aria-required>
           <div className="w-full 800px:flex pb-3">
             <div className=" 800px:w-[50%] ">
               <label htmlFor="names" className="font-medium">
@@ -709,7 +770,7 @@ const Inbox = () => {
 export {
   Profile,
   Address,
-  PaymentMethod,
+  ChangePassword,
   TrackOrders,
   AllRefundOrders,
   AllOrders,

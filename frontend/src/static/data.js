@@ -4,6 +4,7 @@ import { FiPackage, FiShoppingBag } from "react-icons/fi";
 import { VscNewFile } from "react-icons/vsc";
 import { CiMoneyBill, CiSettings } from "react-icons/ci";
 import { BiMessageSquareDetail } from "react-icons/bi";
+import {RiLockPasswordLine} from "react-icons/ri";
 import {
   HiOutlineReceiptRefund,
   HiOutlineShoppingCart,
@@ -65,9 +66,9 @@ export const profileLinks = [
     link: "/profile/track-orders",
   },
   {
-    name: "Payment Methods",
-    icon: <BsCreditCard />,
-    link: "/profile/payment-methods",
+    name: "Change Password",
+    icon: <RiLockPasswordLine />,
+    link: "/profile/change-password",
   },
   {
     name: "Address",

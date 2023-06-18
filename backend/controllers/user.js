@@ -273,52 +273,6 @@ router.put(
 
 //delete adress
 
-// router.delete(
-//   "/delete-user-address/:id",
-//   catchAsyncErrors(async (req, res, next) => {
-//     try {
-//       const userId = req.user.id;
-//       const addressId = req.params.id;
-
-//       await User.updateOne(
-//         { _id: userId },
-//         { $pull: { addresses: { _id: addressId } } }
-//       );
-
-//       const user = await User.findById(userId);
-//       res.status(200).json({
-//         success: true,
-//         message: "Address deleted successfully!",
-//       });
-//     } catch (error) {
-//       return next(new ErrorHandler("Failed to delete address", 400));
-//     }
-//   })
-// );
-
-// router.delete(
-//   "/delete-user-address/:id",
-//   catchAsyncErrors(async (req, res, next) => {
-//     try {
-//       const userId = req.user._id;
-//       const addressId = req.params.id;
-
-//       await User.updateOne(
-//         { _id: userId },
-//         { $pull: { addresses: { _id: addressId } } }
-//       );
-
-//       const user = await User.findById(userId);
-//       res.status(200).json({
-//         success: true,
-//         user
-//       });
-//     } catch (error) {
-//       // return next(new ErrorHandler("Failed to delete address", 400));
-//       console.log(error);
-//     }
-//   })
-// );
 router.delete(
   "/delete-user-address/:id",
   isAuthenticated,
@@ -344,7 +298,38 @@ router.delete(
   })
 );
 
+//update password
 
+router.put(
+  "/change-password",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findById(req.user.id).select("+password");
+      const isPasswordValid = await user.comparePassword(req.body.oldPassword);
+      if (!isPasswordValid) {
+        return next(
+          new ErrorHandler("Old password not correct!", 400)
+        );
+      }
+      if (req.body.newPassword === req.body.confirmPassword) {
+        return next(
+          new ErrorHandler("New password and confirm password must be same!", 400)
+        );
+      }
 
+      user.password = req.body.newPassword;
+
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        message: "password updated successfully",
+      });
+    } catch (error) {
+      return next(new ErrorHandler("Failed to update password", 400));
+    }
+  })
+);
 
 module.exports = router;

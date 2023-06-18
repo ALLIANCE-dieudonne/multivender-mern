@@ -17,7 +17,7 @@ import {
 import {
   Profile,
   Address,
-  PaymentMethod,
+  ChangePassword,
   TrackOrders,
   AllRefundOrders,
   AllOrders,
@@ -39,7 +39,7 @@ export {
   Dashboard,
   Profile,
   Address,
-  PaymentMethod,
+  ChangePassword,
   TrackOrders,
   AllRefundOrders,
   AllOrders,

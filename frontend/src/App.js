@@ -2,8 +2,7 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  useNavigate,
-  Navigate,
+  
 } from "react-router-dom";
 import { useEffect } from "react";
 import "./App.css";
@@ -38,7 +37,7 @@ import {
   Dashboard,
   Profile,
   Address,
-  PaymentMethod,
+  ChangePassword,
   CreateProduct,
   TrackOrders,
   AllRefundOrders,
@@ -107,7 +106,7 @@ const App = () => {
           <Route path="/profile/refunds" element={<AllRefundOrders />} />
           <Route path="/profile/inbox" element={<Inbox />} />
           <Route path="/profile/track-orders" element={<TrackOrders />} />
-          <Route path="/profile/payment-methods" element={<PaymentMethod />} />
+          <Route path="/profile/change-password" element={<ChangePassword />} />
           <Route path="/profile/address" element={<Address />} />
         </Route>
 
