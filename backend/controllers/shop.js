@@ -23,7 +23,6 @@ router.post("/shop-create", upload.single("file"), async (req, res, next) => {
       const filePath = `uploads/${filename}`;
       fs.unlink(filePath, (err) => {
         if (err) {
-          // console.log(err);
           res.status(500).json({ message: "Error in deleting a file" });
         } else {
           res.status(200).json({ message: "file deleted successfully" });
@@ -61,7 +60,6 @@ router.post("/shop-create", upload.single("file"), async (req, res, next) => {
         message: `Please check your email (${seller.email}) to activate your shop`,
       });
     } catch (err) {
-      // console.log(err);
       return next(new ErrorHandler("Error sending email", 500));
     }
   } catch (error) {
@@ -105,7 +103,6 @@ router.post(
 
       sendShopToken(newSeller, 201, res);
     } catch (error) {
-      // console.log(error.message);
       return next(new ErrorHandler(error.message, 500));
     }
   })
@@ -125,7 +122,6 @@ router.post(
 
       const seller = await Shop.findOne({ email }).select("+password");
 
-      // console.log(seller)
 
       if (!seller) {
         return next(new ErrorHandler("seller doesn't exist!"), 400);
@@ -140,7 +136,6 @@ router.post(
       sendShopToken(seller, 201, res);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
-      // console.log(error.message);
     }
   })
 );

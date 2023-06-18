@@ -25,7 +25,7 @@ const userSchema = new mongoose.Schema({
       country: {
         type: String,
       },
-      city: {
+      state: {
         type: String,
       },
       address1: {
@@ -58,13 +58,25 @@ const userSchema = new mongoose.Schema({
   resetPasswordTime: Date,
 });
 
-// Hash password
+// Hash password at first time
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     next();
   }
   this.password = await bcrypt.hash(this.password, 10);
 });
+
+
+// password hashing on update
+
+userSchema.pre("findOneAndUpdate", async function (next) {
+  const updatedFields = this.getUpdate();
+  if (updatedFields.password) {
+    updatedFields.password = await bcrypt.hash(updatedFields.password, 10);
+  }
+  next();
+});
+
 
 // jwt token
 userSchema.methods.getJwtToken = function () {

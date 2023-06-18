@@ -70,9 +70,9 @@ export const profileLinks = [
     link: "/profile/payment-methods",
   },
   {
-    name: "Adress",
+    name: "Address",
     icon: <TbAddressBook />,
-    link: "/profile/adress",
+    link: "/profile/address",
   },
   {
     name: "LogOut",

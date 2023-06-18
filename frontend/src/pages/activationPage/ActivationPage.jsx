@@ -17,9 +17,7 @@ const ActivationPage = () => {
               activation_token,
             }
           );
-          console.log(res.data.message);
         } catch (error) {
-          console.log(error.res.data.message);
           setError(true);
         }
       };

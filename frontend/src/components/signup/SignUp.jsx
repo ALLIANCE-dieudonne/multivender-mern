@@ -20,7 +20,7 @@ const SignUp = () => {
     setAvatar(file);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const config = { headers: { "Content-Type": "multipart/form-data" } };
 
@@ -30,21 +30,24 @@ const SignUp = () => {
     newForm.append("email", email);
     newForm.append("password", password);
 
-    axios
-      .post(`${server}/user/create-user`, newForm, config)
-      .then((res) => {
-        toast.success(res.data.message);
-        setAvatar(null);
-        setEmail("");
-        setName("");
-        setPassword("");
-        if (res.data.success === true) {
-          navigate("/");
-        }
-      })
-      .catch((err) => {
-        toast.error(err.res.data.message);
-      });
+    try {
+      const res = await axios.post(
+        `${server}/user/create-user`,
+        newForm,
+        config
+      );
+
+      toast.success(res.data.message);
+      setAvatar(null);
+      setEmail("");
+      setName("");
+      setPassword("");
+      if (res.data.success === true) {
+        navigate("/");
+      }
+    } catch (error) {
+      toast.error(error.res.data.message);
+    }
   };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-3 sm:px-6 lg:px-8">
@@ -83,7 +86,7 @@ const SignUp = () => {
                 htmlFor="email"
                 className="block text-[18px] font-medium text-gray-700"
               >
-                Email adress
+                Email address
               </label>
 
               <div className="my-1">

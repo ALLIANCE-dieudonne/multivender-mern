@@ -17,7 +17,7 @@ import { removeFromWishlist } from "../../redux/actions/wishlist";
 
 const ProductDetails = ({ data }) => {
   const { cart } = useSelector((state) => state.cart);
-  const { wishlist } = useSelector((state) => state.wishlist)
+  const { wishlist } = useSelector((state) => state.wishlist);
   const [count, setCount] = useState(1);
 
   const [click, setClick] = useState(false);
@@ -38,28 +38,27 @@ const ProductDetails = ({ data }) => {
     setCount(count + 1);
   };
 
-   const handleAddToCart = (id) => {
-     const existItem = cart && cart.find((i) => i._id === id);
-     if (existItem) {
-       toast.error("cart already exists!");
-     } else {
-       if (data.stock < count) {
-         toast.error("Exceed stock limit!");
-       } else {
-         const cartData = { ...data, qty: count };
-         dispatch(addToCart(cartData));
-         toast.success("cart added successfully!");
-       }
-     }
-   };
+  const handleAddToCart = (id) => {
+    const existItem = cart && cart.find((i) => i._id === id);
+    if (existItem) {
+      toast.error("cart already exists!");
+    } else {
+      if (data.stock < count) {
+        toast.error("Exceed stock limit!");
+      } else {
+        const cartData = { ...data, qty: count };
+        dispatch(addToCart(cartData));
+        toast.success("cart added successfully!");
+      }
+    }
+  };
 
-  useEffect(()=>{
-    const existItem = wishlist && wishlist.find((i)=> i._id === data._id)
-    if(existItem){
+  useEffect(() => {
+    const existItem = wishlist && wishlist.find((i) => i._id === data._id);
+    if (existItem) {
       setClick(true);
     }
-
-  })
+  });
 
   const handleRemoveFromWishlist = (data) => {
     setClick((prev) => !prev);
@@ -171,7 +170,7 @@ const ProductDetails = ({ data }) => {
                 <div>
                   <span
                     className={`${styles.button} text-white font-[500] `}
-                    onClick={()=>handleAddToCart(data._id)}
+                    onClick={() => handleAddToCart(data._id)}
                   >
                     Add to cart{" "}
                     <AiOutlineShoppingCart size={20} className="ml-1" />
@@ -179,18 +178,26 @@ const ProductDetails = ({ data }) => {
                 </div>
 
                 <div className="flex items-center mt-8">
-                  <img
-                    crossorigin="anonymous"
-                    src={`${backend_url}${data?.shop?.avatar}`}
-                    alt="shop image"
-                    className="w-[50px] h-[50px] rounded-full mr-3"
-                  />
-                  <div className="mr-7">
-                    <h3 className={`${styles.shop_name}pb-1`}>
-                      {data.shop.name}
-                    </h3>
-                    <h4 className="text-[15px] font-medium"> (4.5) Ratings</h4>
-                  </div>
+                  <Link to={`/shop/${data?.shop._id}`}>
+                    <img
+                      crossorigin="anonymous"
+                      src={`${backend_url}${data?.shop?.avatar}`}
+                      alt="shop image"
+                      className="w-[50px] h-[50px] rounded-full mr-3"
+                    />
+                  </Link>
+
+                  <Link to={`/shop/${data?.shop._id}`}>
+                    <div className="mr-7">
+                      <h3 className={`${styles.shop_name}pb-1`}>
+                        {data.shop.name}
+                      </h3>
+                      <h4 className="text-[15px] font-medium">
+                        {" "}
+                        (4.5) Ratings
+                      </h4>
+                    </div>
+                  </Link>
 
                   <div className="">
                     <span

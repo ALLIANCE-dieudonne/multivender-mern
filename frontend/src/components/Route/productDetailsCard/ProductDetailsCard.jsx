@@ -11,6 +11,7 @@ import { backend_url } from "../../../server";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/actions/cart";
+import { Link } from "react-router-dom";
 
 const ProductDetailsCard = ({
   setOpen,
@@ -70,15 +71,19 @@ const ProductDetailsCard = ({
                 />
 
                 <div className="flex ml-2.5 mb-4 mt-5">
-                  <img
-                    crossorigin="anonymous"
-                    src={`${backend_url}${data?.shop?.avatar}`}
-                    alt="shop image"
-                    className="w-[50px] h-[50px] rounded-full "
-                  />
+                  <Link to={`/shop/${data?.shop._id}`}>
+                    <img
+                      crossorigin="anonymous"
+                      src={`${backend_url}${data?.shop?.avatar}`}
+                      alt="shop image"
+                      className="w-[50px] h-[50px] rounded-full "
+                    />
+                  </Link>
 
                   <div className="ml-2">
-                    <h1 className={`${styles.shop_name}`}>{data.name}</h1>
+                    <Link to={`/shop/${data?.shop._id}`}>
+                      <h1 className={`${styles.shop_name}`}>{data?.shop?.name}</h1>
+                    </Link>
                     <h5 className="pb-2 text-[17px]">( 4.5 )Ratings</h5>
                   </div>
                 </div>

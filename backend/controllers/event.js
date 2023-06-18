@@ -26,7 +26,6 @@ router.post(
       const eventData = req.body;
       eventData.images = imageUrls;
       eventData.shop = shop.toObject();
-      console.log(eventData.images);
 
       const eventName = eventData.name;
       const existingEvent = await Event.findOne({
@@ -83,7 +82,6 @@ router.get(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const allEvents = await Event.find();
-      console.log(allEvents)
 
       res.status(200).json({
         success: true,

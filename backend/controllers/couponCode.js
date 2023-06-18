@@ -35,11 +35,9 @@ router.get(
   "/get-all-coupons/:id",
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
-    // console.log(req.params.id);
 
     try {
       const coupons = await CouponCodes.find(
-      //  shopId: req.params.id
       {"shop._id": req.params.id}
       );
 

@@ -108,7 +108,7 @@ const App = () => {
           <Route path="/profile/inbox" element={<Inbox />} />
           <Route path="/profile/track-orders" element={<TrackOrders />} />
           <Route path="/profile/payment-methods" element={<PaymentMethod />} />
-          <Route path="/profile/adress" element={<Address />} />
+          <Route path="/profile/address" element={<Address />} />
         </Route>
 
         {/* shop routes */}

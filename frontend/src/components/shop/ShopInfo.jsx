@@ -34,7 +34,7 @@ const ShopInfo = ({ isOwner }) => {
 
   const Info = [
     {
-      name: "Adress",
+      name: "Address",
       info: data.address,
     },
     {

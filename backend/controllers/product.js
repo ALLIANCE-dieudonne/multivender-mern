@@ -27,7 +27,6 @@ router.post(
         productData.shop = shop.toObject();
 
         const productName = productData.name;
-        console.log(productName);
         const existingProduct = await Product.findOne({
           name: productName,
           "shop._id": shopId,
@@ -67,7 +66,6 @@ router.get(
     try {
       const shopId = req.params.id
       const products = await Product.find({ shopId: req.params.id });
-      console.log(shopId)
 
       res.status(200).json({
         success: true,

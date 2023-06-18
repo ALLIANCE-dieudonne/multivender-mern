@@ -11,6 +11,8 @@ const sendToken = require("../utils/jwtToken");
 const ErrorHandler = require("../utils/errorHandler");
 const { isAuthenticated } = require("../middleware/auth");
 
+//creating user
+
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
   const { name, email, password } = req.body;
 
@@ -21,14 +23,12 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     const filePath = `uploads/${filename}`;
     fs.unlink(filePath, (err) => {
       if (err) {
-        // console.log(err);
         res.status(500).json({ message: "error in deletin a file" });
       } else {
         res.status(200).json({ message: "file deleted successfully" });
       }
     });
     return next(new ErrorHandler("User already exists", 409));
-    // console.log(err);
   }
 
   const filename = req.file.filename;
@@ -39,7 +39,6 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
     email: email,
     password: password,
     avatar: fileUrl,
-   
   };
 
   const activationToken = createActivationToken(user);
@@ -71,7 +70,7 @@ const createActivationToken = (user) => {
 //activate the user
 router.post(
   "/activation",
-  catchAsyncErrors(async (req, res,next) => {
+  catchAsyncErrors(async (req, res, next) => {
     try {
       const { activation_token } = req.body;
       const newUser = jwt.verify(
@@ -84,14 +83,14 @@ router.post(
 
       const { name, email, password, avatar } = newUser;
 
-      await User.create({
+      const user = await User.create({
         name,
         email,
         password,
         avatar,
       });
 
-      sendToken(newUser, 201, res);
+      sendToken(user, 201, res);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
     }
@@ -146,11 +145,8 @@ router.get(
         success: true,
         user,
       });
-
-      // console.log(user);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
-      // console.log(error);
     }
   })
 );
@@ -162,21 +158,193 @@ router.get(
   isAuthenticated,
   catchAsyncErrors(async (req, res, next) => {
     try {
-      // console.log("it is working");
       res.clearCookie("token");
 
-      res
-        .status(201)
-        .json({
-          success: true,
-          message: "Log out success",
-        })
-
-       
+      res.status(201).json({
+        success: true,
+        message: "Log out success",
+      });
     } catch (error) {
-      // return next(new ErrorHandler(error.message, 500));
-      console.log(error);
+      return next(new ErrorHandler(error.message, 500));
     }
   })
 );
+
+//update user
+router.put(
+  "/update-user-info",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { name, email, phoneNumber, password } = req.body;
+
+      const updatedUser = await User.findOneAndUpdate(
+        { email },
+        { name, email, phoneNumber, password },
+        { new: true }
+      );
+
+      if (!updatedUser) {
+        return next(new ErrorHandler("User not found!", 404));
+      }
+
+      const isPasswordValid = await updatedUser.comparePassword(password);
+      if (!isPasswordValid) {
+        return next(
+          new ErrorHandler("Please provide correct information!", 400)
+        );
+      }
+      res.status(200).json({ success: true, user: updatedUser });
+    } catch (error) {
+      return next(new ErrorHandler(error.message, 500));
+    }
+  })
+);
+
+//update user avatar
+router.put(
+  "/update-avatar",
+  isAuthenticated,
+  upload.single("image"),
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const existingUser = await User.findById(req.user.id);
+      const existingAvatar = `uploads/${existingUser?.avatar}`;
+
+      // Check if the user has an existing avatar and delete it
+      if (existingUser.avatar) {
+        fs.unlinkSync(existingAvatar);
+      }
+
+      const fileUrl = req.file.filename;
+
+      const user = await User.findByIdAndUpdate(req.user.id, {
+        avatar: fileUrl,
+      });
+
+      res.status(200).json({ success: true, user });
+    } catch (error) {
+      return next(new ErrorHandler("Failed to update avatar"), 400);
+    }
+  })
+);
+
+//update user addresses
+
+router.put(
+  "/update-user-address",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findById(req.user.id);
+      const sameTypeAddress = await user.addresses.find(
+        (address) => address.addressType === req.body.addressType
+      );
+      if (sameTypeAddress) {
+        return next(
+          new ErrorHandler(
+            `${req.body.addressType} Address already exists`,
+            409
+          )
+        );
+      }
+
+      const existDresses = user.addresses.find(
+        (address) => address._id === req.body._id
+      );
+
+      if (existDresses) {
+        Object.assign(existDresses, req.body);
+      } else {
+        //add new address
+        user.addresses.push(req.body);
+      }
+
+      await user.save();
+
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      return next(new ErrorHandler("Failed to update avatar"), 400);
+    }
+  })
+);
+
+//delete adress
+
+// router.delete(
+//   "/delete-user-address/:id",
+//   catchAsyncErrors(async (req, res, next) => {
+//     try {
+//       const userId = req.user.id;
+//       const addressId = req.params.id;
+
+//       await User.updateOne(
+//         { _id: userId },
+//         { $pull: { addresses: { _id: addressId } } }
+//       );
+
+//       const user = await User.findById(userId);
+//       res.status(200).json({
+//         success: true,
+//         message: "Address deleted successfully!",
+//       });
+//     } catch (error) {
+//       return next(new ErrorHandler("Failed to delete address", 400));
+//     }
+//   })
+// );
+
+// router.delete(
+//   "/delete-user-address/:id",
+//   catchAsyncErrors(async (req, res, next) => {
+//     try {
+//       const userId = req.user._id;
+//       const addressId = req.params.id;
+
+//       await User.updateOne(
+//         { _id: userId },
+//         { $pull: { addresses: { _id: addressId } } }
+//       );
+
+//       const user = await User.findById(userId);
+//       res.status(200).json({
+//         success: true,
+//         user
+//       });
+//     } catch (error) {
+//       // return next(new ErrorHandler("Failed to delete address", 400));
+//       console.log(error);
+//     }
+//   })
+// );
+router.delete(
+  "/delete-user-address/:id",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const userId = req.user._id;
+      const addressId = req.params.id;
+
+      await User.updateOne(
+        { _id: userId },
+        { $pull: { addresses: { _id: addressId } } }
+      );
+
+      const user = await User.findById(userId);
+      res.status(200).json({
+        success: true,
+        user,
+      });
+    } catch (error) {
+      console.log(error);
+      return next(new ErrorHandler("Failed to delete address", 400));
+    }
+  })
+);
+
+
+
+
 module.exports = router;

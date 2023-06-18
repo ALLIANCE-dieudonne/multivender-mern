@@ -154,7 +154,7 @@ const ShopCreate = () => {
                 htmlFor="email"
                 className="block text-[18px] font-medium text-gray-700"
               >
-                Email adress
+                Email address
               </label>
 
               <div className="my-1">
