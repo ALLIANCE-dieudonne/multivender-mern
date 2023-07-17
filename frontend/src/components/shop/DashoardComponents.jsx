@@ -3,23 +3,27 @@ import AllProducts from "./sidebarCopenents/AllProducts";
 import EventCreate from "./sidebarCopenents/EventCreate";
 import AllProductsEvents from "./sidebarCopenents/AllProductsEvents.jsx";
 import CouponCodes from "./sidebarCopenents/CouponCodes.jsx";
+import AllOrders from "./sidebarCopenents/AllOrders.jsx";
 const Products = () => {
-return <AllProducts/>};
+  return <AllProducts />;
+};
 const DashboardOrders = () => {
-  return <div className=""></div>;
+  return <AllOrders />;
 };
 const CreateProduct = () => {
   return <ProductCreate />;
 };
 const CreateEvent = () => {
-return <EventCreate />;};
+  return <EventCreate />;
+};
 const DashboardEvents = () => {
-return <AllProductsEvents/>};
+  return <AllProductsEvents />;
+};
 const WithdrawMoney = () => {
   return <div className=""></div>;
 };
 const Cupouns = () => {
-return <CouponCodes/>
+  return <CouponCodes />;
 };
 const Refunds = () => {
   return <div className=""></div>;

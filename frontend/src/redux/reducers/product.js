@@ -24,7 +24,7 @@ export const productReducer = createReducer(initialState, {
     state.success = false;
   },
 
-  // get all products
+  // get all shop products
   getAllshopProductsRequest: (state) => {
     state.isLoading = true;
   },

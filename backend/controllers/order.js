@@ -74,7 +74,7 @@ router.get(
 //get all orders of the shop
 
 router.get(
-  "/shop-orders/:shopId",
+  "/all-shop-orders/:shopId",
   catchAsyncErrors(async (req, res, next) => {
     try {
   const shopId = req.params.shopId;

@@ -46,6 +46,7 @@ import {
   AllRefundOrders,
   AllOrders,
   Inbox,
+  OrderDetails
 } from "./routes/shopRoutes.js";
 
 import { ToastContainer } from "react-toastify";
@@ -127,6 +128,14 @@ const App = () => {
           element={
             <SellerProtectedRoute>
               <ShopHomePage />
+            </SellerProtectedRoute>
+          }
+        />
+        <Route
+          path="/order/:id"
+          element={
+            <SellerProtectedRoute>
+              <OrderDetails />
             </SellerProtectedRoute>
           }
         />

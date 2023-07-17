@@ -12,6 +12,7 @@ import {
   CreateEvent,
   CreateProduct,
   Dashboard,
+  
 } from "../components/shop/DashoardComponents";
 
 import {
@@ -23,6 +24,8 @@ import {
   AllOrders,
   Inbox,
 } from "../components/profile/ProfileContent";
+
+import OrderDetails from "../pages/orders/OrderDetails";
 export {
   ShopHomePage,
   ShopDashboard,
@@ -44,6 +47,7 @@ export {
   AllRefundOrders,
   AllOrders,
   Inbox,
+  OrderDetails,
 };
 
 
