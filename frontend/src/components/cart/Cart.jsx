@@ -63,7 +63,7 @@ const Cart = ({ setOpenCart }) => {
 
         {/* checkout button */}
 
-        <div className="mb-3">
+        <div className="mb-3" onClick={() => setOpenCart(false)}>
           <Link to="/checkout">
             <div className="h-[45px] bg-[#e44343] justify-center w-full flex items-center mx-auto ">
               <h1 className="text-white font-[500] text-[17px]">
@@ -131,7 +131,7 @@ const SingleCart = ({ data, quantityChangeHandler, handleRemoveFromCart }) => {
         <div className="justify-start">
           <h1 className="font-[500]">{data.name}</h1>
           <h4 className="font-[400] text-[15px]">
-            {data.discountPrice} * {value}
+            {data.discountPrice} * {value }
           </h4>
           <h5 className="text-[#ed4545] font-[500] text-[17px]">
             US$ {totalPrice}

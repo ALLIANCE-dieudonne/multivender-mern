@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import Header from "../../components/layout/Header";
 import styles from "../../styles/styles";
 import { useSearchParams } from "react-router-dom";
@@ -10,6 +10,10 @@ const ProductsPage = () => {
   const [searchParams] = useSearchParams();
   const categoryData = searchParams.get("category");
   const { allproducts, isLoading } = useSelector((state) => state.product);
+
+  useEffect(()=>{
+    window.scrollTo(0, 0);
+  },[])
 
   const data = useMemo(() => {
     if (categoryData === null) {

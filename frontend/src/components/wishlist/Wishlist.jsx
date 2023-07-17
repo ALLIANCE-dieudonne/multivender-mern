@@ -49,6 +49,8 @@ const Wishlist = ({ setOpenWishlist }) => {
 
 const SingleWishlist = ({ data }) => {
   const [value, setValue] = useState(1);
+    const [count, setCount] = useState(1);
+
   const totalPrice = data.discountPrice * value;
   const { cart } = useSelector((state) => state.cart);
   const dispatch = useDispatch();
@@ -57,15 +59,19 @@ const SingleWishlist = ({ data }) => {
     dispatch(removeFromWishlist(data));
   };
 
-  const handleAddToCart = (data) => {
-    dispatch(addToCart(data)).then(() => {
-      const existItem = cart && cart.find((i) => i._id === data._id);
-      if (existItem) {
-        toast.error("Cart already exists!");
+  const handleAddToCart = (id) => {
+    const existItem = cart && cart.find((i) => i._id === id);
+    if (existItem) {
+      toast.error("cart already exists!");
+    } else {
+      if (data.stock < count) {
+        toast.error("Exceed stock limit!");
       } else {
-        toast.success("Carxt added successfully!");
+        const cartData = { ...data, qty: count };
+        dispatch(addToCart(cartData));
+        toast.success("cart added successfully!");
       }
-    });
+    }
   };
 
   return (

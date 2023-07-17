@@ -4,9 +4,9 @@ import styles from "../../styles/styles";
 const DropDown = ({ categoriesData, setDropdown }) => {
   const navigate = useNavigate();
   const handleSubmit = (item) => {
+    // window.location.reload();
     setDropdown(false);
     navigate(`/products?category=${item.title}`);
-    window.location.reload();
   };
   return (
     <div className="pb-4 absolute rounded-b-md bg-[#fff] shadow-sm w-full z-30">
@@ -15,7 +15,10 @@ const DropDown = ({ categoriesData, setDropdown }) => {
           <div
             key={index}
             className={`${styles.normalFlex} `}
-            onClick={() => handleSubmit(item)}
+            onClick={(event) => {
+              event.stopPropagation(); 
+              handleSubmit(item);
+            }}
           >
             <img
               src={item.image_Url}
@@ -32,7 +35,6 @@ const DropDown = ({ categoriesData, setDropdown }) => {
             <h3 className="m-3 cursor-pointer">{item.title}</h3>
           </div>
         ))}
-        
     </div>
   );
 };

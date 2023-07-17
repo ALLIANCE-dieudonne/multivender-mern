@@ -1,5 +1,3 @@
-
-
 import { createReducer } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -7,7 +5,7 @@ const initialState = {
   isLoading: false,
   error: null,
   success: false,
-  allproducts:[]
+  allproducts: [],
 };
 
 export const productReducer = createReducer(initialState, {
@@ -76,4 +74,3 @@ export const productReducer = createReducer(initialState, {
     state.error = null;
   },
 });
-

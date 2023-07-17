@@ -6,7 +6,12 @@ import FeaturedProducts from '../Route/featuredProductss/FeaturedProducts';
 import Events from '../Route/events/Events';
 import Sponserd from '../Route/sponserd/Sponserd';
 import Footer from '../layout/Footer';
+import { useEffect } from 'react';
 const Home = () => {
+
+  useEffect(()=>{
+    window.scrollTo(0,0)
+  },[])
   return (
     <div>
         <Header activeHeading ={1}/>

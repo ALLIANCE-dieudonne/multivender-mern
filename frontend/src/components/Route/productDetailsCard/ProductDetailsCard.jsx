@@ -31,6 +31,7 @@ const ProductDetailsCard = ({
       setCount(count - 1);
     }
   };
+
   const incrementCount = () => {
     setCount(count + 1);
   };
@@ -38,14 +39,14 @@ const ProductDetailsCard = ({
   const handleAddToCart = (id) => {
     const existItem = cart && cart.find((i) => i._id === id);
     if (existItem) {
-      toast.error("cart already exists!");
+      toast.error("Cart already exists!");
     } else {
       if (data.stock < count) {
-        toast.error("Exceed stock limit!");
+        toast.error("Exceeded stock limit!");
       } else {
         const cartData = { ...data, qty: count };
         dispatch(addToCart(cartData));
-        toast.success("cart added successfully!");
+        toast.success("Cart added successfully!");
       }
     }
   };
@@ -53,7 +54,7 @@ const ProductDetailsCard = ({
   return (
     <div className="bg-white">
       {data ? (
-        <div className="fixed top-12 left-0 w-full h-scree z-40 flex justify-center items-center ">
+        <div className="fixed top-12 left-0 w-full h-screen z-40 flex justify-center items-center ">
           <div className="w-[90%] 800px:w-[60%] h-[82vh] overflow-y-scroll 800px:h-[75vh] rounded-md bg-white shadow-sm relative pr-7">
             <RxCross2
               size={25}
@@ -64,25 +65,25 @@ const ProductDetailsCard = ({
             <div className="block 800px:flex w-full">
               <div className="w-full 800px:w-[50%] pt-10 pb-2">
                 <img
-                  crossorigin="anonymous"
+                  crossOrigin="anonymous"
                   src={`${backend_url}${data.images && data.images[0]}`}
                   alt="image"
-                  className="w-[90%] mx-auto rounded-md  "
+                  className="w-[90%] mx-auto rounded-md"
                 />
 
                 <div className="flex ml-2.5 mb-4 mt-5">
                   <Link to={`/shop/${data?.shop._id}`}>
                     <img
-                      crossorigin="anonymous"
+                      crossOrigin="anonymous"
                       src={`${backend_url}${data?.shop?.avatar}`}
                       alt="shop image"
-                      className="w-[50px] h-[50px] rounded-full "
+                      className="w-[50px] h-[50px] rounded-full"
                     />
                   </Link>
 
                   <div className="ml-2">
                     <Link to={`/shop/${data?.shop._id}`}>
-                      <h1 className={`${styles.shop_name}`}>{data?.shop?.name}</h1>
+                      <h1 className={styles.shop_name}>{data?.shop?.name}</h1>
                     </Link>
                     <h5 className="pb-2 text-[17px]">( 4.5 )Ratings</h5>
                   </div>
@@ -97,13 +98,13 @@ const ProductDetailsCard = ({
                   </span>
                 </div>
 
-                <h5 className="font-[500] text-[red] mt-2 ml-3">
+                <h5 className="font-[500] text-red mt-2 ml-3">
                   ({data.sold_out}) Sold out
                 </h5>
               </div>
 
               <div className="w-full 800px:w-[50%] mt-[50px] px-[10px]">
-                <h1 className={`${styles.productTitle}`}>{data.name}</h1>
+                <h1 className={styles.productTitle}>{data.name}</h1>
 
                 <p className="pt-3">{data.description}</p>
 
@@ -112,7 +113,7 @@ const ProductDetailsCard = ({
                     {data.discountPrice}$
                   </h3>
 
-                  <h4 className={`${styles.price}`}>
+                  <h4 className={styles.price}>
                     {data.orginalPrice ? data.orginalPrice + "$" : null}
                   </h4>
                 </div>
@@ -120,25 +121,24 @@ const ProductDetailsCard = ({
                 <div className="flex items-center justify-between py-3">
                   <div>
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2  hover:opacity-75 shadow-lg transition duration-300 ease-in-out"
+                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-l px-4 py-2 hover:opacity-75 shadow-lg transition duration-300 ease-in-out"
                       onClick={incrementCount}
                     >
                       +
                     </button>
 
-                    <span className="bg-gray-200 text-gray-900 px-4 py-[9.2px]  font-medium ">
+                    <span className="bg-gray-200 text-gray-900 px-4 py-[9.2px] font-medium">
                       {count}
                     </span>
                     <button
-                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-r px-4 py-2  hover:opacity-75 shadow-lg transition duration-300 ease-in-out"
+                      className="bg-gradient-to-r from-teal-400 to-teal-500 text-white font-bold rounded-r px-4 py-2 hover:opacity-75 shadow-lg transition duration-300 ease-in-out"
                       onClick={decrementCount}
                     >
-                      {" "}
                       -
                     </button>
                   </div>
 
-                  <div className="m-2 ">
+                  <div className="m-2">
                     {click ? (
                       <AiFillHeart
                         size={30}
@@ -150,7 +150,7 @@ const ProductDetailsCard = ({
                     ) : (
                       <AiOutlineHeart
                         size={30}
-                        className=" cursor-pointer "
+                        className="cursor-pointer"
                         onClick={() => handleAddToWishlist(data)}
                         color={click ? "red" : "#333"}
                         title="remove from white list"
@@ -174,4 +174,5 @@ const ProductDetailsCard = ({
     </div>
   );
 };
+
 export default ProductDetailsCard;

@@ -8,12 +8,11 @@ import { getAllShopProducts } from "../../redux/actions/product";
 const ShopProfileData = ({ isOwner }) => {
   const dispatch = useDispatch();
 
-  const { products} = useSelector((state) => state.product);
-  const {id} = useParams();
+  const { products } = useSelector((state) => state.product);
+  const { id } = useParams();
   useEffect(() => {
     dispatch(getAllShopProducts(id));
-
-  },[dispatch,id]);
+  }, [dispatch, id]);
   const [active, setActive] = useState(1);
 
   return (
@@ -68,4 +67,3 @@ const ShopProfileData = ({ isOwner }) => {
   );
 };
 export default ShopProfileData;
-

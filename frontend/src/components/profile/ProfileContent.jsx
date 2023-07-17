@@ -1,11 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { backend_url, server } from "../../server";
-import {
-  AiOutlineCamera,
-  AiOutlineDelete,
-} from "react-icons/ai";
+import { AiOutlineCamera, AiOutlineDelete } from "react-icons/ai";
 import styles from "../../styles/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import { Button } from "@material-ui/core";
@@ -20,19 +17,17 @@ import { Country, State } from "country-state-city";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { RxCross1 } from "react-icons/rx";
+import { getAllOrders } from "../../redux/actions/order";
 const AllOrders = () => {
-  const orders = [
-    {
-      _id: "45",
-      orderItems: [
-        {
-          name: "Iphone14 prom max",
-        },
-      ],
-      totalPrice: 120,
-      orderStatus: "processing",
-    },
-  ];
+  const { user } = useSelector((state) => state.user);
+  const { orders } = useSelector((state) => state.order);
+  const userId = user && user._id;
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (userId) {
+      dispatch(getAllOrders(userId));
+    }
+  }, [dispatch, userId]);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -50,7 +45,7 @@ const AllOrders = () => {
     },
     {
       field: "itemsQty",
-      headerName: "Items Qty",
+      headerName: "Items ",
       type: "number",
       minWidth: 130,
       flex: 0.7,
@@ -91,9 +86,9 @@ const AllOrders = () => {
     orders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.orderItems.length,
+        itemsQty: item.cart.length,
         total: "US$" + item.totalPrice,
-        status: item.orderStatus,
+        status: item.status,
       });
     });
   return (
@@ -350,7 +345,6 @@ const ChangePassword = () => {
                 value={comfirmPassword}
                 onChange={(e) => setComfirmPassword(e.target.value)}
               />
-           
             </div>
             <input
               type="submit"

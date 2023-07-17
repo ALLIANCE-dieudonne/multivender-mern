@@ -30,3 +30,11 @@ input, select{
     cursor: pointer;
 }
 
+.step:not(:first-child):before{
+    @apply content-[""] absolute bg-red-200 h-1 top-1/2 right-[99%] w-[65%]
+}
+
+.btn{
+    @apply px-7 py-2 bg-red-300 hover:bg-green-400 rounded-lg
+    
+}

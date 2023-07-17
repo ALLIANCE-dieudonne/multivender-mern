@@ -7,7 +7,6 @@ import styles from "../../../styles/styles";
 import axios from "axios";
 import { server } from "../../../server";
 import { toast } from "react-toastify";
-import { getAllShopProducts } from "../../../redux/actions/product";
 
 const CouponCodes = () => {
   const { seller } = useSelector((state) => state.seller);

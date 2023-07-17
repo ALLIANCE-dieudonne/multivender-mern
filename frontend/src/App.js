@@ -20,6 +20,9 @@ import {
   ProfilePage,
   ShopCreate,
   SellerActivationPage,
+  CheckoutPage,
+  PaymentPage,
+  Success
 } from "./routes/Routes";
 
 import {
@@ -78,22 +81,24 @@ const App = () => {
         <Route path="/best-selling" element={<BestSelling />} />
         <Route path="/events" element={<Events />} />
         <Route path="/faq" element={<FAQpage />} />
-        {/* <Route
+        <Route path="/success" element={<Success/>}/>
+
+        <Route
           path="/checkout"
           element={
-            <ProtectedRoute isAuthenticated={isAuthenticated}>
+            <ProtectedRoute>
               <CheckoutPage />
             </ProtectedRoute>
           }
-        /> */}
-        {/* <Route
-          path="/profile"
+        />
+        <Route
+          path="/payment"
           element={
             <ProtectedRoute>
-              <ProfilePage />
+              <PaymentPage />
             </ProtectedRoute>
           }
-        /> */}
+        />
         <Route
           element={
             <ProtectedRoute>

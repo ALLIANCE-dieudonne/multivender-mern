@@ -11,11 +11,9 @@ router.post(
   "/create-coupon-code",
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
-  const existingCouponCode = await CouponCodes.findOne({
-    name: req.body.name,
-    "shop._id": req.params.id
-    // shopId: req.params.id,
-  });
+    const existingCouponCode = await CouponCodes.findOne({
+      name: req.body.name,
+    });
 
     if (existingCouponCode) {
       return next(new ErrorHandler("Coupon Code already exists", 404));
@@ -35,11 +33,8 @@ router.get(
   "/get-all-coupons/:id",
   isSeller,
   catchAsyncErrors(async (req, res, next) => {
-
     try {
-      const coupons = await CouponCodes.find(
-      {"shop._id": req.params.id}
-      );
+      const coupons = await CouponCodes.find({ "shop._id": req.params.id });
 
       res.status(200).json({
         success: true,
@@ -51,5 +46,27 @@ router.get(
   })
 );
 
-module.exports = router;
+//get coupon code by its name
 
+router.get(
+  "/get-coupon-code/:name", 
+  catchAsyncErrors(async (req, res, next) => {
+
+    const cupounCode = await CouponCodes.findOne({
+      name: req.params.name,
+    });
+
+    if (!cupounCode) {
+        
+      return next(new ErrorHandler("Cannot find coupon code!", 404)); 
+    }
+
+    res.status(200).json({
+      success: true,
+      cupounCode,
+    });
+  })
+);
+
+
+module.exports = router;

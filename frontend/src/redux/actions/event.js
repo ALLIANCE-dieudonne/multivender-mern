@@ -60,7 +60,6 @@
       const { data } = await axios.get(`${server}/event/all-events`, {
         withCredentials: true,
       });
-      console.log(data)
       dispatch({
         type: "getAllEventsSuccess",
         payload: data.allEvents,

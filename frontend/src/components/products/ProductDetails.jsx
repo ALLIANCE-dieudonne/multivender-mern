@@ -54,6 +54,7 @@ const ProductDetails = ({ data }) => {
   };
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     const existItem = wishlist && wishlist.find((i) => i._id === data._id);
     if (existItem) {
       setClick(true);
@@ -73,17 +74,17 @@ const ProductDetails = ({ data }) => {
   return (
     <div className="bg-white">
       {data ? (
-        <div className={`${styles.section} w:[90%] 800px:[80%] h-[100%]`}>
+        <div className={`${styles.section} w-[90%] 800px:w-[80%] h-[100%]`}>
           <div className="w-full py-5">
             <div className="block 800px:flex w-full ">
               <div className="w-full 800px:w-[50%]  ">
                 <img
-                  crossorigin="anonymous"
+                  crossOrigin="anonymous"
                   src={`${backend_url}${
                     data?.images && data?.images[select ? select : 0]
                   }`}
                   alt=""
-                  className="800px:w-[65%] mt-10 rounded-md w-[90%] h-[420px]"
+                  className="800px:w-[70%] mt-10 rounded-md w-[90%] h-[400px]"
                 />
                 <div className="w-full flex my-4">
                   <div
@@ -92,10 +93,10 @@ const ProductDetails = ({ data }) => {
                     } cursor-pointer  mr-2`}
                   >
                     <img
-                      crossorigin="anonymous"
+                      crossOrigin="anonymous"
                       src={`${backend_url}${data?.images && data?.images[0]}`}
                       alt="image"
-                      className="h-[200px] rounded-md "
+                      className="h-[200px] rounded-md w-[200px]"
                       onClick={() => setSelect(0)}
                     />
                   </div>
@@ -103,10 +104,10 @@ const ProductDetails = ({ data }) => {
                     className={`${select === 1 ? "border" : ""} cursor-pointer`}
                   >
                     <img
-                      crossorigin="anonymous"
+                      crossOrigin="anonymous"
                       src={`${backend_url}${data?.images && data?.images[1]}`}
                       alt="image"
-                      className="h-[200px] rounded-md"
+                      className="h-[200px] rounded-md w-[200px]"
                       onClick={() => setSelect(1)}
                     />
                   </div>
@@ -125,6 +126,7 @@ const ProductDetails = ({ data }) => {
                     {data.orginalPrice ? data.orginalPrice + "$" : ""}
                   </h3>
                 </div>
+             
 
                 <div className="flex items-center justify-between py-3">
                   <div>
@@ -180,7 +182,7 @@ const ProductDetails = ({ data }) => {
                 <div className="flex items-center mt-8">
                   <Link to={`/shop/${data?.shop._id}`}>
                     <img
-                      crossorigin="anonymous"
+                      crossOrigin="anonymous"
                       src={`${backend_url}${data?.shop?.avatar}`}
                       alt="shop image"
                       className="w-[50px] h-[50px] rounded-full mr-3"
@@ -277,7 +279,7 @@ const ProductDetailsInfo = ({ data }) => {
           <div className=" w-full 800px:w-[50%]">
             <div className="flex items-center">
               <img
-                crossorigin="anonymous"
+                crossOrigin="anonymous"
                 src={`${backend_url}${data?.shop?.avatar}`}
                 alt=""
                 className="w-[50px] h-[50px] rounded-full mr-3"

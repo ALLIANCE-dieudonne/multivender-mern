@@ -10,7 +10,10 @@ import ProductDetailsPage from "../pages/productDetailsPage/ProductDetailsPage";
 import ProfilePage from "../pages/profilePage/ProfilePage";
 import ShopCreate from "../pages/shopCreate/ShopCreate";
 import SellerActivationPage from "../pages/sellerActivationPage/SellerActivationPage";
-import SellerLoginPage from "../pages/sellerLoginPage/SellerLoginPage.jsx";
+import SellerLoginPage from "../pages/sellerLoginPage/SellerLoginPage";
+import CheckoutPage from "../pages/checkoutPage/CheckoutPage";
+import PaymentPage from "../pages/checkoutPage/PaymentPage";
+import Success from "../pages/checkoutPage/Success";
 
 export {
   LoginPage,
@@ -26,4 +29,7 @@ export {
   ShopCreate,
   SellerActivationPage,
   SellerLoginPage,
+  CheckoutPage,
+  PaymentPage,
+  Success,
 };

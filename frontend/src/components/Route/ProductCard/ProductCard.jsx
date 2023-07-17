@@ -30,7 +30,10 @@ const ProductCard = ({ data }) => {
     if (existItem) {
       toast.error("Cart Exists!");
     } else {
-      dispatch(addToCart(data)).then(()=>toast.success("Cart Added successfully!"));
+      const cartData = {...data, qty: 1}
+      dispatch(addToCart(cartData)).then(() =>
+        toast.success("Cart Added successfully!")
+      );
     }
   };
 
@@ -55,7 +58,7 @@ const ProductCard = ({ data }) => {
   const d = data.name;
   const product_name = d.replace(/\s+/g, "-");
   return (
-    <div className="w-full h-[370px] p-4 bg-white rounded-lg cursor-pointer relative shadow-sm">
+    <div className="w-full 800px:h-[320px] h-[400px] p-4 bg-white rounded-lg cursor-pointer relative shadow-sm object-contain">
       <div className="flex justify-end">
         {click ? (
           <AiFillHeart
@@ -107,7 +110,7 @@ const ProductCard = ({ data }) => {
           crossorigin="anonymous"
           src={`${backend_url}/${data.images && data.images[0]}`}
           alt="product image"
-          className="w-[90%] h-[200px] object-cover mb-2 rounded-lg"
+          className="w-[85%] 800px:h-[150px] h-[200px] object-contain mb-2 rounded-lg"
         />
       </Link>
 

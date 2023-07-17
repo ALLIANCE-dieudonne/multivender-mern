@@ -153,7 +153,7 @@ const Header = ({ activeHeading }) => {
 
       <div
         className={`${
-          active === true ? "shadow-sm fixed top-0 z-10" : null
+          active === true ? "shadow-sm fixed top-0 z-50" : null
         } transition hidden 800px:flex items-center justify-between w-full bg-[#3321c8] h-[60px]`}
       >
         <div
@@ -181,7 +181,7 @@ const Header = ({ activeHeading }) => {
                 <IoIosArrowDown
                   size={25}
                   className="absolute top-3.5 right-4 cursor-pointer"
-                  onClick={() => setDropdown((prev) => !prev)}
+                  // onClick={() => setDropdown((prev) => !prev)}
                 />
               )}
               {dropDown ? (
@@ -199,12 +199,11 @@ const Header = ({ activeHeading }) => {
           </div>
 
           <div className={`${styles.normalFlex}`}>
-            <div className="relative cursor-pointer mr-[15px]">
-              <AiOutlineHeart
-                size={30}
-                color="#fff"
-                onClick={() => setOpenWishlist(true)}
-              />
+            <div
+              className="relative cursor-pointer mr-[15px]"
+              onClick={() => setOpenWishlist(true)}
+            >
+              <AiOutlineHeart size={30} color="#fff" />
               <span className="absolute rounded-full right-0 top-0 bg-[#3bc177] w-4 h-4 p-0 m-0 text-white text-[12px] text-center leading-tight font-medium  ">
                 {wishlist && wishlist.length}
               </span>
