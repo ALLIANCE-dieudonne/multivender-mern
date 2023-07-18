@@ -55,6 +55,19 @@ const OrderDetails = () => {
       });
   };
 
+  const handleRefund = async() => {
+    await axios
+      .put(`${server}/order/order-refund/${id}`, {
+        status: "Processing Refund",
+      })
+      .then((res) => {
+        toast.success(res.data.message);
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
+  };
+
   return (
     <div
       className={`${styles.section} min-h-screen w-[98%]  mx-5 mt-12 800px:mt-0`}
@@ -245,8 +258,18 @@ const OrderDetails = () => {
         Status:{" "}
         <span className="text-[18px] text-[#4D4D4D]">{data?.status}</span>
       </h4>
-      <div className={`${styles.button} text-white text-[17px] ml-3`}>
-        <Link> Contact Seller</Link>
+      <div className="w-full flex">
+        <Link to="/" className={`${styles.button} text-white text-[17px] ml-3`}>
+          Contact Seller
+        </Link>
+        {data?.status == "succeeded" && (
+          <div
+            className={`${styles.button} text-white text-[17px] ml-20`}
+            onClick={handleRefund}
+          >
+            Give Refund
+          </div>
+        )}
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ import {
   PaymentPage,
   Success,
   OrderDetailsPage,
+  TrackOrderPage,
 } from "./routes/Routes";
 
 import {
@@ -85,6 +86,14 @@ const App = () => {
           element={
             <ProtectedRoute>
               <OrderDetailsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/user/track/:id"
+          element={
+            <ProtectedRoute>
+              <TrackOrderPage />
             </ProtectedRoute>
           }
         />

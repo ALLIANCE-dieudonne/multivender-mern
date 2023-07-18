@@ -110,7 +110,6 @@ router.put(
         );
       }
 
-
       if (req.body.status === "Transffered to delivery person") {
         for (const item of order.cart) {
           await updateOrder(item._id, item.qty);
@@ -121,7 +120,7 @@ router.put(
       if (order.status === "Delivered") {
         order.paidAt = Date.now();
         order.status = "succeeded";
-        order.paymentInfo.type ="Paid";
+        order.paymentInfo.type = "Paid";
       }
 
       await order.save({ validateBeforeSave: false });
@@ -137,6 +136,32 @@ router.put(
       res.status(200).json({
         success: true,
         order,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
+//handling refund
+router.put(
+  "/order-refund/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const order = await Order.findById(req.params.id);
+      if (!order) {
+        return next(new ErrorHandler("Order not found", 400));
+      }
+
+
+      order.status = req.body.status;
+
+      await order.save({ validateBeforeSave: false });
+
+      res.status(200).json({
+        success: true,
+        order,
+        message:"Order Refund was successfully Requested!"
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
