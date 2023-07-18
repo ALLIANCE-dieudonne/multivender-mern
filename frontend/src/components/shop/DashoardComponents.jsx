@@ -1,9 +1,10 @@
 import ProductCreate from "./sidebarCopenents/CreateProduct";
 import AllProducts from "./sidebarCopenents/AllProducts";
 import EventCreate from "./sidebarCopenents/EventCreate";
-import AllProductsEvents from "./sidebarCopenents/AllProductsEvents.jsx";
-import CouponCodes from "./sidebarCopenents/CouponCodes.jsx";
-import AllOrders from "./sidebarCopenents/AllOrders.jsx";
+import AllProductsEvents from "./sidebarCopenents/AllProductsEvents";
+import CouponCodes from "./sidebarCopenents/CouponCodes";
+import AllOrders from "./sidebarCopenents/AllOrders";
+import ShopRefunds from "./sidebarCopenents/ShopRefunds.jsx";
 const Products = () => {
   return <AllProducts />;
 };
@@ -26,7 +27,7 @@ const Cupouns = () => {
   return <CouponCodes />;
 };
 const Refunds = () => {
-  return <div className=""></div>;
+  return <ShopRefunds />;
 };
 const Settings = () => {
   return <div className=""></div>;

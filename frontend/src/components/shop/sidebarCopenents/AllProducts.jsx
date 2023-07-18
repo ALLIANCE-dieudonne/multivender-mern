@@ -16,7 +16,6 @@ const AllProducts = () => {
 
   const dispatch = useDispatch();
 
-
   const handleDelete = (id) => {
     dispatch(deleteProduct(id));
     window.location.reload();
@@ -27,6 +26,7 @@ const AllProducts = () => {
       dispatch(getAllShopProducts(seller._id));
     }
   }, [dispatch, seller]);
+
 
   const columns = [
     { field: "id", headerName: "Product Id", minWidth: 150, flex: 0.5 },
@@ -42,11 +42,11 @@ const AllProducts = () => {
       flex: 0.4,
       sortable: false,
       renderCell: (params) => {
-        const productName = params.row.name.replace(/\s+/g, "_");
+        const productId = params.row.id;
 
         return (
           <>
-            <Link to={`/product/${productName}`}>
+            <Link to={`/product/${productId}`}>
               <Button>
                 <AiOutlineEye size={20} />
               </Button>
@@ -90,7 +90,6 @@ const AllProducts = () => {
         <Loader />
       ) : (
         <div className="w-full  800px:w-[70%] h-[85vh] justify-center flex mt-1 overflow-x-scroll flex-col">
-         
           <DataGrid
             rows={rows}
             columns={columns}
@@ -98,8 +97,6 @@ const AllProducts = () => {
             disableSelectionOnClick
             autoHeight
           />
-
-         
         </div>
       )}
     </>
