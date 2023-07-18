@@ -1,9 +1,4 @@
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  
-} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import "./App.css";
 import {
@@ -22,7 +17,8 @@ import {
   SellerActivationPage,
   CheckoutPage,
   PaymentPage,
-  Success
+  Success,
+  OrderDetailsPage,
 } from "./routes/Routes";
 
 import {
@@ -46,7 +42,7 @@ import {
   AllRefundOrders,
   AllOrders,
   Inbox,
-  OrderDetails
+  ShopOrderDetails,
 } from "./routes/shopRoutes.js";
 
 import { ToastContainer } from "react-toastify";
@@ -82,8 +78,16 @@ const App = () => {
         <Route path="/best-selling" element={<BestSelling />} />
         <Route path="/events" element={<Events />} />
         <Route path="/faq" element={<FAQpage />} />
-        <Route path="/success" element={<Success/>}/>
+        <Route path="/success" element={<Success />} />
 
+        <Route
+          path="/user/order/:id"
+          element={
+            <ProtectedRoute>
+              <OrderDetailsPage />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/checkout"
           element={
@@ -135,7 +139,7 @@ const App = () => {
           path="/order/:id"
           element={
             <SellerProtectedRoute>
-              <OrderDetails />
+              <ShopOrderDetails />
             </SellerProtectedRoute>
           }
         />

@@ -19,7 +19,6 @@ import Cart from "../cart/Cart.jsx";
 import Wishlist from "../wishlist/Wishlist.jsx";
 import { RxCross1 } from "react-icons/rx";
 
-
 const Header = ({ activeHeading }) => {
   const { isAuthenticated, user, loading } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
@@ -29,10 +28,10 @@ const Header = ({ activeHeading }) => {
   const [openCart, setOpenCart] = useState(false);
   const [openWishlist, setOpenWishlist] = useState(false);
   const [open, setOpen] = useState(false);
-  const allProducts  = useSelector((state) => state.product.allproducts)
-  const {cart} =useSelector((state) => state.cart);
-  const {wishlist} =useSelector((state) => state.wishlist);
-  
+  const allProducts = useSelector((state) => state.product.allproducts);
+  const { cart } = useSelector((state) => state.cart);
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const { isSeller } = useSelector((state) => state.seller);
 
   const handleSearch = (e) => {
     const term = e.target.value;
@@ -144,7 +143,7 @@ const Header = ({ activeHeading }) => {
           <div className={`${styles.button}`}>
             <Link to="/shop-create">
               <h1 className="text-[#fff] flex  items-center">
-                Become Seller <IoArrowForwardOutline className="ml-1.5" />
+                {isSeller ? "Visit shop": "Become seller"} <IoArrowForwardOutline className="ml-1.5" />
               </h1>
             </Link>
           </div>

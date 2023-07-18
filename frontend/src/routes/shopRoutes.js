@@ -25,7 +25,7 @@ import {
   Inbox,
 } from "../components/profile/ProfileContent";
 
-import OrderDetails from "../pages/orders/OrderDetails";
+import ShopOrderDetails from "../pages/orders/ShopOrderDetails.jsx";
 export {
   ShopHomePage,
   ShopDashboard,
@@ -47,7 +47,7 @@ export {
   AllRefundOrders,
   AllOrders,
   Inbox,
-  OrderDetails,
+  ShopOrderDetails,
 };
 
 

@@ -14,6 +14,7 @@ import SellerLoginPage from "../pages/sellerLoginPage/SellerLoginPage";
 import CheckoutPage from "../pages/checkoutPage/CheckoutPage";
 import PaymentPage from "../pages/checkoutPage/PaymentPage";
 import Success from "../pages/checkoutPage/Success";
+import OrderDetailsPage from "../pages/orders/OrderDetailsPage.jsx";
 
 export {
   LoginPage,
@@ -32,4 +33,5 @@ export {
   CheckoutPage,
   PaymentPage,
   Success,
+  OrderDetailsPage,
 };

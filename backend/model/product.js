@@ -31,11 +31,11 @@ const productSchema = new mongoose.Schema({
   },
 
   images: [{ type: String }],
-  
+
   shopId: {
     type: String,
     required: true,
-},
+  },
   shop: {
     type: Object,
     required: true,
@@ -44,11 +44,31 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 5,
   },
+  reviews: [
+    {
+      user: {
+        type: Object,
+      },
+      rating: {
+        type: Number,
+      },
+      comment: {
+        type: String,
+      },
+      producId: {
+        type: String,
+      },
+    },
+  ],
+  ratings:{
+    type: Number,
+  },
   createdAt: {
     type: Date,
     default: Date.now(),
   },
 });
 
+const Product = mongoose.model("Product", productSchema);
 
-module.exports = mongoose.model("Product", productSchema);
+module.exports = Product;

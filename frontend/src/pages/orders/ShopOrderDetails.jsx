@@ -1,7 +1,7 @@
 import Footer from "../../components/layout/Footer"
 import DashboardHeader from "../../components/shop/layout/DashboardHeader"
 import OrderDetailsComponent from "../../components/shop/OrderDetailsComponent.jsx"
-const OrderDetails = () => {
+const ShopOrderDetails = () => {
   return (
     <div>
         <DashboardHeader/>
@@ -10,4 +10,4 @@ const OrderDetails = () => {
     </div>
   )
 }
-export default OrderDetails
+export default ShopOrderDetails;

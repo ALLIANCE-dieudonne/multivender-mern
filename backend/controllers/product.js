@@ -5,8 +5,9 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const Product = require("../model/product");
 const ErrorHandler = require("../utils/errorHandler");
 const Shop = require("../model/shop");
+const Order = require("../model/order");
 const fs = require("fs");
-const { isSeller } = require("../middleware/auth");
+const { isSeller, isAuthenticated } = require("../middleware/auth");
 
 // Create product
 router.post(
@@ -64,7 +65,7 @@ router.get(
   "/all-shop-products/:id",
   catchAsyncErrors(async (req, res, next) => {
     try {
-      const shopId = req.params.id
+      const shopId = req.params.id;
       const products = await Product.find({ shopId: req.params.id });
 
       res.status(200).json({
@@ -88,7 +89,7 @@ router.delete(
       const productData = await Product.findById(productId);
 
       productData.images.forEach((imageUrl) => {
-        const fileName = imageUrl;  
+        const fileName = imageUrl;
         const filePath = `uploads/${fileName}`;
 
         fs.unlink(filePath, (err) => {
@@ -101,7 +102,6 @@ router.delete(
       });
 
       const product = await Product.findByIdAndDelete(productId);
-
 
       if (!product) {
         return next(new ErrorHandler("Product not found", 404));
@@ -116,7 +116,6 @@ router.delete(
     }
   })
 );
-
 
 //getting all products
 
@@ -136,4 +135,65 @@ router.get(
   })
 );
 
+//product reviw
+
+router.put(
+  "/create-review",
+  isAuthenticated,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const { user, productId, rating, comment, orderId } = req.body;
+      const product = await Product.findById(productId);
+      if (!product) {
+        return next(new ErrorHandler("Product not found"));
+      }
+
+      const review = {
+        user,
+        productId,
+        comment,
+        rating,
+      };
+
+      const isReviewed = product.reviews.find(
+        (rev) => rev.user._id === user._id
+      );
+
+      if (isReviewed) {
+        product.reviews.forEach((rev) => {
+          if (rev.user._id === user._id) {
+            (rev.rating = rating), (rev.comment = comment), (rev.user = user);
+          }
+        });
+      } else {
+        product.reviews.push(review);
+      }
+
+      await Order.findOneAndUpdate(
+        orderId,
+        {
+          $set: { "cart.$[elem].isReviewed": true },
+        },
+        { arrayFilters: [{ "elem._id": productId }], new: true }
+      );
+
+      let avg = 0;
+
+      product.reviews.forEach((rev) => {
+        avg += rev.rating;
+      });
+
+      product.ratings = avg / product.reviews.length;
+
+      res.status(200).json({
+        success: true,
+        message: "Reviews added successfully!",
+      });
+
+      product.save({ validateBeforeSave: false });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
 module.exports = router;

@@ -2,7 +2,7 @@ import axios from "axios";
 import { server } from "../../server";
 
 
-// Get all events
+// Get all orders
 export const getAllOrders = (userId) => async (dispatch) => {
   try {
     dispatch({

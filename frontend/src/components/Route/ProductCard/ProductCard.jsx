@@ -7,6 +7,7 @@ import {
   AiOutlineEye,
   AiOutlineShoppingCart,
   AiFillHeart,
+  AiOutlineStar,
 } from "react-icons/ai";
 import ProductDetailsCard from "../productDetailsCard/ProductDetailsCard";
 import { backend_url } from "../../../server";
@@ -17,6 +18,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/actions/cart";
+import Rating from "../../products/Rating";
 
 const ProductCard = ({ data }) => {
   const [click, setClick] = useState(false);
@@ -30,7 +32,7 @@ const ProductCard = ({ data }) => {
     if (existItem) {
       toast.error("Cart Exists!");
     } else {
-      const cartData = {...data, qty: 1}
+      const cartData = { ...data, qty: 1 };
       dispatch(addToCart(cartData)).then(() =>
         toast.success("Cart Added successfully!")
       );
@@ -124,12 +126,8 @@ const ProductCard = ({ data }) => {
         </h4>
       </Link>
 
-      <div className="flex">
-        <AiFillStar size={25} className="m-2 cursor-pointer text-yellow-500" />
-        <AiFillStar size={25} className="m-2 cursor-pointer text-yellow-500" />
-        <AiFillStar size={25} className="m-2 cursor-pointer text-yellow-500" />
-        <AiFillStar size={25} className="m-2 cursor-pointer text-yellow-500" />
-        <AiFillStar size={25} className="m-2 cursor-pointer text-yellow-500" />
+      <div className="w-full">
+        <Rating rating={data?.ratings} />
       </div>
 
       <div className="py-2 flex items-center justify-between">

@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const ErrorHandler = require("../utils/errorHandler");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
-const { isAuthenticated } = require("../middleware/auth");
+const { isAuthenticated, isSeller } = require("../middleware/auth");
 const Order = require("../model/order");
 const Product = require("../model/product");
 
@@ -77,19 +77,70 @@ router.get(
   "/all-shop-orders/:shopId",
   catchAsyncErrors(async (req, res, next) => {
     try {
-  const shopId = req.params.shopId;
-  const orders = await Order.find({ "cart.shopId": shopId }).sort({
-    createdAt: -1,
-  });
+      const shopId = req.params.shopId;
+      const orders = await Order.find({ "cart.shopId": shopId }).sort({
+        createdAt: -1,
+      });
 
-  res.status(200).json({
-    success: true,
-    orders,
-  });
+      res.status(200).json({
+        success: true,
+        orders,
+      });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
     }
   })
 );
 
+//update order status
+
+router.put(
+  "/update-order-status/:id",
+  isSeller,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const order = await Order.findById(req.params.id);
+      if (!order) {
+        return next(new ErrorHandler("Order not found", 400));
+      }
+
+      if (order.status === req.body.status) {
+        return next(
+          new ErrorHandler("The status has already been updated", 400)
+        );
+      }
+
+
+      if (req.body.status === "Transffered to delivery person") {
+        for (const item of order.cart) {
+          await updateOrder(item._id, item.qty);
+        }
+      }
+
+      order.status = req.body.status;
+      if (order.status === "Delivered") {
+        order.paidAt = Date.now();
+        order.status = "succeeded";
+        order.paymentInfo.type ="Paid";
+      }
+
+      await order.save({ validateBeforeSave: false });
+
+      async function updateOrder(id, qty) {
+        const product = await Product.findById(id);
+        product.stock -= qty;
+        product.sold_out += qty;
+
+        await product.save({ validateBeforeSave: false });
+      }
+
+      res.status(200).json({
+        success: true,
+        order,
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
 module.exports = router;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 import {
@@ -14,10 +14,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/actions/cart";
 import { addToWishlist } from "../../redux/actions/wishlist";
 import { removeFromWishlist } from "../../redux/actions/wishlist";
+import Rating from "./Rating";
+import { getAllShopProducts } from "../../redux/actions/product";
 
 const ProductDetails = ({ data }) => {
   const { cart } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
+  const { products } = useSelector((state) => state.product);
   const [count, setCount] = useState(1);
 
   const [click, setClick] = useState(false);
@@ -25,9 +28,25 @@ const ProductDetails = ({ data }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
+  const totalReviews =
+    products &&
+    products.reduce((acc, product) => acc + product.reviews.length, 0);
+
+  const totalRatings =
+    products &&
+    products.reduce(
+      (acc, product) =>
+        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+      0
+    );
+
+  const averageRating = totalRatings / totalReviews || 0;
+
   const handleMessageSend = () => {
     navigate("/inbox?conversation=567890oihjbvbn");
   };
+
+  const totalProducts = products && products.length;
 
   const decrementCount = () => {
     if (count > 1) {
@@ -60,6 +79,10 @@ const ProductDetails = ({ data }) => {
       setClick(true);
     }
   });
+
+  useEffect(() => {
+    dispatch(getAllShopProducts(data.shop._id));
+  }, [dispatch, data]);
 
   const handleRemoveFromWishlist = (data) => {
     setClick((prev) => !prev);
@@ -126,7 +149,6 @@ const ProductDetails = ({ data }) => {
                     {data.orginalPrice ? data.orginalPrice + "$" : ""}
                   </h3>
                 </div>
-             
 
                 <div className="flex items-center justify-between py-3">
                   <div>
@@ -196,7 +218,8 @@ const ProductDetails = ({ data }) => {
                       </h3>
                       <h4 className="text-[15px] font-medium">
                         {" "}
-                        (4.5) Ratings
+                        {averageRating} /5 <t />
+                        {averageRating === 1 ? "Rating" : "Ratings"}
                       </h4>
                     </div>
                   </Link>
@@ -214,7 +237,12 @@ const ProductDetails = ({ data }) => {
               </div>
             </div>
           </div>
-          <ProductDetailsInfo data={data} />
+          <ProductDetailsInfo
+            data={data}
+            totalReviews={totalReviews}
+            averageRating={averageRating}
+            totalProducts={totalProducts}
+          />
           <br />
           <br />
         </div>
@@ -223,7 +251,12 @@ const ProductDetails = ({ data }) => {
   );
 };
 
-const ProductDetailsInfo = ({ data }) => {
+const ProductDetailsInfo = ({
+  data,
+  totalReviews,
+  averageRating,
+  totalProducts,
+}) => {
   const [active, setActive] = useState(1);
   return (
     <div className="bg-[#ebedf5]  h-full rounded px-3 800px:px-10 py-5 ">
@@ -266,8 +299,32 @@ const ProductDetailsInfo = ({ data }) => {
 
       {active === 2 ? (
         <>
-          <p className="w-full justify-center flex items-center font-[500] text-[17px] min-h-[20vh]">
-            No reviews yet!
+          <p className="w-full  text-[17px] min-h-[20vh] ">
+            {data && data.reviews.length !== 0 ? (
+              data.reviews.map((item, index) => (
+                <div className=" w-full p-2" key={index}>
+                  <div className="flex">
+                    <img
+                      src={`${backend_url}/${item?.user?.avatar}`}
+                      alt="reviewer profile"
+                      crossOrigin="anonymous"
+                      className="w-[60px] h-[60px] rounded-full"
+                    />
+                    <div className="ml-2">
+                      <h4 className="font-[500] text-[17px]">
+                        {item.user.name}
+                      </h4>
+                      <span className="p-2">
+                        <Rating rating={item?.rating} />
+                      </span>
+                    </div>
+                    <p className="pl-2">{item.comment}</p>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <h3 className="text-[20px] font-[500]">No reviews yet!</h3>
+            )}
           </p>
         </>
       ) : (
@@ -287,7 +344,10 @@ const ProductDetailsInfo = ({ data }) => {
 
               <div className="">
                 <h3 className={`${styles.shop_name} `}>{data.shop.name}</h3>
-                <h4 className="text-[15px] font-medium">(4.5) Ratings</h4>
+                <h4 className="text-[15px] font-medium">
+                  {" "}
+                  {averageRating}/5 Ratings{" "}
+                </h4>
               </div>
             </div>
             <p className="mt-2">
@@ -307,10 +367,17 @@ const ProductDetailsInfo = ({ data }) => {
                 </span>
               </h5>
               <h5 className="font-[600] py-1">
-                Total Products: <span className="font-[400]">999</span>
+                Total Products:{" "}
+                <span className="font-[400]">
+                  {totalProducts} {totalProducts === 1 ? "Product" : "Products"}
+                </span>
               </h5>
               <h5 className="font-[600]">
-                Total Reviews: <span className="font-[400]">29 </span>
+                Total Reviews:{" "}
+                <span className="font-[400]">
+                  {" "}
+                  {totalReviews} {totalReviews === 1 ? "Review" : "Reviews"}
+                </span>
               </h5>
               <Link to={`/shop/${data.shop._id}`}>
                 <div className={`${styles.button} text-white font-[500]`}>
