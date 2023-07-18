@@ -40,11 +40,11 @@ const AllProductsEvents = () => {
       flex: 0.4,
       sortable: false,
       renderCell: (params) => {
-        const EventsName = params.row.name.replace(/\s+/g, "_");
+        const eventId = params.row.id;
 
         return (
           <>
-            <Link to={`/Events/${EventsName}`}>
+            <Link to={`/product/${eventId}?isEvent=true`}>
               <Button>
                 <AiOutlineEye size={20} />
               </Button>
