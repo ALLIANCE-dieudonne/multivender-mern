@@ -153,7 +153,6 @@ router.put(
         return next(new ErrorHandler("Order not found", 400));
       }
 
-
       order.status = req.body.status;
 
       await order.save({ validateBeforeSave: false });
@@ -161,11 +160,52 @@ router.put(
       res.status(200).json({
         success: true,
         order,
-        message:"Order Refund was successfully Requested!"
+        message: "Order Refund was successfully Requested!",
       });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
     }
   })
 );
+
+//refund sucess
+router.put(
+  "/order-refund-sucess/:id",
+  isSeller,
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const order = await Order.findById(req.params.id);
+      if (!order) {
+        return next(new ErrorHandler("Order not found", 400));
+      }
+
+      order.status = req.body.status;
+
+      await order.save({ validateBeforeSave: false });
+
+      if (req.body.status === "Refund Success") {
+        for (const item of order.cart) {
+          await updateOrder(item._id, item.qty);
+        }
+      }
+
+      async function updateOrder(id, qty) {
+        const product = await Product.findById(id);
+        product.stock -= qty;
+        product.sold_out += qty;
+
+        await product.save({ validateBeforeSave: false });
+      }
+
+      res.status(200).json({
+        success: true,
+        order,
+        message: "Order Refund sucess!",
+      });
+    } catch (error) {
+      return next(new ErrorHandler(error, 400));
+    }
+  })
+);
+
 module.exports = router;

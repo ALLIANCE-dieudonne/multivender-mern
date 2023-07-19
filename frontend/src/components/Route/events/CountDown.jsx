@@ -27,7 +27,7 @@ const CountDown = ({ data }) => {
     return () => clearTimeout(timer);
   }, [timeLeft]);
 
-  const timerComponents = Object.keys(timeLeft).map((interval) => {
+  const timerComponents = Object.keys(timeLeft).map((interval, index) => {
     if (!timeLeft[interval]) {
       return null;
     }

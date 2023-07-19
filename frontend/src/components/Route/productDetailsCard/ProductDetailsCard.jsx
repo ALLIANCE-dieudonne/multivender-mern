@@ -54,7 +54,7 @@ const ProductDetailsCard = ({
   return (
     <div className="bg-white">
       {data ? (
-        <div className="fixed top-12 left-0 w-full h-screen z-40 flex justify-center items-center ">
+        <div className="fixed top-5 left-0 w-full h-screen z-40 flex justify-center items-center ">
           <div className="w-[90%] 800px:w-[60%] h-[82vh] overflow-y-scroll 800px:h-[75vh] rounded-md bg-white shadow-sm relative pr-7">
             <RxCross2
               size={25}

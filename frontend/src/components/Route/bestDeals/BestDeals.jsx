@@ -30,7 +30,7 @@ const BestDeals = () => {
         <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6 lg:grid-cols-4 lg:gap-6 xl:grid-cols-5 xl:gap-7 mb-12">
           {data &&
             data.map((item, index) => (
-              <ProductCard key={item.id} data={item} />
+              <ProductCard key={index} data={item} />
             ))}
         </div>
       </div>

@@ -4,7 +4,8 @@ import EventCreate from "./sidebarCopenents/EventCreate";
 import AllProductsEvents from "./sidebarCopenents/AllProductsEvents";
 import CouponCodes from "./sidebarCopenents/CouponCodes";
 import AllOrders from "./sidebarCopenents/AllOrders";
-import ShopRefunds from "./sidebarCopenents/ShopRefunds.jsx";
+import ShopRefunds from "./sidebarCopenents/ShopRefunds";
+import DashboardHome from "./sidebarCopenents/DashboardHome.jsx";
 const Products = () => {
   return <AllProducts />;
 };
@@ -36,7 +37,7 @@ const DashboardInbox = () => {
   return <div className=""></div>;
 };
 const Dashboard = () => {
-  return <div className="">dashboard</div>;
+  return <DashboardHome />;
 };
 
 export {

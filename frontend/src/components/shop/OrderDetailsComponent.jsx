@@ -43,18 +43,36 @@ const OrderDetails = () => {
       });
   };
 
-   const availableOptions = [
-     "Proccessing",
-     "Transffered to delivery person",
-     "Shipping",
-     "Received",
-     "On the way",
-     "Delivered",
-   ].slice();
-   const selectedIndex = availableOptions.indexOf(data?.status);
-   if (selectedIndex !== -1) {
-     availableOptions.splice(selectedIndex, 1);
-   }
+  const refundUpdateHandler = async (e) => {
+    e.preventDefault();
+
+    axios
+      .put(
+        `${server}/order/order-refund-sucess/${id}`,
+        { status },
+        { withCredentials: true }
+      )
+      .then(() => {
+        toast.success(`Refund Success`);
+        navigate("/dashboard/orders");
+      })
+      .catch((err) => {
+        toast.error("Order has been updated or something went wrong!");
+      });
+  };
+
+  const availableOptions = [
+    "Proccessing",
+    "Transffered to delivery person",
+    "Shipping",
+    "Received",
+    "On the way",
+    "Delivered",
+  ].slice();
+  const selectedIndex = availableOptions.indexOf(data?.status);
+  if (selectedIndex !== -1) {
+    availableOptions.splice(selectedIndex, 1);
+  }
   return (
     <div className={`${styles.section} min-h-screen w-[98%]  mx-5`}>
       <div className="w-full flex justify-between p-3 items-center">
@@ -138,20 +156,37 @@ const OrderDetails = () => {
         <span className="text-[18px] text-[#4D4D4D]">{data?.status}</span>
       </h4>
       <h3 className="text-[20px] font-[500] pt-2 pl-5">Order Status:</h3>
-      <select
-        value={status}
-        onChange={(e) => setStatus(e.target.value)}
-        className="w-[220px] mt-2 border h-[35px] rounded-md ml-5"
-      >
-        {availableOptions.map((option, index) => (
-          <option value={option} key={index}>
-            {option}
-          </option>
-        ))}
-      </select>
+      {data?.status !== "Processing Refund" &&
+      data?.status !== "Refund Success" ? (
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="w-[220px] mt-2 border h-[35px] rounded-md ml-5"
+        >
+          {availableOptions.map((option, index) => (
+            <option value={option} key={index}>
+              {option}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <select
+          value={status}
+          onChange={(e) => setStatus(e.target.value)}
+          className="w-[220px] mt-2 border h-[35px] rounded-md ml-5"
+        >
+          <option value="Processing Refund">Processing Refund</option>
+          <option value="Refund Success">Refund Success</option>
+        </select>
+      )}
       <div
         className={`${styles.button} text-white ml-5 `}
-        onClick={orderUpdateHundler}
+        onClick={
+          status === 
+          "Refund Success"
+            ? refundUpdateHandler
+            : orderUpdateHundler
+        }
       >
         <span className="">Update Status</span>
       </div>

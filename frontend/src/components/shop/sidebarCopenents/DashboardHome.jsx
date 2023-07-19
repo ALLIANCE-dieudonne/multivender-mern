@@ -1,24 +1,36 @@
-import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { AiOutlineArrowRight } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import DashboardCard from "../DashboardCard.jsx";
+import { useEffect } from "react";
+import { getAllShopProducts } from "../../../redux/actions/product.js";
+import { getAllShopOrders } from "../../../redux/actions/order.js";
+import {
+  AiOutlineAccountBook,
+  AiOutlineBorderBottom,
+  AiOutlineArrowRight,
+} from "react-icons/ai";
 import Loader from "../../layout/Loader";
+import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
-import { getAllShopOrders } from "../../../redux/actions/order";
+import { Button } from "@material-ui/core";
 
-const AllOrders = () => {
+const DashboardHome = () => {
   const { orders, isLoading } = useSelector((state) => state.order);
   const { seller } = useSelector((state) => state.seller);
-
+  const { products } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (seller) {
+      dispatch(getAllShopProducts(seller._id));
       dispatch(getAllShopOrders(seller._id));
     }
   }, [dispatch, seller]);
+
+  const allProducts = products && products.length;
+  const allOrders = orders && orders.length;
+  const amount =
+    orders && orders.reduce((acc, order) => acc + order.totalPrice, 0);
+
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
@@ -82,13 +94,34 @@ const AllOrders = () => {
       });
     });
 
-
   return (
-    <>
+    <div className="w-full">
+      <h1 className="text-[25px] font-[500] mt-2 mx-3 ">Overview</h1>
+      <div className="w-full flex juatify-center items-center">
+        <DashboardCard
+          title="Account Balance(with 10% of service)"
+          count={amount + "$"}
+          subtitile={<Link to="/dashboard/withdraw-money">Withdraw money</Link>}
+          icon={<AiOutlineAccountBook />}
+        />
+        <DashboardCard
+          title="All Orders"
+          count={allOrders}
+          subtitile={<Link to="/dashboard/orders">View all orders</Link>}
+          icon={<AiOutlineBorderBottom />}
+        />
+        <DashboardCard
+          title="All Products"
+          count={allProducts}
+          subtitile={<Link to="/dashboard/products">View all products</Link>}
+          icon={<AiOutlineAccountBook />}
+        />
+      </div>
+      <h2 className="text-[25px] font-[500] mt-2 mx-3 ">Latest Orders</h2>
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full  800px:w-[70%] h-[85vh] justify-center flex mt-1 overflow-x-scroll flex-col">
+        <div className="w-full  justify-center flex mt-1 overflow-y-scroll flex-col">
           <DataGrid
             rows={row}
             columns={columns}
@@ -98,8 +131,8 @@ const AllOrders = () => {
           />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default AllOrders;
+export default DashboardHome;
