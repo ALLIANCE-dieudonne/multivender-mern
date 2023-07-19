@@ -17,7 +17,7 @@ import { removeFromWishlist } from "../../redux/actions/wishlist";
 import Rating from "./Rating";
 import { getAllShopProducts } from "../../redux/actions/product";
 
-const ProductDetails = ({ data }) => {
+const ProductDetails = ({ data  }) => {
   const { cart } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
   const { products } = useSelector((state) => state.product);

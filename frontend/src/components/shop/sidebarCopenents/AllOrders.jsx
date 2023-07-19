@@ -78,7 +78,7 @@ const AllOrders = () => {
     orders.forEach((item) => {
       row.push({
         id: item._id,
-        itemsQty: item.cart.length,
+        itemsQty: item.cart[0].qty,
         total: "US$" + item.totalPrice,
         status: item.status,
       });

@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../../../styles/styles";
 import {
-  AiFillStar,
   AiOutlineHeart,
   AiOutlineEye,
   AiOutlineShoppingCart,
   AiFillHeart,
-  AiOutlineStar,
 } from "react-icons/ai";
 import ProductDetailsCard from "../productDetailsCard/ProductDetailsCard";
 import { backend_url } from "../../../server";
@@ -20,7 +18,7 @@ import { toast } from "react-toastify";
 import { addToCart } from "../../../redux/actions/cart";
 import Rating from "../../products/Rating";
 
-const ProductCard = ({ data }) => {
+const ProductCard = ({ data, isEvent }) => {
   const [click, setClick] = useState(false);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
@@ -107,7 +105,13 @@ const ProductCard = ({ data }) => {
         ) : null}
       </div>
 
-      <Link to={`/product/${data._id}`}>
+      <Link
+        to={`${
+          isEvent === true
+            ? `/product/${data._id}?isEvent=true`
+            : `/product/${data._id}`
+        }`}
+      >
         <img
           crossorigin="anonymous"
           src={`${backend_url}/${data.images && data.images[0]}`}
@@ -120,7 +124,13 @@ const ProductCard = ({ data }) => {
         <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
       </Link>
 
-      <Link to={`/product/${product_name}`}>
+      <Link
+        to={`${
+          isEvent === true
+            ? `/product/${data._id}?isEvent=true`
+            : `/product/${data._id}`
+        }`}
+      >
         <h4 className=" font-[500]">
           {data.name.length > 40 ? data.name.slice(0, 40) + "..." : data.name}
         </h4>

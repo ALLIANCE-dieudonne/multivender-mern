@@ -58,6 +58,10 @@ const productSchema = new mongoose.Schema({
       producId: {
         type: String,
       },
+      createdAt:{
+        type: Date,
+        default: Date.now(),
+      }
     },
   ],
   ratings:{
@@ -74,3 +78,4 @@ const productSchema = new mongoose.Schema({
 const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;
+

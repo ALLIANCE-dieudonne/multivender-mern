@@ -6,6 +6,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getAllShopProducts } from "../../redux/actions/product";
 import Loader from "../../components/layout/Loader";
+import { getAllShopEvents } from "../../redux/actions/event";
 
 const ShopInfo = ({ isOwner }) => {
   const [data, setData] = useState({});
@@ -39,6 +40,7 @@ const ShopInfo = ({ isOwner }) => {
         console.log(err);
         setIsLoading(false);
       });
+      dispatch(getAllShopEvents(id))
     dispatch(getAllShopProducts(id));
   }, []);
 
