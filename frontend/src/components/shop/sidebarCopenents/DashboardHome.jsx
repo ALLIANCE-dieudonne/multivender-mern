@@ -28,8 +28,12 @@ const DashboardHome = () => {
 
   const allProducts = products && products.length;
   const allOrders = orders && orders.length;
+  const data = orders && orders.filter((order) => order.status === 'Delivered');
   const amount =
-    orders && orders.reduce((acc, order) => acc + order.totalPrice, 0);
+    data && data.reduce((acc, order) => acc + order.totalPrice, 0);
+
+  const serviceCharge = amount * 0.1;
+  const totalAmount = (amount - serviceCharge).toFixed(2);
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -97,10 +101,10 @@ const DashboardHome = () => {
   return (
     <div className="w-full">
       <h1 className="text-[25px] font-[500] mt-2 mx-3 ">Overview</h1>
-      <div className="w-full flex juatify-center items-center">
+      <div className="w-full 800px:flex justify-center items-center">
         <DashboardCard
           title="Account Balance(with 10% of service)"
-          count={amount + "$"}
+          count={totalAmount + "$"}
           subtitile={<Link to="/dashboard/withdraw-money">Withdraw money</Link>}
           icon={<AiOutlineAccountBook />}
         />

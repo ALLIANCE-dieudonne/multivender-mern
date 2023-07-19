@@ -236,7 +236,7 @@ router.put(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const user = await User.findById(req.user.id);
-      const sameTypeAddress = await user.addresses.find(
+      const sameTypeAddress = user.addresses.find(
         (address) => address.addressType === req.body.addressType
       );
       if (sameTypeAddress) {
@@ -308,13 +308,14 @@ router.put(
       const user = await User.findById(req.user.id).select("+password");
       const isPasswordValid = await user.comparePassword(req.body.oldPassword);
       if (!isPasswordValid) {
-        return next(
-          new ErrorHandler("Old password not correct!", 400)
-        );
+        return next(new ErrorHandler("Old password not correct!", 400));
       }
       if (req.body.newPassword === req.body.confirmPassword) {
         return next(
-          new ErrorHandler("New password and confirm password must be same!", 400)
+          new ErrorHandler(
+            "New password and confirm password must be same!",
+            400
+          )
         );
       }
 

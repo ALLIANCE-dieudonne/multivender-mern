@@ -153,7 +153,13 @@ const App = () => {
           }
         />
 
-        <Route element={<ShopDashboard />}>
+        <Route
+          element={
+            <SellerProtectedRoute>
+              <ShopDashboard />
+            </SellerProtectedRoute>
+          }
+        >
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/orders" element={<DashboardOrders />} />
           <Route path="/dashboard/products" element={<Products />} />

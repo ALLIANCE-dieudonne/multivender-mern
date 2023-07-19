@@ -37,7 +37,7 @@ const ShopCreate = () => {
       .then((res) => {
         toast.success(res.data.message);
         if (res.data.success === true) {
-          navigate("/");
+          navigate("/login-seller");
         }
       })
       .catch((err) => {

@@ -67,4 +67,17 @@ shopSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
+shopSchema.pre("remove", async function (next) {
+  try {
+    // Find all products associated with the shopId of the shop being removed
+    const productsToDelete = await Product.find({ shopId: this._id });
+
+    // Delete the associated products
+    await Promise.all(productsToDelete.map((product) => product.remove()));
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = mongoose.model("Shop", shopSchema);

@@ -11,7 +11,7 @@ const SidebarItem = () => {
 
         return (
           <div
-            className={` w-[90%] flex items-center 800px:m-3 mt-3 z-10 ${
+            className={` w-[90%] flex items-center 800px:m-3 mt-9 z-10 ${
               link === location.pathname ? "text-[green]" : ""
             }`}
             key={index}

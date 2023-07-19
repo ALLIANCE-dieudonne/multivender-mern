@@ -74,7 +74,7 @@ const OrderDetails = () => {
     availableOptions.splice(selectedIndex, 1);
   }
   return (
-    <div className={`${styles.section} min-h-screen w-[98%]  mx-5`}>
+    <div className={`${styles.section} 800px:min-h-screen w-[98%]  mx-5`}>
       <div className="w-full flex justify-between p-3 items-center">
         <div className="p-2 flex gap-2 items-center justify-center">
           <BsBagFill size={35} color="green" />

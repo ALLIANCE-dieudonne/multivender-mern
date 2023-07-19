@@ -45,18 +45,6 @@ export const userReducer = createReducer(initialState, {
     state.error = action.payload;
   },
 
-  //delete user address
-  // DeleteUserAddrressRequest: (state) => {
-  //     state.isLoading = true;
-  //   },
-  // DeleteUserAddrressSuccess: (action, state) => {
-  //     state.isLoading = false;
-  //     state.user = action.payload;
-  //   },
-  // DeleteUserAddrressFail: (state, action) => {
-  //     state.isLoading = false;
-  //     state.error = action.payload;
-  //   },
   DeleteUserAddressRequest: (state) => {
     state.isLoading = true;
   },

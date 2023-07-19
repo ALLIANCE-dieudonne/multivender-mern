@@ -1,6 +1,6 @@
 const DashboardCard = ({title, count, subtitile, icon}) => {
   return (
-    <div className="w-[30%] h-[140px] bg-white shadow-md m-2 rounded-md items-center  flex flex-col cursor-pointer">
+    <div className="800px:w-[30%] w-[90%] h-[140px] bg-white shadow-md m-2 rounded-md items-center  flex flex-col cursor-pointer">
       <div className="w-full flex items-center">
         <span className="text-[25px] m-3"> {icon}</span>
 

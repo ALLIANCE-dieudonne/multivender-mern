@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { backend_url, server } from "../../server";
 import styles from "../../styles/styles";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getAllShopProducts } from "../../redux/actions/product";
 import Loader from "../../components/layout/Loader";
@@ -10,9 +10,24 @@ import Loader from "../../components/layout/Loader";
 const ShopInfo = ({ isOwner }) => {
   const [data, setData] = useState({});
   const [loading, setIsLoading] = useState(false);
+  const { products } = useSelector((state) => state.product);
   const { id } = useParams();
   const dispatch = useDispatch();
 
+  const productN = products && products.length;
+  const totalReviews =
+    products &&
+    products.reduce((acc, product) => acc + product.reviews?.length, 0);
+
+  const totalRatings =
+    products &&
+    products.reduce(
+      (acc, product) =>
+        acc + product.reviews.reduce((sum, review) => sum + review.rating, 0),
+      0
+    );
+
+  const averageRating = totalRatings / totalReviews || 0;
   useEffect(() => {
     axios
       .get(`${server}/shop/getshop-info/${id}`)
@@ -44,11 +59,11 @@ const ShopInfo = ({ isOwner }) => {
 
     {
       name: "  Total Products",
-      info: 20,
+      info: productN,
     },
     {
       name: "   Shop Ratings",
-      info: 4.5,
+      info: averageRating,
     },
     {
       name: "  Joined On",
@@ -67,7 +82,7 @@ const ShopInfo = ({ isOwner }) => {
               crossorigin="anonymous"
               src={`${backend_url}${data?.avatar}`}
               alt="shop"
-              className="w-[150px] h-[150px] rounded-full object-cover"
+              className="w-[150px] h-[150px] rounded-full object-contain"
             />
           </div>
           <h3 className="text-center pt-3 font-medium text-[18px] text-[#000000a6]">
@@ -94,7 +109,12 @@ const ShopInfo = ({ isOwner }) => {
           {isOwner && (
             <div className="">
               <div className={`  ${styles.button} !w-[90%] !h-[42px] mx-auto`}>
-                <h4 className="text-white font-[400] text-[17px]">Edit Shop</h4>
+                <Link
+                  to="/dashboard/settings"
+                  className="text-white font-[400] text-[17px]"
+                >
+                  Edit Shop
+                </Link>
               </div>
               <div
                 className={`  ${styles.button} !w-[90%] !h-[42px] mx-auto`}

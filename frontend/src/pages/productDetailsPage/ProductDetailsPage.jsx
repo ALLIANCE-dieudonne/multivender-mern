@@ -14,7 +14,6 @@ const ProductDetailsPage = () => {
   const { allEvents } = useSelector((state) => state.events);
   const [searchParams] = useSearchParams();
   const eventData = searchParams.get("isEvent");
-  console.log(eventData);
 
   useEffect(() => {
     if (eventData !== null) {

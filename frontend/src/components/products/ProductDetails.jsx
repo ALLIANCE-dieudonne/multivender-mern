@@ -30,7 +30,7 @@ const ProductDetails = ({ data }) => {
 
   const totalReviews =
     products &&
-    products.reduce((acc, product) => acc + product.reviews.length, 0);
+    products.reduce((acc, product) => acc + product.reviews?.length, 0);
 
   const totalRatings =
     products &&
@@ -78,7 +78,7 @@ const ProductDetails = ({ data }) => {
     if (existItem) {
       setClick(true);
     }
-  });
+  }, []);
 
   useEffect(() => {
     dispatch(getAllShopProducts(data.shop._id));
@@ -300,8 +300,8 @@ const ProductDetailsInfo = ({
       {active === 2 ? (
         <>
           <p className="w-full  text-[17px] min-h-[20vh] ">
-            {data && data.reviews.length !== 0 ? (
-              data.reviews.map((item, index) => (
+            {data && data.reviews && data.reviews.length !== 0 ? (
+              data?.reviews.map((item, index) => (
                 <div className=" w-full p-2" key={index}>
                   <div className="flex">
                     <img

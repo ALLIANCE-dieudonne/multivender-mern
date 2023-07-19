@@ -5,7 +5,9 @@ import AllProductsEvents from "./sidebarCopenents/AllProductsEvents";
 import CouponCodes from "./sidebarCopenents/CouponCodes";
 import AllOrders from "./sidebarCopenents/AllOrders";
 import ShopRefunds from "./sidebarCopenents/ShopRefunds";
-import DashboardHome from "./sidebarCopenents/DashboardHome.jsx";
+import DashboardHome from "./sidebarCopenents/DashboardHome";
+import ShopSettings from "./sidebarCopenents/ShopSettings";
+import WithdrawMoneyPage from "./sidebarCopenents/WithdrawMoneyPage.jsx";
 const Products = () => {
   return <AllProducts />;
 };
@@ -22,7 +24,7 @@ const DashboardEvents = () => {
   return <AllProductsEvents />;
 };
 const WithdrawMoney = () => {
-  return <div className=""></div>;
+  return <WithdrawMoneyPage/>;
 };
 const Cupouns = () => {
   return <CouponCodes />;
@@ -31,7 +33,7 @@ const Refunds = () => {
   return <ShopRefunds />;
 };
 const Settings = () => {
-  return <div className=""></div>;
+  return <ShopSettings />;
 };
 const DashboardInbox = () => {
   return <div className=""></div>;
