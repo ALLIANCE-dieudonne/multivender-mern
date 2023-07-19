@@ -8,12 +8,13 @@ const shopDashboard = () => {
         <DashboardHeader />
       </div>
 
-      <div className="w-full flex justify-between  h-[85vh] ">
+      <div className="w-full flex justify-between overflow-y-hidden max-h-[85vh] ">
         <div className="800px:w-[330px] w-20 ">
           <DashboardSidebar />
         </div>
-
-        <Outlet />
+        <div className="w-full overflow-y-scroll">
+          <Outlet />
+        </div>
       </div>
     </>
   );

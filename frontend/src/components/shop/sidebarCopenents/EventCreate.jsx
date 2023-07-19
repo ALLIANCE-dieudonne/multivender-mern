@@ -86,7 +86,7 @@ const EventCreate = () => {
 
 
   return (
-    <div className="w-full 800px:w-[70%] h-[85vh] justify-center flex mt-1">
+    <div className="w-full  justify-center flex mt-1">
       <div className="bg-white w-[90%] 800px:w-[70%] h-[80vh] shadow-sm rounded-md px-3 overflow-y-scroll">
         <h5 className="text-[26px] font-medium text-[#020202a6] text-center mb-6">
           Create Event

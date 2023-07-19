@@ -1,4 +1,3 @@
-
 import SidebarItem from "./SidebarItem";
 const DashboardSidebar = ({ active }) => {
   return (

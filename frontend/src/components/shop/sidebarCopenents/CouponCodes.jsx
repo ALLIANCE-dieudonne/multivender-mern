@@ -93,7 +93,7 @@ const CouponCodes = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full  800px:w-[70%] h-[85vh] justify-center flex mt-1 overflow-x-scroll flex-col">
+        <div className="w-full h-[85vh] justify-center flex mt-1 overflow-x-scroll flex-col">
           <div className="w-full  justify-end flex ">
             <div
               className={`${styles.button} w-[180px] mr-2`}

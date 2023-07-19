@@ -9,14 +9,13 @@ import styles from "../../../styles/styles";
 import { loadSeller } from "../../../redux/actions/seller";
 const ShopSettings = () => {
   const { seller } = useSelector((state) => state.seller);
-  const [name, setName] = useState( seller ?seller.name : "");
+  const [name, setName] = useState(seller ? seller.name : "");
   const [address, setAddress] = useState(seller ? seller.address : "");
   const [phoneNumber, setPhoneNumber] = useState(
     seller ? seller.phoneNumber : ""
   );
   const [avatar, setAvatar] = useState(null);
   const dispatch = useDispatch();
-
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
@@ -59,7 +58,7 @@ const ShopSettings = () => {
         toast.success("Shop updated successfully!");
         // setAddress("");
         // setPhoneNumber("");
-                dispatch(loadSeller(seller._id));
+        dispatch(loadSeller(seller._id));
 
         // setName("");
       })
@@ -68,7 +67,7 @@ const ShopSettings = () => {
       });
   };
   return (
-    <div className="mt-7 w-[90%]">
+    <div className="mt-7 w-[80%]">
       <div className="flex justify-center w-full">
         <div className="relative">
           <img
@@ -94,15 +93,11 @@ const ShopSettings = () => {
 
       <br />
 
-      <div className="w-full px-5">
-        <form
-          onSubmit={handleSubmit}
-          aria-required
-          className="flex items-center flex-col"
-        >
-          <div className="w-full 800px:flex pb-3 flex justify-center ">
+      <div className="w-full px-5 ">
+        <form onSubmit={handleSubmit} aria-required>
+          <div className="w-full 800px:flex pb-3">
             <div className=" 800px:w-[50%] ">
-              <label htmlFor="names" className="font-medium ml-2">
+              <label htmlFor="names" className="font-medium">
                 Shop Name
               </label>
               <input
@@ -113,7 +108,7 @@ const ShopSettings = () => {
                 onChange={(e) => setName(e.target.value)}
               />
 
-              <label htmlFor="phone" className="font-medium ml-2">
+              <label htmlFor="phone" className="font-medium">
                 Phone Number
               </label>
               <input
@@ -123,7 +118,7 @@ const ShopSettings = () => {
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
               />
-              <label htmlFor="address" className="font-medium ml-2">
+              <label htmlFor="address" className="font-medium">
                 Address
               </label>
               <input
@@ -138,7 +133,7 @@ const ShopSettings = () => {
 
           <input
             type="submit"
-            className="w-40 rounded-md h-10 border border-blue-500  cursor-pointer  font-medium text-[#3a24db] text-4 hover:bg-blue-100 hover:text-black"
+            className="w-40 rounded-md h-10 border border-blue-500 cursor-pointer flex text-center justify-center font-medium text-[#3a24db] text-4 hover:bg-blue-100 hover:text-black"
             value="Update"
           />
         </form>

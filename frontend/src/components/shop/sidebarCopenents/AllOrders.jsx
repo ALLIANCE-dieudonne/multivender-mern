@@ -90,7 +90,7 @@ const AllOrders = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full  800px:w-[70%] h-[85vh] justify-center flex mt-1 overflow-x-scroll flex-col">
+        <div className="w-full   h-[85vh] justify-center flex mt-1 overflow-x-scroll flex-col">
           <DataGrid
             rows={row}
             columns={columns}

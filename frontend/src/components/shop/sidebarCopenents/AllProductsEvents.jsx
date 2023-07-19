@@ -87,7 +87,7 @@ const AllProductsEvents = () => {
       {isLoading ? (
         <Loader />
       ) : (
-        <div className="w-full  800px:w-[70%] h-[85vh] justify-center flex mt-1 overflow-x-scroll ">
+        <div className="w-full  justify-center flex mt-1 overflow-x-scroll ">
           <DataGrid
             rows={rows}
             columns={columns}

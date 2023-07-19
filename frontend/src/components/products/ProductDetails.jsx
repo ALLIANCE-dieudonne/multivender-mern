@@ -8,7 +8,7 @@ import {
   AiOutlineMessage,
 } from "react-icons/ai";
 import styles from "../../styles/styles";
-import { backend_url } from "../../server";
+import { backend_url, server } from "../../server";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart } from "../../redux/actions/cart";
@@ -16,11 +16,13 @@ import { addToWishlist } from "../../redux/actions/wishlist";
 import { removeFromWishlist } from "../../redux/actions/wishlist";
 import Rating from "./Rating";
 import { getAllShopProducts } from "../../redux/actions/product";
+import axios from "axios";
 
-const ProductDetails = ({ data  }) => {
+const ProductDetails = ({ data }) => {
   const { cart } = useSelector((state) => state.cart);
   const { wishlist } = useSelector((state) => state.wishlist);
   const { products } = useSelector((state) => state.product);
+  const { user, isAuthenticated } = useSelector((state) => state.user);
   const [count, setCount] = useState(1);
 
   const [click, setClick] = useState(false);
@@ -42,8 +44,26 @@ const ProductDetails = ({ data  }) => {
 
   const averageRating = totalRatings / totalReviews || 0;
 
-  const handleMessageSend = () => {
-    navigate("/inbox?conversation=567890oihjbvbn");
+  const handleMessageSend = async () => {
+    if (isAuthenticated) {
+      const groupTitle = user._id + data._id;
+      const userId = user._id;
+      const sellerId = data.shop._id;
+      await axios
+        .post(`${server}/conversation/create-conversation`, {
+          groupTitle,
+          userId,
+          sellerId,
+        })
+        .then((res) => {
+          navigate(`/conversation${res.data.conversation._id}`);
+        })
+        .catch((err) => {
+          toast.error(err.response.data.message);
+        });
+    } else {
+      toast.error("Please Login to create conversation");
+    }
   };
 
   const totalProducts = products && products.length;
