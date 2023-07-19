@@ -28,7 +28,7 @@ const DashboardHome = () => {
 
   const allProducts = products && products.length;
   const allOrders = orders && orders.length;
-  const data = orders && orders.filter((order) => order.status === 'Delivered');
+  const data = orders && orders.filter((order) => order.status === 'succeeded');
   const amount =
     data && data.reduce((acc, order) => acc + order.totalPrice, 0);
 

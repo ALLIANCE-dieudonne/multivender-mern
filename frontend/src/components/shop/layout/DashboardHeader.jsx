@@ -39,24 +39,24 @@ const DashboardHeader = () => {
               className="cursor-pointer mx-4"
             />
           </Link>
-          <Link to="/dashboard-events">
+          <Link to="/dashboard/events">
             <MdOutlineLocalOffer
               color="#555"
               size={30}
               className="cursor-pointer mx-4"
             />
           </Link>
-          <Link to="/dashboard-products">
+          <Link to="/dashboard/products">
             <FiShoppingBag
               color="#555"
               size={30}
               className="cursor-pointer mx-4"
             />
           </Link>
-          <Link to="/dashboard-orders">
+          <Link to="/dashboard/orders">
             <FiPackage color="#555" size={30} className="cursor-pointer mx-4" />
           </Link>
-          <Link to="/dashboard-messages">
+          <Link to="/dashboard/messages">
             <BiMessageSquareDetail
               color="#555"
               size={30}

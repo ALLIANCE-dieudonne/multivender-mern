@@ -68,6 +68,8 @@ router.post("/shop-create", upload.single("file"), async (req, res, next) => {
   }
 });
 
+
+
 // Creating activation token
 const createActivationToken = (seller) => {
   return jwt.sign(seller, process.env.ACTIVATION_SECRET, {

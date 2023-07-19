@@ -134,7 +134,7 @@ const OrderDetails = () => {
 
       {/* review popup */}
       {open && (
-        <div className="w-full h-screen bg-[#00000032] fixed top-0 right-0 flex justify-center items-center z-50">
+        <div className="w-full h-min bg-[#00000032] fixed top-0 right-0 flex justify-center items-center z-50">
           <div className="w-[90%] h-min 800px:w-[40%] 800px:h-[95%] bg-white shadow-sm rounded-md">
             <div className="w-full flex justify-end p-3 cursor-pointer ">
               <RxCross1
