@@ -11,7 +11,7 @@ const BestDeals = () => {
 
   useEffect(() => {
     const sortedProducts = [...allproducts]?.sort(
-      (a, b) => a.sold_out - b.sold_out
+      (a, b) => b.sold_out - a.sold_out
     ).slice(0, 5);
     const firstFive = sortedProducts;
 

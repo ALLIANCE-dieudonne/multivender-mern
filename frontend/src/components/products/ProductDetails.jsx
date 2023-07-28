@@ -56,7 +56,7 @@ const ProductDetails = ({ data }) => {
           sellerId,
         })
         .then((res) => {
-          navigate(`/conversation${res.data.conversation._id}`);
+          navigate(`/conversation/${res.data.conversation._id}`);
         })
         .catch((err) => {
           toast.error(err.response.data.message);
@@ -123,11 +123,9 @@ const ProductDetails = ({ data }) => {
               <div className="w-full 800px:w-[50%]  ">
                 <img
                   crossOrigin="anonymous"
-                  src={`${backend_url}${
-                    data?.images && data?.images[select ? select : 0]
-                  }`}
+                  src={data?.images && data?.images[select ? select : 0].secure_url}
                   alt=""
-                  className="800px:w-[70%] mt-10 rounded-md w-[90%] h-[400px]"
+                  className="800px:w-[50%] mt-10 rounded-md w-[90%] h-[350px] 800px:h-[400px]"
                 />
                 <div className="w-full flex my-4">
                   <div
@@ -137,8 +135,8 @@ const ProductDetails = ({ data }) => {
                   >
                     <img
                       crossOrigin="anonymous"
-                      src={`${backend_url}${data?.images && data?.images[0]}`}
-                      alt="image"
+                      src={data?.images && data?.images[0].secure_url}
+                      alt="shopimage"
                       className="h-[200px] rounded-md w-[200px]"
                       onClick={() => setSelect(0)}
                     />
@@ -148,8 +146,8 @@ const ProductDetails = ({ data }) => {
                   >
                     <img
                       crossOrigin="anonymous"
-                      src={`${backend_url}${data?.images && data?.images[1]}`}
-                      alt="image"
+                      src={data?.images && data?.images[1].secure_url}
+                      alt="shopimage"
                       className="h-[200px] rounded-md w-[200px]"
                       onClick={() => setSelect(1)}
                     />
@@ -225,8 +223,8 @@ const ProductDetails = ({ data }) => {
                   <Link to={`/shop/${data?.shop._id}`}>
                     <img
                       crossOrigin="anonymous"
-                      src={`${backend_url}${data?.shop?.avatar}`}
-                      alt="shop image"
+                      src={data?.shop?.avatar[0]}
+                      alt="shopimage"
                       className="w-[50px] h-[50px] rounded-full mr-3"
                     />
                   </Link>
@@ -243,16 +241,6 @@ const ProductDetails = ({ data }) => {
                       </h4>
                     </div>
                   </Link>
-
-                  <div className="">
-                    <span
-                      className={`${styles.button} bg-blue-600 font-medium text-white`}
-                      onClick={handleMessageSend}
-                    >
-                      Send Message{" "}
-                      <AiOutlineMessage className="ml-1" size={20} />
-                    </span>
-                  </div>
                 </div>
               </div>
             </div>
@@ -325,7 +313,7 @@ const ProductDetailsInfo = ({
                 <div className=" w-full p-2" key={index}>
                   <div className="flex">
                     <img
-                      src={`${backend_url}/${item?.user?.avatar}`}
+                      src={item?.user?.avatar[0]}
                       alt="reviewer profile"
                       crossOrigin="anonymous"
                       className="w-[60px] h-[60px] rounded-full"
@@ -334,7 +322,7 @@ const ProductDetailsInfo = ({
                       <h4 className="font-[500] text-[17px]">
                         {item.user.name}
                       </h4>
-                      <span className="p-2">
+                      <span className="">
                         <Rating rating={item?.rating} />
                       </span>
                     </div>
@@ -357,7 +345,7 @@ const ProductDetailsInfo = ({
             <div className="flex items-center">
               <img
                 crossOrigin="anonymous"
-                src={`${backend_url}${data?.shop?.avatar}`}
+                src={data?.shop?.avatar[0]}
                 alt=""
                 className="w-[50px] h-[50px] rounded-full mr-3"
               />

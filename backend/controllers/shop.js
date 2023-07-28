@@ -9,123 +9,48 @@ const ErrorHandler = require("../utils/errorHandler");
 const { isSeller } = require("../middleware/auth");
 const Shop = require("../model/shop");
 const { upload } = require("../multer");
+const { imageUpload, deleteImage } = require("../middleware/imageUpload");
 
 router.post("/shop-create", upload.single("file"), async (req, res, next) => {
   try {
     const { email, name, password, address, zipCode, phoneNumber } = req.body;
     const existingShop = await Shop.findOne({ email });
+    let avatar, pubId;
 
     if (existingShop) {
-      const filename = req.file.filename;
-      const filePath = `uploads/${filename}`;
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          res.status(500).json({ message: "Error deleting a file" });
-        } else {
-          res.status(200).json({ message: "File deleted successfully" });
-        }
-      });
       return next(new ErrorHandler("User already exists", 409));
     }
 
-    const filename = req.file.filename;
-    const fileUrl = filename;
-
-    const activationToken = createActivationToken({ email });
-    const activationUrl = `http://localhost:3000/shop/activation/${activationToken}`;
+    try {
+      const file = req.body.file;
+      const folder = "shopAvatars";
+      const result = await imageUpload(file, folder);
+      avatar = result[0].secure_url;
+      pubId = result[0].public_id;
+    } catch (error) {
+      return next(new ErrorHandler("Couldn't upload avatar", 500));
+    }
 
     const newShop = new Shop({
       name,
       email,
       password,
-      avatar: fileUrl,
+      avatar: [avatar, pubId],
       address,
       zipCode,
       phoneNumber,
-      activationToken, 
     });
 
-    // Save the new shop
     await newShop.save();
 
-    try {
-      await sendMail({
-        email,
-        subject: "Activate your shop",
-        message: `Hello ${name}, please click the link below to activate your shop: ${activationUrl}`,
-      });
-
-      res.status(201).json({
-        success: true,
-        message: `Please check your email (${email}) to activate your shop`,
-      });
-    } catch (err) {
-      await newShop.remove();
-      return next(new ErrorHandler("Error sending email", 500));
-    }
+    res.status(200).json({
+      success: true,
+      shop: newShop,
+    });
   } catch (error) {
     return next(new ErrorHandler(error.message, 400));
   }
 });
-
-
-
-// Creating activation token
-const createActivationToken = (seller) => {
-  return jwt.sign(seller, process.env.ACTIVATION_SECRET, {
-    expiresIn: "5m",
-  });
-};
-
-// Activate the seller
-
-router.post(
-  "/shop/activation",
-  catchAsyncErrors(async (req, res, next) => {
-    try {
-      const { activation_token } = req.body;
-      const decodedSeller = jwt.verify(
-        activation_token,
-        process.env.ACTIVATION_SECRET
-      );
-
-      if (!decodedSeller || !decodedSeller.email) {
-        return next(new ErrorHandler("Invalid Activation Token", 400));
-      }
-
-      const existingShop = await Shop.findOne({ email: decodedSeller.email });
-
-      if (!existingShop || existingShop.activationToken !== activation_token) {
-        return next(new ErrorHandler("Invalid Activation Token", 400));
-      }
-
-      const { email, name, password, address, zipCode, phoneNumber, avatar } =
-        existingShop;
-
-      // Create the shop
-      await Shop.create({
-        name,
-        email,
-        password,
-        avatar,
-        address,
-        zipCode,
-        phoneNumber,
-      });
-
-      // Remove the activation token from the existing shop
-      existingShop.activationToken = undefined;
-      await existingShop.save();
-
-      res.status(200).json({
-        success: true,
-        message: "Shop activated successfully",
-      });
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  })
-);
 
 //logging in the seller
 router.post(
@@ -254,24 +179,26 @@ router.put(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const existingSeller = await Shop.findById(req.seller._id);
-      const existingAvatar = `uploads/${existingSeller?.avatar}`;
+      const existingAvatar = existingSeller?.avatar[1];
 
       // Check if the user has an existing avatar and delete it
-      if (existingSeller?.avatar) {
-        fs.unlinkSync(existingAvatar);
+      if (existingAvatar) {
+        await deleteImage(existingAvatar);
       }
 
-      const fileUrl = req.file.filename;
+      const file = req.body.image;
+      const folder = "shopAvatars";
+      const result = await imageUpload(file, folder);
+      const avatar = result.secure_url;
+      const pubId = result.public_id;
 
       const shop = await Shop.findByIdAndUpdate(req.seller._id, {
-        avatar: fileUrl,
-      });
-      const data = { message: "success" };
+        $set: { "avatar.0": `${avatar}`, "avatar.1": `${pubId}` },
+      }).lean();
 
       res.status(200).json({ success: true, shop });
     } catch (error) {
-      // return next(new ErrorHandler("Failed to update avatar"), 400);
-      console.log(error);
+      return next(new ErrorHandler("Failed to update avatar"), 400);
     }
   })
 );

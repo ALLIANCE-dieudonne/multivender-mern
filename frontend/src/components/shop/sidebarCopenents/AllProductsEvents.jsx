@@ -1,14 +1,12 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  deleteEvents,
-  getAllShopEvents,
-} from "../../../redux/actions/event";
+import { deleteEvents, getAllShopEvents } from "../../../redux/actions/event";
 import { AiOutlineDelete, AiOutlineEye } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import Loader from "../../layout/Loader";
 import { DataGrid } from "@material-ui/data-grid";
+import { toast } from "react-toastify";
 
 const AllProductsEvents = () => {
   const { events, isLoading } = useSelector((state) => state.events);
@@ -16,8 +14,10 @@ const AllProductsEvents = () => {
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
-    dispatch(deleteEvents(id));
-    window.location.reload();
+    dispatch(deleteEvents(id)).then((res) => {
+      window.location.reload();
+      toast.success("Event deleted successfully!");
+    });
   };
 
   useEffect(() => {
@@ -71,16 +71,16 @@ const AllProductsEvents = () => {
     },
   ];
 
-   const rows =
-     events && events.length !== 0
-       ? events.map((event) => ({
-           id: event._id,
-           name: event.name,
-           price: "US$" + event.discountPrice,
-           stock: event.stock,
-           sold: 10,
-         }))
-       : [];
+  const rows =
+    events && events.length !== 0
+      ? events.map((event) => ({
+          id: event._id,
+          name: event.name,
+          price: "US$" + event.discountPrice,
+          stock: event.stock,
+          sold: 10,
+        }))
+      : [];
 
   return (
     <>

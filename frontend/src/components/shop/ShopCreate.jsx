@@ -15,7 +15,7 @@ const ShopCreate = () => {
   const [phoneNummber, setPhoneNumber] = useState();
   const [address, setAddress] = useState("");
   const [zipCode, setZipCode] = useState();
-  const [avatar, setAvatar] = useState();
+  const [avatar, setAvatar] = useState(null);
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
 
@@ -35,6 +35,10 @@ const ShopCreate = () => {
     axios
       .post(`${server}/shop/shop-create`, newForm, config)
       .then((res) => {
+        setAvatar(null);
+        setEmail("");
+        setName("");
+        setPassword("");
         toast.success(res.data.message);
         if (res.data.success === true) {
           navigate("/login-seller");
@@ -52,9 +56,27 @@ const ShopCreate = () => {
       });
   };
 
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = async (e) => {
     const file = e.target.files[0];
-    setAvatar(file);
+    try {
+      const base64 = await convertTo64(file);
+      setAvatar(base64);
+    } catch (error) {
+      console.error("Error converting file to base64:", error);
+    }
+  };
+  const convertTo64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
   };
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-3 sm:px-6 lg:px-8">
@@ -224,7 +246,7 @@ const ShopCreate = () => {
               </div>
               <div className="text-sm">
                 <a
-                  href="#"
+                  href="/"
                   className="text-blue-600 hover:text-blue-700 font-medium"
                 >
                   Forgot password?
@@ -237,7 +259,7 @@ const ShopCreate = () => {
                 <span className=" h-8 w-8 everflow-hidden ">
                   {avatar ? (
                     <img
-                      src={URL.createObjectURL(avatar)}
+                      src={avatar}
                       alt="avatar"
                       className="w-8 h-8 object-cover rounded-full"
                     />

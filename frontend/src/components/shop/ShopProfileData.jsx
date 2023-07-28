@@ -6,13 +6,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllShopProducts } from "../../redux/actions/product";
 import { getAllShopEvents } from "../../redux/actions/event";
 import { backend_url } from "../../server";
-import { all } from "axios";
 import Rating from "../products/Rating";
 const ShopProfileData = ({ isOwner }) => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.product);
   const { events } = useSelector((state) => state.events);
+  const {isSeller} = useSelector((state) => state.seller);
 
   const { id } = useParams();
   useEffect(() => {
@@ -55,7 +55,7 @@ const ShopProfileData = ({ isOwner }) => {
           </h5>
         </div>
 
-        {isOwner && (
+        {isSeller && (
           <Link to="/dashboard">
             <div className={`${styles.button}`}>
               <span className="text-white text-[17px]">Go Dashboard</span>
@@ -77,7 +77,12 @@ const ShopProfileData = ({ isOwner }) => {
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-5 lg:grid-cols-4  mb-12 mx-3 mt-4 ">
           {events &&
             events.map((item) => (
-              <ProductCard key={item._id} data={item} isShop={true} isEvent={true}/>
+              <ProductCard
+                key={item._id}
+                data={item}
+                isShop={true}
+                isEvent={true}
+              />
             ))}
         </div>
       )}
@@ -101,7 +106,9 @@ const ShopProfileData = ({ isOwner }) => {
                       <Rating rating={item?.rating} />
                     </div>
                     <p className="text-[#4d4d4d]">{item?.comment}</p>
-                    <span className="text-[#4d4d4d] font-[500]">2 Days ago</span>
+                    <span className="text-[#4d4d4d] font-[500]">
+                      2 Days ago
+                    </span>
                   </div>
                 </div>
               </div>

@@ -33,6 +33,18 @@ export const orderReducer = createReducer(initialState, {
     state.error = action.payload;
     state.success = false;
   },
+
+  //deleteOrder
+  deleteOrderRequest: (state) => {
+    state.isLoading = true;
+  },
+
+  deleteOrderSuccess: (state, action) => {
+    state.isLoading = false;
+    state.message = action.payload;
+  },
+  deleteOrderFails: (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
+  },
 });
-
-

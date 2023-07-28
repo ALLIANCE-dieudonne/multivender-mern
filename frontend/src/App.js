@@ -27,7 +27,6 @@ import {
   ShopDashboard,
   Products,
   DashboardEvents,
-  DashboardInbox,
   DashboardOrders,
   Settings,
   Refunds,
@@ -139,9 +138,7 @@ const App = () => {
         <Route
           path="/shop/:id"
           element={
-            <SellerProtectedRoute>
               <ShopHomePage />
-            </SellerProtectedRoute>
           }
         />
         <Route
@@ -167,7 +164,6 @@ const App = () => {
           <Route path="/dashboard/events" element={<DashboardEvents />} />
           <Route path="/dashboard/create-event" element={<CreateEvent />} />
           <Route path="/dashboard/withdraw-money" element={<WithdrawMoney />} />
-          <Route path="/dashboard/inbox" element={<DashboardInbox />} />
           <Route path="/dashboard/cupouns" element={<Cupouns />} />
           <Route path="/dashboard/refunds" element={<Refunds />} />
           <Route path="/dashboard/settings" element={<Settings />} />

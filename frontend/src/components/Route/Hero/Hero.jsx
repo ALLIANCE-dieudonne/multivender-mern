@@ -4,7 +4,7 @@ import {Link} from "react-router-dom"
 const Hero = () => {
   return (
     <div
-      className={` ${styles.normalFlex}  relative min-h-[70vh] 800px:min-h-[100vh] w-full bg-no-repeat`}
+      className={` ${styles.normalFlex}  relative min-h-[60vh] 800px:min-h-[100vh] w-full bg-no-repeat`}
       style={{
         backgroundImage:
           "url(https://themes.rslahmed.dev/rafcart/assets/images/banner-2.jpg)",
@@ -15,7 +15,7 @@ const Hero = () => {
           Best collection for <br /> your hone decoration
         </h1>
 
-        <p className="p-5 text-[16px] font-[400] font-[poppins] leading-[1.5] ">
+        <p className="800px:p-5 mt-7 800px:mt-0 text-[16px] font-[400] font-[poppins] leading-[1.5] ">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Expedita
           sunt ab debitis aspernatur fugit officia, atque eum neque quis
           corrupti qui tenetur tempore vero nisi cum, harum quasi. Explicabo

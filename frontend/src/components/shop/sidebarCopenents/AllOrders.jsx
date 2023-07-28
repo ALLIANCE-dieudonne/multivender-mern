@@ -1,12 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { AiOutlineArrowRight } from "react-icons/ai";
+import { AiOutlineArrowRight, AiOutlineDelete } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import Loader from "../../layout/Loader";
 import { DataGrid } from "@material-ui/data-grid";
-import { getAllShopOrders } from "../../../redux/actions/order";
+import { deleteOrder, getAllShopOrders } from "../../../redux/actions/order";
+import axios from "axios";
+import { server } from "../../../server";
+import { toast } from "react-toastify";
 
 const AllOrders = () => {
   const { orders, isLoading } = useSelector((state) => state.order);
@@ -19,6 +22,13 @@ const AllOrders = () => {
       dispatch(getAllShopOrders(seller._id));
     }
   }, [dispatch, seller]);
+
+  const handleDelete = async (id) => {
+    dispatch(deleteOrder(id)).then(() => {
+      toast.success(`Order ${id} deleted`);
+      window.location.reload();
+    });
+  };
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
@@ -48,6 +58,22 @@ const AllOrders = () => {
       minWidth: 130,
       flex: 0.8,
     },
+    {
+      field: "delete",
+      headerName: "Delete",
+      minWidth: 150,
+      flex: 0.5,
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Button onClick={() => handleDelete(params.id)}>
+              <AiOutlineDelete size={20} />
+            </Button>
+          </>
+        );
+      },
+    },
 
     {
       field: " ",
@@ -72,8 +98,6 @@ const AllOrders = () => {
 
   const row = [];
 
-  
-
   orders &&
     orders.forEach((item) => {
       row.push({
@@ -83,7 +107,6 @@ const AllOrders = () => {
         status: item.status,
       });
     });
-
 
   return (
     <>

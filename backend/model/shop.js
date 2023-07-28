@@ -17,7 +17,7 @@ const shopSchema = new mongoose.Schema({
     minLength: [6, "Password should be greater than 6 characters"],
     select: false,
   },
- 
+
   address: {
     type: String,
     required: true,
@@ -27,10 +27,12 @@ const shopSchema = new mongoose.Schema({
     type: String,
     default: "seller",
   },
-  avatar: {
-    type: String,
-    required: true,
-  },
+  avatar: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   zipCode: {
     type: Number,
     required: true,

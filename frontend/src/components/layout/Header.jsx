@@ -143,7 +143,8 @@ const Header = ({ activeHeading }) => {
           <div className={`${styles.button}`}>
             <Link to="/shop-create">
               <h1 className="text-[#fff] flex  items-center">
-                {isSeller ? "Visit shop": "Become seller"} <IoArrowForwardOutline className="ml-1.5" />
+                {isSeller ? "Visit shop" : "Become seller"}{" "}
+                <IoArrowForwardOutline className="ml-1.5" />
               </h1>
             </Link>
           </div>
@@ -222,7 +223,7 @@ const Header = ({ activeHeading }) => {
                 <Link to="/profile">
                   <img
                     crossorigin="anonymous"
-                    src={`${backend_url}${user?.avatar}`}
+                    src={user?.avatar[0]}
                     alt="profile"
                     className="w-[30px] h-[30px] rounded-full"
                   />
@@ -268,7 +269,7 @@ const Header = ({ activeHeading }) => {
             </Link>
           </div>
 
-          <div className="mr-5 flex">
+          <div className="mr-5 flex cursor-pointer" onClick={() => setOpenCart(true)}>
             <AiOutlineShoppingCart size={30} />
             <span className="absolute rounded-full right-4 top-1.5 bg-[#3bc177] w-4 h-4 p-0 m-0 text-white text-[12px] text-center leading-tight font-medium  ">
               {cart && cart.length}

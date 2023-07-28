@@ -1,6 +1,3 @@
-
-
-
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +8,6 @@ import { createEvent } from "../../../redux/actions/event";
 
 const EventCreate = () => {
   const { seller } = useSelector((state) => state.seller);
-  const { success, error } = useSelector((state) => state.events);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -56,7 +52,7 @@ const EventCreate = () => {
       formData.append("images", image);
     });
 
-    console.log(images) 
+    console.log(images);
 
     formData.append("name", name);
     formData.append("description", description);
@@ -69,21 +65,47 @@ const EventCreate = () => {
     formData.append("startDate", startDate.toISOString());
     formData.append("endDate", endDate.toISOString());
 
-    dispatch(createEvent(formData)).then(()=>{
-      toast.success("event created successfully")
-      navigate("/dashboard")
-    }).catch((err)=>{
-      toast.error("create event fail")
-    });
+    dispatch(createEvent(formData))
+      .then(() => {
+        toast.success("event created successfully");
+        navigate("/dashboard");
+      })
+      .catch((err) => {
+        toast.error("create event fail");
+      });
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
+    e.preventDefault();
+
     const files = Array.from(e.target.files);
-    setImages((previousImages) => [...previousImages, ...files]);
-    console.log(files)
 
+    convertTo64Array(files)
+      .then((base64Array) => {
+        setImages((previousImages) => [...previousImages, ...base64Array]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
+  const convertTo64Array = (files) => {
+    const filePromises = files.map((file) => {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
 
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      });
+    });
+
+    return Promise.all(filePromises);
+  };
+  console.log(images);
 
   return (
     <div className="w-full  justify-center flex mt-1">
@@ -250,7 +272,7 @@ const EventCreate = () => {
               </label>
               {images.map((image, index) => (
                 <img
-                  src={URL.createObjectURL(image)}
+                  src={image}
                   key={index}
                   alt="uploaded"
                   className="w-[120px] h-[150px] object-contain"
@@ -269,4 +291,3 @@ const EventCreate = () => {
 };
 
 export default EventCreate;
-    

@@ -1,5 +1,4 @@
 import { useDispatch } from "react-redux";
-import { backend_url } from "../../../server";
 import styles from "../../../styles/styles";
 import CountDown from "./CountDown";
 import { Link } from "react-router-dom";
@@ -32,7 +31,7 @@ const EventsCard = ({ active, data }) => {
       <div className=" w-full lg:w-[50%] m-5 flex items-center justify-center py-3">
         <img
           crossorigin="anonymous"
-          src={`${backend_url}${data.images && data.images[0]}`}
+          src={data.images && data.images[0].secure_url}
           alt=""
           className="w-[300px] h-[250px] rounded-md object-contain"
         />

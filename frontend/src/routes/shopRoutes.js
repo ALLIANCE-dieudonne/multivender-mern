@@ -3,7 +3,6 @@ import ShopDashboard from '../pages/shop/shopDashboard.jsx'
 import {
   Products,
   DashboardEvents,
-  DashboardInbox,
   DashboardOrders,
   Settings,
   Refunds,
@@ -31,7 +30,6 @@ export {
   ShopDashboard,
   Products,
   DashboardEvents,
-  DashboardInbox,
   DashboardOrders,
   Settings,
   Refunds,

@@ -56,19 +56,13 @@ const DashboardHeader = () => {
           <Link to="/dashboard/orders">
             <FiPackage color="#555" size={30} className="cursor-pointer mx-4" />
           </Link>
-          <Link to="/dashboard/messages">
-            <BiMessageSquareDetail
-              color="#555"
-              size={30}
-              className="cursor-pointer mx-4"
-            />
-          </Link>
+        
         </div>
 
         <Link to={`/shop/${seller?._id}`}>
           <img
             crossorigin="anonymous"
-            src={`${backend_url}${seller?.avatar}`}
+            src={seller?.avatar[0]}
             alt="shop"
             className="w-[40px] h-[40px] rounded-full object-cover"
           />

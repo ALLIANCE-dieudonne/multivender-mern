@@ -12,12 +12,30 @@ const SignUp = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [visible, setVisible] = useState(false);
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState("");
   const navigate = useNavigate();
 
-  const handleFileInputChange = (e) => {
+  const handleFileInputChange = async (e) => {
     const file = e.target.files[0];
-    setAvatar(file);
+    try {
+      const base64 = await convertTo64(file);
+      setAvatar(base64);
+    } catch (error) {
+      console.error("Error converting file to base64:", error);
+    }
+  };
+  const convertTo64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (error) => {
+        reject(error);
+      };
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -43,7 +61,7 @@ const SignUp = () => {
       setName("");
       setPassword("");
       if (res.data.success === true) {
-        navigate("/");
+        navigate("/login-user");
       }
     } catch (error) {
       toast.error(error.res.data.message);
@@ -143,7 +161,7 @@ const SignUp = () => {
                 <span className=" h-8 w-8 everflow-hidden ">
                   {avatar ? (
                     <img
-                      src={URL.createObjectURL(avatar)}
+                      src={avatar}
                       alt="avatar"
                       className="w-8 h-8 object-cover rounded-full"
                     />
@@ -162,7 +180,6 @@ const SignUp = () => {
                     type="file"
                     name="avatar"
                     id="file-input"
-                    accept=".jpg,.jpeg,.png"
                     onChange={handleFileInputChange}
                     className="sr-only"
                   />

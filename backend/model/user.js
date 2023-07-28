@@ -46,10 +46,12 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
-  avatar: {
-    type: String,
-    required: true,
-  },
+  avatar: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now(),
@@ -77,7 +79,6 @@ userSchema.pre("findOneAndUpdate", async function (next) {
   }
   next();
 });
-
 
 // jwt token
 userSchema.methods.getJwtToken = function () {

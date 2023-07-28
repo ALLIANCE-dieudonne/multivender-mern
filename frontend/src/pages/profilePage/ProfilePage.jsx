@@ -3,6 +3,7 @@ import styles from "../../styles/styles";
 import ProfileSidebar from "../../components/profile/ProfileSidebar";
 import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import Footer from "../../components/layout/Footer";
 
 
 
@@ -17,6 +18,7 @@ const ProfilePage = () => {
         </div>
         <Outlet/>
       </div>
+      <Footer/>
     </div>
   );
 };

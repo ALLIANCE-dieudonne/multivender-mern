@@ -8,7 +8,6 @@ import ShopRefunds from "./sidebarCopenents/ShopRefunds";
 import DashboardHome from "./sidebarCopenents/DashboardHome";
 import ShopSettings from "./sidebarCopenents/ShopSettings";
 import WithdrawMoneyPage from "./sidebarCopenents/WithdrawMoneyPage";
-import ShopInbox from "./sidebarCopenents/ShopInbox.jsx"
 const Products = () => {
   return <AllProducts />;
 };
@@ -36,9 +35,7 @@ const Refunds = () => {
 const Settings = () => {
   return <ShopSettings />;
 };
-const DashboardInbox = () => {
-  return <ShopInbox/>;
-};
+
 const Dashboard = () => {
   return <DashboardHome />;
 };
@@ -46,7 +43,6 @@ const Dashboard = () => {
 export {
   Products,
   DashboardEvents,
-  DashboardInbox,
   DashboardOrders,
   Settings,
   Refunds,

@@ -114,13 +114,13 @@ const ProductCard = ({ data, isEvent }) => {
       >
         <img
           crossorigin="anonymous"
-          src={`${backend_url}/${data.images && data.images[0]}`}
-          alt="product image"
+          src={data.images && data.images[0].secure_url}
+          alt="productimage"
           className="w-[85%] 800px:h-[150px] h-[200px] object-contain mb-2 rounded-lg"
         />
       </Link>
 
-      <Link to="/">
+      <Link to={`/shop/${data.shop._id}`}>
         <h5 className={`${styles.shop_name}`}>{data.shop.name}</h5>
       </Link>
 

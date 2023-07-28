@@ -12,6 +12,7 @@ const ShopInfo = ({ isOwner }) => {
   const [data, setData] = useState({});
   const [loading, setIsLoading] = useState(false);
   const { products } = useSelector((state) => state.product);
+  const { isSeller } = useSelector((state) => state.seller);
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -40,7 +41,7 @@ const ShopInfo = ({ isOwner }) => {
         console.log(err);
         setIsLoading(false);
       });
-      dispatch(getAllShopEvents(id))
+    dispatch(getAllShopEvents(id));
     dispatch(getAllShopProducts(id));
   }, []);
 
@@ -73,6 +74,8 @@ const ShopInfo = ({ isOwner }) => {
     },
   ];
 
+  console.log(data)
+
   return (
     <>
       {loading ? (
@@ -82,7 +85,7 @@ const ShopInfo = ({ isOwner }) => {
           <div className="w-full flex items-center justify-center ">
             <img
               crossorigin="anonymous"
-              src={`${backend_url}${data?.avatar}`}
+              src={data.avatar?.[0]}
               alt="shop"
               className="w-[150px] h-[150px] rounded-full object-contain"
             />
@@ -100,7 +103,7 @@ const ShopInfo = ({ isOwner }) => {
               const info = item.info;
 
               return (
-                <div className="pl-5 pb-3">
+                <div className="pl-5 pb-3" key={index}>
                   <h4 className="font-[500] text-[#000000a6] text-[17px]">
                     {name}
                   </h4>
@@ -108,16 +111,24 @@ const ShopInfo = ({ isOwner }) => {
                 </div>
               );
             })}
-          {isOwner && (
+          {isSeller && (
             <div className="">
-              <div className={`  ${styles.button} !w-[90%] !h-[42px] mx-auto`}>
-                <Link
-                  to="/dashboard/settings"
-                  className="text-white font-[400] text-[17px]"
-                >
+              <Link
+                to="/"
+                className={`  ${styles.button} !w-[90%] !h-[42px] mx-auto`}
+              >
+                <span className="text-white font-[400] text-[17px]">
+                  Go Buy
+                </span>
+              </Link>
+              <Link
+                to="/dashboard/settings"
+                className={`  ${styles.button} !w-[90%] !h-[42px] mx-auto`}
+              >
+                <span className="text-white font-[400] text-[17px]">
                   Edit Shop
-                </Link>
-              </div>
+                </span>
+              </Link>
               <div
                 className={`  ${styles.button} !w-[90%] !h-[42px] mx-auto`}
                 onClick={handleLogout}
@@ -132,3 +143,4 @@ const ShopInfo = ({ isOwner }) => {
   );
 };
 export default ShopInfo;
+

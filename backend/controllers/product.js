@@ -8,8 +8,9 @@ const Shop = require("../model/shop");
 const Order = require("../model/order");
 const fs = require("fs");
 const { isSeller, isAuthenticated } = require("../middleware/auth");
+const { imageUpload ,deleteImage} = require("../middleware/imageUpload");
 
-// Create product
+//create product
 router.post(
   "/create-product",
   upload.array("images"),
@@ -19,41 +20,36 @@ router.post(
       const shop = await Shop.findById(shopId).exec();
       if (!shop) {
         return new ErrorHandler("Invalid shop id", 400);
-      } else {
-        const files = req.files;
-        const imageUrls = files.map((file) => `${file.filename}`);
-        const productData = req.body;
-
-        productData.images = imageUrls;
-        productData.shop = shop.toObject();
-
-        const productName = productData.name;
-        const existingProduct = await Product.findOne({
-          name: productName,
-          "shop._id": shopId,
-        });
-
-        if (existingProduct) {
-          for (const imageUrl of imageUrls) {
-            fs.unlink(imageUrl, (err) => {
-              if (err) {
-                console.log(err);
-                res.status(500).json({ message: "Error deleting a file" });
-              } else {
-                console.log(`File ${imageUrl} deleted successfully`);
-              }
-            });
-          }
-          return next(new ErrorHandler("Product already exists", 409));
-        }
-
-        const product = await Product.create(productData);
-
-        res.status(200).json({
-          success: true,
-          product,
-        });
       }
+      const existingProduct = await Product.findOne({
+        name: req.body.name,
+        "shop._id": shopId,
+      });
+      if (existingProduct) {
+        return next(new ErrorHandler("Product already exists", 409));
+      }
+
+      const files = req.body.images;
+      const folder = "products";
+      const results = await imageUpload(files, folder);
+
+      const imageObjects = results.map((result) => ({
+        public_id: result.public_id,
+        secure_url: result.secure_url,
+      }));
+
+      const productData = req.body;
+      productData.images = imageObjects;
+      productData.shop = shop.toObject();
+
+      const productName = productData.name;
+
+      const product = await Product.create(productData);
+
+      res.status(200).json({
+        success: true,
+        product,
+      });
     } catch (error) {
       return next(new ErrorHandler(error, 400));
     }
@@ -80,6 +76,43 @@ router.get(
 
 //delete shop product
 
+// router.delete(
+//   "/delete-shop-product/:id",
+//   isSeller,
+//   catchAsyncErrors(async (req, res, next) => {
+//     try {
+//       const productId = req.params.id;
+//       const productData = await Product.findById(productId);
+
+//       productData.images.forEach((imageUrl) => {
+//         const fileName = imageUrl;
+//         const filePath = `uploads/${fileName}`;
+
+//         fs.unlink(filePath, (err) => {
+//           if (err) {
+//             res.status(500).json({ message: "error in deletin a file" });
+//           } else {
+//             res.status(200).json({ message: "file deleted successfully" });
+//           }
+//         });
+//       });
+
+//       const product = await Product.findByIdAndDelete(productId);
+
+//       if (!product) {
+//         return next(new ErrorHandler("Product not found", 404));
+//       }
+
+//       res.status(200).json({
+//         success: true,
+//         message: "Product deleted successfully!",
+//       });
+//     } catch (error) {
+//       return next(new ErrorHandler(error, 400));
+//     }
+//   })
+// );
+
 router.delete(
   "/delete-shop-product/:id",
   isSeller,
@@ -88,18 +121,13 @@ router.delete(
       const productId = req.params.id;
       const productData = await Product.findById(productId);
 
-      productData.images.forEach((imageUrl) => {
-        const fileName = imageUrl;
-        const filePath = `uploads/${fileName}`;
+      // Get an array of public_ids from the productData
+      const publicIds = productData.images.map((image) => image.public_id);
 
-        fs.unlink(filePath, (err) => {
-          if (err) {
-            res.status(500).json({ message: "error in deletin a file" });
-          } else {
-            res.status(200).json({ message: "file deleted successfully" });
-          }
-        });
-      });
+      // Delete the images from Cloudinary
+      for (const publicId of publicIds) {
+        await deleteImage(publicId);
+      }
 
       const product = await Product.findByIdAndDelete(productId);
 
@@ -116,6 +144,7 @@ router.delete(
     }
   })
 );
+
 
 //getting all products
 

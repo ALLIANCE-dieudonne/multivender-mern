@@ -25,8 +25,8 @@ const Cart = ({ setOpenCart }) => {
   };
 
   return (
-    <div className="w-full fixed top-0 right-0 bg-[#0000004b] h-screen  z-10 transition">
-      <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full justify-between ">
+    <div className="w-screen fixed top-0 right-0 bg-[#0000004b] h-screen  z-10 transition">
+      <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full justify-between overflow-y-scroll h-[100vh]">
         <div>
           <div className="w-full flex justify-end pt-3 pr-3">
             <RxCross2 size={30} onClick={() => setOpenCart(false)} />
@@ -122,7 +122,7 @@ const SingleCart = ({ data, quantityChangeHandler, handleRemoveFromCart }) => {
         <div className="">
           <img
             crossOrigin="anonymous"
-            src={`${backend_url}${data?.images[0]}`}
+            src={data?.images[0].secure_url}
             alt=""
             className="w-[80px] h-[70px] ml-3 rounded-sm"
           />

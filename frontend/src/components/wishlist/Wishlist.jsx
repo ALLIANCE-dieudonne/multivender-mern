@@ -14,7 +14,7 @@ const Wishlist = ({ setOpenWishlist }) => {
 
   return (
     <div className="w-full fixed top-0 right-0 bg-[#0000004b] h-screen  z-10 transition">
-      <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full ">
+      <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full h-[100vh] ">
         <div className="w-full flex justify-end pt-3 pr-3">
           <RxCross2 size={30} onClick={() => setOpenWishlist(false)} />
         </div>
@@ -49,7 +49,7 @@ const Wishlist = ({ setOpenWishlist }) => {
 
 const SingleWishlist = ({ data }) => {
   const [value, setValue] = useState(1);
-    const [count, setCount] = useState(1);
+  const [count, setCount] = useState(1);
 
   const totalPrice = data.discountPrice * value;
   const { cart } = useSelector((state) => state.cart);
@@ -86,7 +86,7 @@ const SingleWishlist = ({ data }) => {
         <div className="">
           <img
             crossOrigin="anonymous"
-            src={`${backend_url}${data.images[0]}`}
+            src={data.images[0].secure_url}
             alt=""
             className="w-[70px] h-[60px] ml-3 rounded-md"
           />

@@ -22,11 +22,7 @@ const ProductCreate = () => {
   const [discountPrice, setDiscountPrice] = useState();
   const [stock, setStock] = useState();
 
-
-  useEffect(() => {
-
- 
-  }, [error, success, dispatch]);
+  useEffect(() => {}, [error, success, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,17 +49,45 @@ const ProductCreate = () => {
       navigate("/dashboard");
       window.location.reload();
     }
-        if (error) {
-          toast.error(error);
-        }  
+    if (error) {
+      // toast.error(error);
+      console.log(error);
+    }
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = async (e) => {
     e.preventDefault();
 
     const files = Array.from(e.target.files);
-    setImages((previousImages) => [...previousImages, ...files]);
+
+    convertTo64Array(files)
+      .then((base64Array) => {
+        setImages((previousImages) => [...previousImages, ...base64Array]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
   };
+
+  const convertTo64Array = (files) => {
+    const filePromises = files.map((file) => {
+      return new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+
+        fileReader.onload = () => {
+          resolve(fileReader.result);
+        };
+        fileReader.onerror = (error) => {
+          reject(error);
+        };
+      });
+    });
+
+    return Promise.all(filePromises);
+  };
+
 
   return (
     <div className=" w-full  h-[85vh]  justify-center flex mt-1">
@@ -197,7 +221,8 @@ const ProductCreate = () => {
               {images &&
                 images.map((i) => (
                   <img
-                    src={URL.createObjectURL(i)}
+                    src={i}
+                    alt="imag"
                     key={i}
                     className="w-[120px] h-[150px] object-contain"
                   />

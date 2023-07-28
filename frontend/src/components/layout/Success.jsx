@@ -10,9 +10,9 @@ const SuccessAnim = () => {
     },
   };
   return (
-    <div className="w-full h-screen items-center justify-center">
+    <div className="w-full h-[50vh] items-center justify-center">
       {" "}
-      <Lottie options={defaultOptions} height={400} width={400} />
+      <Lottie options={defaultOptions} height={250} width={300} />
     </div>
   );
 };

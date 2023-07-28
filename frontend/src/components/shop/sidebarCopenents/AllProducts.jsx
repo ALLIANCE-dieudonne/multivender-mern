@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import Loader from "../../layout/Loader";
 import { DataGrid } from "@material-ui/data-grid";
+import { toast } from "react-toastify";
 
 const AllProducts = () => {
   const { products, isLoading } = useSelector((state) => state.product);
@@ -17,8 +18,10 @@ const AllProducts = () => {
   const dispatch = useDispatch();
 
   const handleDelete = (id) => {
-    dispatch(deleteProduct(id));
-    window.location.reload();
+    dispatch(deleteProduct(id)).then((res) => {
+      window.location.reload();
+      toast.success("Product deleted successfully!");
+    });
   };
 
   useEffect(() => {
@@ -26,7 +29,6 @@ const AllProducts = () => {
       dispatch(getAllShopProducts(seller._id));
     }
   }, [dispatch, seller]);
-
 
   const columns = [
     { field: "id", headerName: "Product Id", minWidth: 150, flex: 0.5 },

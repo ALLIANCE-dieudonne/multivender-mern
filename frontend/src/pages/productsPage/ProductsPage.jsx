@@ -5,15 +5,16 @@ import { useSearchParams } from "react-router-dom";
 import ProductCard from "../../components/Route/ProductCard/ProductCard";
 import { useSelector } from "react-redux";
 import Loader from "../../components/layout/Loader";
+import Footer from "../../components/layout/Footer";
 
 const ProductsPage = () => {
   const [searchParams] = useSearchParams();
   const categoryData = searchParams.get("category");
   const { allproducts, isLoading } = useSelector((state) => state.product);
 
-  useEffect(()=>{
+  useEffect(() => {
     window.scrollTo(0, 0);
-  },[])
+  }, []);
 
   const data = useMemo(() => {
     if (categoryData === null) {
@@ -44,11 +45,14 @@ const ProductsPage = () => {
               ))}
             </div>
             {data.length === 0 && (
-              <h1 className="text-center font-[500] text-[30px] w-full">
-                No Products Found !
-              </h1>
+              <div className="h-[50vh] w-full">
+                <h1 className="text-center font-[500] text-[30px] pt-20 ">
+                  No Products Found !
+                </h1>
+              </div>
             )}
           </div>
+          <Footer />
         </div>
       )}
     </>

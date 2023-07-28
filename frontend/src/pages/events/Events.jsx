@@ -3,6 +3,7 @@ import EventsCard from "../../components/Route/events/EventsCard";
 import Header from "../../components/layout/Header";
 import Loader from "../../components/layout/Loader";
 import { useSelector } from "react-redux";
+import Footer from "../../components/layout/Footer";
 
 const Events = () => {
 
@@ -22,6 +23,7 @@ const Events = () => {
           {allEvents.map((event) => (
             <EventsCard key={event._id} active={true} data={event} />
           ))}{" "}
+          <Footer/>
         </div>
       )}
     </>

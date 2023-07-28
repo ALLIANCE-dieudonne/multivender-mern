@@ -47,3 +47,26 @@ export const getAllShopOrders = (shopId) => async (dispatch) => {
     });
   }
 };
+
+export const deleteOrder = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: "deleteOrderRequest" });
+
+    const { data } = await axios.delete(
+      `${server}/order/delete-order/${id}`,
+      {
+        withCredentials: true,
+      }
+    );
+
+    dispatch({
+      type: "deleteOrderSuccess",
+      payload: data.message,
+    });
+  } catch (error) {
+    dispatch({
+      type: "deleteOrderFails",
+      payload: error.response.data.message,
+    });
+  }
+};

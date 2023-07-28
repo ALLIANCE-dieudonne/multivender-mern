@@ -4,98 +4,54 @@ const path = require("path");
 const router = express.Router();
 const { upload } = require("../multer");
 const fs = require("fs");
-const jwt = require("jsonwebtoken");
-const sendMail = require("../utils/sendMail");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendToken = require("../utils/jwtToken");
 const ErrorHandler = require("../utils/errorHandler");
 const { isAuthenticated } = require("../middleware/auth");
+const { error } = require("console");
+const { imageUpload, deleteImage } = require("../middleware/imageUpload");
 
 //creating user
 
 router.post("/create-user", upload.single("file"), async (req, res, next) => {
-  const { name, email, password } = req.body;
-
-  const userEmail = await User.findOne({ email });
-
-  if (userEmail) {
-    const filename = req.file.filename;
-    const filePath = `uploads/${filename}`;
-    fs.unlink(filePath, (err) => {
-      if (err) {
-        res.status(500).json({ message: "error in deletin a file" });
-      } else {
-        res.status(200).json({ message: "file deleted successfully" });
-      }
-    });
-    return next(new ErrorHandler("User already exists", 409));
-  }
-
-  const filename = req.file.filename;
-  const fileUrl = path.join(filename);
-
-  const user = {
-    name: name,
-    email: email,
-    password: password,
-    avatar: fileUrl,
-  };
-
-  const activationToken = createActivationToken(user);
-  const activationUrl = `http://localhost:3000/activation/${activationToken}`;
-
   try {
-    await sendMail({
-      email: user.email,
-      subject: "Activate your account",
-      message: `Hellow ${user.name}, please click the link below to activate your account ${activationUrl}`,
+    const { name, email, password } = req.body;
+    let avatar, pubId;
+
+    const userEmail = await User.findOne({ email });
+
+    if (userEmail) {
+      return next(new ErrorHandler("User already exists", 409));
+    }
+
+    try {
+      const file = req.body.file;
+      const folder = "avatars";
+      const result = await imageUpload(file, folder);
+      avatar = result[0].secure_url;
+      pubId = result[0].public_id;
+    } catch (error) {
+      return next(new ErrorHandler("Couldn't upload avatar", 500));
+    }
+
+    const user = new User({
+      name: name,
+      email: email,
+      password: password,
+      avatar: [avatar, pubId],
     });
 
-    res.status(201).json({
+    await user.save();
+
+    res.status(200).json({
       success: true,
-      message: `Pleasse check your email: ${user.email} to activate your account`,
+      user,
     });
-  } catch (err) {
-    return next(new ErrorHandler(err, 500));
+  } catch (error) {
+    deleteImage(result);
+    return next(new ErrorHandler("Failed to create user!"), 500);
   }
 });
-
-//creating activation token
-const createActivationToken = (user) => {
-  return jwt.sign(user, process.env.ACTIVATION_SECRET, {
-    expiresIn: "5m",
-  });
-};
-
-//activate the user
-router.post(
-  "/activation",
-  catchAsyncErrors(async (req, res, next) => {
-    try {
-      const { activation_token } = req.body;
-      const newUser = jwt.verify(
-        activation_token,
-        process.env.ACTIVATION_SECRET
-      );
-      if (!newUser) {
-        return next(new ErrorHandler("Invalid Token", 400));
-      }
-
-      const { name, email, password, avatar } = newUser;
-
-      const user = await User.create({
-        name,
-        email,
-        password,
-        avatar,
-      });
-
-      sendToken(user, 201, res);
-    } catch (error) {
-      return next(new ErrorHandler(error.message, 500));
-    }
-  })
-);
 
 //login user
 router.post(
@@ -208,18 +164,24 @@ router.put(
   catchAsyncErrors(async (req, res, next) => {
     try {
       const existingUser = await User.findById(req.user.id);
-      const existingAvatar = `uploads/${existingUser?.avatar}`;
+      const existingAvatar = existingUser?.avatar[1];
 
       // Check if the user has an existing avatar and delete it
-      if (existingUser.avatar) {
-        fs.unlinkSync(existingAvatar);
+
+      if (existingAvatar) {
+        await deleteImage(existingAvatar);
+        console.log("deleting existing avatar");
       }
 
-      const fileUrl = req.file.filename;
+      const file = req.body.image;
+      const folder = "avatars";
+      const result = await imageUpload(file, folder);
+      const avatar = result.secure_url;
+      const pubId = result.public_id;
 
       const user = await User.findByIdAndUpdate(req.user.id, {
-        avatar: fileUrl,
-      });
+        $set: { "avatar.0": `${avatar}`, "avatar.1": `${pubId}` },
+      }).lean();
 
       res.status(200).json({ success: true, user });
     } catch (error) {
@@ -327,6 +289,21 @@ router.put(
         success: true,
         message: "password updated successfully",
       });
+    } catch (error) {
+      return next(new ErrorHandler("Failed to update password", 400));
+    }
+  })
+);
+
+//get user infromation using id
+
+router.get(
+  "/users/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    try {
+      const user = await User.findById(req.params.id);
+
+      res.status(200).json({ success: true, user });
     } catch (error) {
       return next(new ErrorHandler("Failed to update password", 400));
     }

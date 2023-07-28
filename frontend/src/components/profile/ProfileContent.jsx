@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { DataGrid } from "@material-ui/data-grid";
 import { Button } from "@material-ui/core";
 import { AiOutlineArrowRight } from "react-icons/ai";
-import { MdOutlineTrackChanges, MdTrackChanges } from "react-icons/md";
+import { MdTrackChanges } from "react-icons/md";
 import {
   updateUserAddress,
   updateUserInfo,
@@ -18,6 +18,58 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { RxCross1 } from "react-icons/rx";
 import { getAllOrders } from "../../redux/actions/order";
+
+const compressImage = (imageBase64, maxWidth, maxHeight, quality) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = imageBase64;
+
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+
+      // Calculate the new dimensions to maintain the aspect ratio
+      if (width > maxWidth) {
+        height *= maxWidth / width;
+        width = maxWidth;
+      }
+      if (height > maxHeight) {
+        width *= maxHeight / height;
+        height = maxHeight;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Convert the compressed image back to base64 with the specified quality
+      const compressedBase64 = canvas.toDataURL("image/jpeg", quality / 100);
+      resolve(compressedBase64);
+    };
+  });
+};
+
+const convertTo64 = async (file) => {
+  try {
+    const fileReader = new FileReader();
+    const base64 = await new Promise((resolve, reject) => {
+      fileReader.onload = () => resolve(fileReader.result);
+      fileReader.onerror = (error) => reject(error);
+      fileReader.readAsDataURL(file);
+    });
+
+    // Compress the image to approximately 1 MB with 80% quality
+    const compressedBase64 = await compressImage(base64, 800, 800, 80);
+
+    return compressedBase64;
+  } catch (error) {
+    throw new Error("Failed to convert the image to base64.");
+  }
+};
+
 const AllOrders = () => {
   const { user } = useSelector((state) => state.user);
   const { orders } = useSelector((state) => state.order);
@@ -79,7 +131,8 @@ const AllOrders = () => {
       },
     },
   ];
-  const data = orders && orders.filter(order => order.status !== "Processing Refund")
+  const data =
+    orders && orders.filter((order) => order.status !== "Processing Refund");
 
   const row = [];
 
@@ -105,92 +158,92 @@ const AllOrders = () => {
   );
 };
 const AllRefundOrders = () => {
- const { user } = useSelector((state) => state.user);
- const { orders } = useSelector((state) => state.order);
- const userId = user && user._id;
- const dispatch = useDispatch();
-useMemo(() => {
-   if (userId) {
-     dispatch(getAllOrders(userId));
-   }
- }, [dispatch, userId]);
+  const { user } = useSelector((state) => state.user);
+  const { orders } = useSelector((state) => state.order);
+  const userId = user && user._id;
+  const dispatch = useDispatch();
+  useMemo(() => {
+    if (userId) {
+      dispatch(getAllOrders(userId));
+    }
+  }, [dispatch, userId]);
 
- const filteredData =
-   orders && orders.filter((i) => i.status === "Processing Refund");
+  const filteredData =
+    orders && orders.filter((i) => i.status === "Processing Refund");
 
- const columns = [
-   { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
+  const columns = [
+    { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
 
-   {
-     field: "status",
-     headerName: "Status",
-     minWidth: 130,
-     flex: 0.7,
-     cellClassName: (params) => {
-       return params.getValue(params.id, "status") === "Delivered"
-         ? "greenColor"
-         : "redColor";
-     },
-   },
-   {
-     field: "itemsQty",
-     headerName: "Items ",
-     type: "number",
-     minWidth: 130,
-     flex: 0.7,
-   },
+    {
+      field: "status",
+      headerName: "Status",
+      minWidth: 130,
+      flex: 0.7,
+      cellClassName: (params) => {
+        return params.getValue(params.id, "status") === "Delivered"
+          ? "greenColor"
+          : "redColor";
+      },
+    },
+    {
+      field: "itemsQty",
+      headerName: "Items ",
+      type: "number",
+      minWidth: 130,
+      flex: 0.7,
+    },
 
-   {
-     field: "total",
-     headerName: "Total",
-     type: "number",
-     minWidth: 130,
-     flex: 0.8,
-   },
+    {
+      field: "total",
+      headerName: "Total",
+      type: "number",
+      minWidth: 130,
+      flex: 0.8,
+    },
 
-   {
-     field: " ",
-     flex: 1,
-     minWidth: 150,
-     headerName: "",
-     type: "number",
-     sortable: false,
-     renderCell: (params) => {
-       return (
-         <>
-           <Link to={`/user/order/${params.id}`}>
-             <Button>
-               <AiOutlineArrowRight size={20} />
-             </Button>
-           </Link>
-         </>
-       );
-     },
-   },
- ];
+    {
+      field: " ",
+      flex: 1,
+      minWidth: 150,
+      headerName: "",
+      type: "number",
+      sortable: false,
+      renderCell: (params) => {
+        return (
+          <>
+            <Link to={`/user/order/${params.id}`}>
+              <Button>
+                <AiOutlineArrowRight size={20} />
+              </Button>
+            </Link>
+          </>
+        );
+      },
+    },
+  ];
 
- const row = [];
+  const row = [];
 
- filteredData &&
-   filteredData.forEach((item) => {
-     row.push({
-       id: item._id,
-       itemsQty: item.cart.length,
-       total: "US$" + item.totalPrice,
-       status: item.status,
-     });
-   });
- return (
-   <div className="mt-8 w-[75%] ml-5">
-     <DataGrid
-       rows={row}
-       columns={columns}
-       pageSize={10}
-       disableSelectionOnClick
-       autoHeight
-     />
-   </div>
- );
+  filteredData &&
+    filteredData.forEach((item) => {
+      row.push({
+        id: item._id,
+        itemsQty: item.cart.length,
+        total: "US$" + item.totalPrice,
+        status: item.status,
+      });
+    });
+  return (
+    <div className="mt-8 w-[75%] ml-5">
+      <DataGrid
+        rows={row}
+        columns={columns}
+        pageSize={10}
+        disableSelectionOnClick
+        autoHeight
+      />
+    </div>
+  );
 };
 
 const TrackOrders = () => {
@@ -203,9 +256,12 @@ const TrackOrders = () => {
       dispatch(getAllOrders(userId));
     }
   }, [dispatch, userId]);
-    const data =
-      orders && orders.filter((order) => order.status !== "Processing Refund");
-
+  const data =
+    orders &&
+    orders.filter(
+      (order) =>
+        order.status !== "Processing Refund" || order.status !== "succeeded"
+    );
 
   const columns = [
     { field: "id", headerName: "Order ID", minWidth: 150, flex: 0.7 },
@@ -637,27 +693,33 @@ const Profile = () => {
   const [avatar, setAvatar] = useState(null);
 
   const dispatch = useDispatch();
+  console.log(user);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];
-    setAvatar(file);
-
-    const formData = new FormData();
-    formData.append("image", e.target.files[0]);
-
-    await axios
-      .put(`${server}/user/update-avatar`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-
-        withCredentials: true,
-      })
-      .then((response) => {
-        window.location.reload();
-      })
-      .catch((error) => {
-        toast.error(error);
-      });
+    const base64 = await convertTo64(file);
+    setAvatar(base64);
   };
+
+  useEffect(() => {
+    if (avatar !== null) {
+      const formData = new FormData();
+      formData.append("image", avatar);
+
+      const updateAvatar = async () => {
+        try {
+          await axios.put(`${server}/user/update-avatar`, formData, {
+            headers: { "Content-Type": "multipart/form-data" },
+            withCredentials: true,
+          });
+        } catch (error) {
+          toast.error("Failed to update avatar!");
+        }
+      };
+
+      updateAvatar();
+    }
+  }, [avatar]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -674,7 +736,7 @@ const Profile = () => {
         <div className="relative">
           <img
             crossOrigin="anonymous"
-            src={`${backend_url}${user?.avatar}`}
+            src={avatar || user?.avatar[0]}
             alt="profile"
             className="800px:mt-0 mt-5 w-[80px] h-[80px] 800px:w-[100px] 800px:h-[100px] rounded-full object-cover border border-[green]"
           />
@@ -696,7 +758,7 @@ const Profile = () => {
       <br />
 
       <div className="w-full px-5 ">
-        <form onSubmit={handleSubmit} aria-required>
+        <form onSubmit={handleSubmit}>
           <div className="w-full 800px:flex pb-3">
             <div className=" 800px:w-[50%] ">
               <label htmlFor="names" className="font-medium">

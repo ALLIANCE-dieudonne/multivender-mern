@@ -4,6 +4,7 @@ import styles from "../../styles/styles";
 import ProductCard from "../../components/Route/ProductCard/ProductCard";
 import { useSelector } from "react-redux";
 import Loader from "../../components/layout/Loader";
+import Footer from "../../components/layout/Footer";
 
 const BestSelling = () => {
   const { allproducts, isLoading } = useSelector((state) => state.product);
@@ -39,6 +40,7 @@ const BestSelling = () => {
               </h1>
             )}
           </div>
+          <Footer/>
         </div>
       )}
     </>

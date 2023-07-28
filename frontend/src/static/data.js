@@ -55,11 +55,7 @@ export const profileLinks = [
     icon: <HiOutlineReceiptRefund />,
     link: "/profile/refunds",
   },
-  {
-    name: "Inbox",
-    icon: <AiOutlineMessage />,
-    link: "/profile/inbox",
-  },
+
   {
     name: "Track Orders",
     icon: <MdOutlineTrackChanges />,
@@ -120,11 +116,7 @@ export const sidebarItems = [
     icon: <CiMoneyBill />,
     link: "/dashboard/withdraw-money",
   },
-  {
-    name: "Shop Inbox",
-    icon: <BiMessageSquareDetail />,
-    link: "/dashboard/inbox",
-  },
+ 
   {
     name: "Discount Codes",
     icon: <AiOutlineGift />,
@@ -407,7 +399,8 @@ export const categoriesData = [
     id: 6,
     title: "Gifts",
     subTitle: "",
-    image_Url: "https://unsplash.com/photos/ZLTlHeKbh04",
+    image_Url:
+      "https://png.pngtree.com/png-vector/20221118/ourmid/pngtree-red-gift-vector-illustration-png-image_6447019.png",
   },
   {
     id: 7,

@@ -66,14 +66,16 @@ const ShopSettings = () => {
         toast.error("Error updating shop");
       });
   };
+    console.log(seller)
+  
   return (
     <div className="mt-7 w-[80%]">
       <div className="flex justify-center w-full">
         <div className="relative">
           <img
             crossOrigin="anonymous"
-            src={`${backend_url}${seller?.avatar}`}
-            alt="profile"
+            src={seller?.avatar}
+            alt="shop profile"
             className="800px:mt-0 mt-5 w-[80px] h-[80px] 800px:w-[100px] 800px:h-[100px] rounded-full object-contain border border-[green]"
           />
 
@@ -94,7 +96,7 @@ const ShopSettings = () => {
       <br />
 
       <div className="w-full px-5 ">
-        <form onSubmit={handleSubmit} aria-required>
+        <form onSubmit={handleSubmit}>
           <div className="w-full 800px:flex pb-3">
             <div className=" 800px:w-[50%] ">
               <label htmlFor="names" className="font-medium">

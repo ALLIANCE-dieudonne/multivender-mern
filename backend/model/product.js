@@ -30,8 +30,18 @@ const productSchema = new mongoose.Schema({
     required: [true, "Please enter your product stock!"],
   },
 
-  images: [{ type: String }],
-
+  images: [
+    {
+      public_id: {
+        type: String,
+        required: true,
+      },
+      secure_url: {
+        type: String,
+        required: true,
+      },
+    },
+  ],
   shopId: {
     type: String,
     required: true,
@@ -58,13 +68,13 @@ const productSchema = new mongoose.Schema({
       producId: {
         type: String,
       },
-      createdAt:{
+      createdAt: {
         type: Date,
         default: Date.now(),
-      }
+      },
     },
   ],
-  ratings:{
+  ratings: {
     type: Number,
   },
   createdAt: {
@@ -73,9 +83,6 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-
-
 const Product = mongoose.model("Product", productSchema);
 
 module.exports = Product;
-
