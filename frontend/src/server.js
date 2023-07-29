@@ -1,3 +1,3 @@
-export const server = "http://localhost:5003/api/v2"
+export const server = "https://multivender-backend.onrender.com/api/v2"
 
-export const backend_url = "http://localhost:5003/"
+export const backend_url = "https://multivender-backend.onrender.com/"
