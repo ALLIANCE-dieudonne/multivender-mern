@@ -47,6 +47,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
       success: true,
       user,
     });
+    sendToken(user, 200, res)
   } catch (error) {
     await deleteImage(pubId);
     return next(new ErrorHandler("Failed to create user!"), 500);

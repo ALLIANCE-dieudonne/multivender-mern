@@ -10,6 +10,7 @@ const { isSeller } = require("../middleware/auth");
 const Shop = require("../model/shop");
 const { upload } = require("../multer");
 const { imageUpload, deleteImage } = require("../middleware/imageUpload");
+const { resolve } = require("path/win32");
 
 router.post("/shop-create", upload.single("file"), async (req, res, next) => {
   try {
@@ -47,6 +48,7 @@ router.post("/shop-create", upload.single("file"), async (req, res, next) => {
       success: true,
       shop: newShop,
     });
+    sendShopToken(newShop,200, resolve);
   } catch (error) {
     await deleteImage(pubId);
     return next(new ErrorHandler(error.message, 400));
