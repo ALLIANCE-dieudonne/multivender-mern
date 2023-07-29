@@ -15,7 +15,7 @@ router.post(
         req.body;
 
       if (!Array.isArray(cart)) {
-        throw new ErrorHandler("Invalid cart data", 400);
+        return new ErrorHandler("Invalid cart data", 400);
       }
 
       // Group shop items by shopId

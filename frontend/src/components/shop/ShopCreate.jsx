@@ -112,7 +112,7 @@ const convertTo64 = async (file) => {
 
     return compressedBase64;
   } catch (error) {
-    throw new Error("Failed to convert the image to base64.");
+    return new Error("Failed to convert the image to base64.");
   }
 };
   return (
