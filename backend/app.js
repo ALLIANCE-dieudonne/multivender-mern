@@ -6,30 +6,31 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const helmet = require("helmet");
 
-
 app.use(express.json());
 app.use(cookieParser());
+
+
+const corsOptions = {
+  origin: "*", // Allow requests from any origin
+  methods: "GET, POST, PUT, DELETE", // Allow specified HTTP methods
+  allowedHeaders: "Content-Type, Authorization", // Allow specified headers
+};
+
+// Enable CORS for all routes
+app.use(cors(corsOptions));
+
 app.use(
-  cors({
-    origin: "https://multivender-front.onrender.com",
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+  helmet({
+    crossOrginResourcePolicy: false,
   })
 );
-
-
-app.use(helmet({
-  crossOrginResourcePolicy: false
-}))
 app.use("/", express.static("uploads"));
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 
 //config
 
 require("dotenv").config();
-console.log(process.env.NODE_EN)
-
+console.log(process.env.NODE_EN);
 
 //import routes
 const user = require("./controllers/user");
@@ -45,7 +46,6 @@ app.use("/api/v2/product", product);
 app.use("/api/v2/event", event);
 app.use("/api/v2/coupon", couponCodes);
 app.use("/api/v2/order", order);
-
 
 //for error handling
 app.use(ErrorHandler);
