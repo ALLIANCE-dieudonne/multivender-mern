@@ -80,42 +80,6 @@ router.get(
 
 //delete shop product
 
-// router.delete(
-//   "/delete-shop-product/:id",
-//   isSeller,
-//   catchAsyncErrors(async (req, res, next) => {
-//     try {
-//       const productId = req.params.id;
-//       const productData = await Product.findById(productId);
-
-//       productData.images.forEach((imageUrl) => {
-//         const fileName = imageUrl;
-//         const filePath = `uploads/${fileName}`;
-
-//         fs.unlink(filePath, (err) => {
-//           if (err) {
-//             res.status(500).json({ message: "error in deletin a file" });
-//           } else {
-//             res.status(200).json({ message: "file deleted successfully" });
-//           }
-//         });
-//       });
-
-//       const product = await Product.findByIdAndDelete(productId);
-
-//       if (!product) {
-//         return next(new ErrorHandler("Product not found", 404));
-//       }
-
-//       res.status(200).json({
-//         success: true,
-//         message: "Product deleted successfully!",
-//       });
-//     } catch (error) {
-//       return next(new ErrorHandler(error, 400));
-//     }
-//   })
-// );
 
 router.delete(
   "/delete-shop-product/:id",

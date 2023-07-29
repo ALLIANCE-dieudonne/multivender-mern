@@ -1,8 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const fs = require("fs");
-const jwt = require("jsonwebtoken");
-const sendMail = require("../utils/sendMail");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const sendShopToken = require("../utils/shopToken");
 const ErrorHandler = require("../utils/errorHandler");
@@ -10,7 +7,6 @@ const { isSeller } = require("../middleware/auth");
 const Shop = require("../model/shop");
 const { upload } = require("../multer");
 const { imageUpload, deleteImage } = require("../middleware/imageUpload");
-const { resolve } = require("path/win32");
 
 router.post("/shop-create", upload.single("file"), async (req, res, next) => {
   try {
