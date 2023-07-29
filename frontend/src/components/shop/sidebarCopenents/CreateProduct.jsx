@@ -42,17 +42,15 @@ const ProductCreate = () => {
     newForm.append("stock", stock);
     newForm.append("shopId", seller._id);
 
-    dispatch(createProduct(newForm));
-
-    if (success) {
-      toast.success("Product created successfully!");
-      navigate("/dashboard");
-      window.location.reload();
-    }
-    if (error) {
-      // toast.error(error);
-      console.log(error);
-    }
+    dispatch(createProduct(newForm))
+      .then(() => {
+        toast.success("Product created successfully!");
+        navigate("/dashboard");
+        window.location.reload();
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
   };
 
   const handleImageChange = async (e) => {
@@ -65,9 +63,8 @@ const ProductCreate = () => {
         setImages((previousImages) => [...previousImages, ...base64Array]);
       })
       .catch((error) => {
-        console.error(error);
+        toast.error(error.message);
       });
-
   };
 
   const convertTo64Array = (files) => {
@@ -87,7 +84,6 @@ const ProductCreate = () => {
 
     return Promise.all(filePromises);
   };
-
 
   return (
     <div className=" w-full  h-[85vh]  justify-center flex mt-1">

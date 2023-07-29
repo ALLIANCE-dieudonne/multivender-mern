@@ -5,7 +5,6 @@ import styles from "../../styles/styles";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { backend_url } from "../../server";
 import { addToCart, removeFromCart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
 const Cart = ({ setOpenCart }) => {
@@ -26,7 +25,7 @@ const Cart = ({ setOpenCart }) => {
 
   return (
     <div className="w-screen fixed top-0 right-0 bg-[#0000004b] h-screen  z-10 transition">
-      <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full justify-between overflow-y-scroll h-[100vh]">
+      <div className="w-[95%] m-3 800px:m-0 800px:w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full justify-between overflow-y-scroll h-[100vh]">
         <div>
           <div className="w-full flex justify-end pt-3 pr-3">
             <RxCross2 size={30} onClick={() => setOpenCart(false)} />
@@ -123,7 +122,7 @@ const SingleCart = ({ data, quantityChangeHandler, handleRemoveFromCart }) => {
           <img
             crossOrigin="anonymous"
             src={data?.images[0].secure_url}
-            alt=""
+            alt="cart"
             className="w-[80px] h-[70px] ml-3 rounded-sm"
           />
         </div>
@@ -131,7 +130,7 @@ const SingleCart = ({ data, quantityChangeHandler, handleRemoveFromCart }) => {
         <div className="justify-start">
           <h1 className="font-[500]">{data.name}</h1>
           <h4 className="font-[400] text-[15px]">
-            {data.discountPrice} * {value }
+            {data.discountPrice} * {value}
           </h4>
           <h5 className="text-[#ed4545] font-[500] text-[17px]">
             US$ {totalPrice}

@@ -8,7 +8,7 @@ const Shop = require("../model/shop");
 const Order = require("../model/order");
 const fs = require("fs");
 const { isSeller, isAuthenticated } = require("../middleware/auth");
-const { imageUpload ,deleteImage} = require("../middleware/imageUpload");
+const { imageUpload, deleteImage } = require("../middleware/imageUpload");
 
 //create product
 router.post(
@@ -37,6 +37,7 @@ router.post(
         public_id: result.public_id,
         secure_url: result.secure_url,
       }));
+      const publicIds = results.map((i) => i.public_id);
 
       const productData = req.body;
       productData.images = imageObjects;
@@ -51,6 +52,9 @@ router.post(
         product,
       });
     } catch (error) {
+      for (publicId of publicIds) {
+        await deleteImage(publicId);
+      }
       return next(new ErrorHandler(error, 400));
     }
   })
@@ -144,7 +148,6 @@ router.delete(
     }
   })
 );
-
 
 //getting all products
 

@@ -31,12 +31,13 @@ router.post(
       const files = req.body.images;
       const folder = "events";
       const results = await imageUpload(files, folder);
-      console.log(results);
 
       const imageObjects = results.map((result) => ({
         public_id: result.public_id,
         secure_url: result.secure_url,
       }));
+
+      const imageIds = results.map((i) => i.public_id);
 
       const eventData = req.body;
       eventData.images = imageObjects;
@@ -45,13 +46,15 @@ router.post(
       // const eventName = eventData.name;
 
       const event = await Event.create(eventData);
-
       res.status(200).json({
         success: true,
         event,
       });
     } catch (error) {
-      next(error);
+      for (const publicId of imageIds) {
+        await deleteImage(publicId);
+      }
+      return new Error(error.message, 500);
     }
   })
 );
@@ -93,7 +96,6 @@ router.get(
 
 //delete shop event
 
-
 router.delete(
   "/delete-shop-event/:id",
   isSeller,
@@ -125,6 +127,5 @@ router.delete(
     }
   })
 );
-
 
 module.exports = router;

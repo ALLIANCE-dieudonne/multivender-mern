@@ -48,7 +48,7 @@ router.post("/create-user", upload.single("file"), async (req, res, next) => {
       user,
     });
   } catch (error) {
-    deleteImage(result);
+    await deleteImage(pubId);
     return next(new ErrorHandler("Failed to create user!"), 500);
   }
 });
@@ -80,7 +80,6 @@ router.post(
       sendToken(user, 201, res);
     } catch (error) {
       return next(new ErrorHandler(error.message, 500));
-      // console.log(error.message);
     }
   })
 );
@@ -185,6 +184,7 @@ router.put(
 
       res.status(200).json({ success: true, user });
     } catch (error) {
+      await deleteImage(pubId);
       return next(new ErrorHandler("Failed to update avatar"), 400);
     }
   })

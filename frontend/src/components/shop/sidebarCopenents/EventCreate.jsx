@@ -52,7 +52,6 @@ const EventCreate = () => {
       formData.append("images", image);
     });
 
-    console.log(images);
 
     formData.append("name", name);
     formData.append("description", description);
@@ -85,26 +84,64 @@ const EventCreate = () => {
         setImages((previousImages) => [...previousImages, ...base64Array]);
       })
       .catch((error) => {
-        console.error(error);
+        toast.error(error.message);
       });
   };
-  const convertTo64Array = (files) => {
-    const filePromises = files.map((file) => {
-      return new Promise((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
 
-        fileReader.onload = () => {
-          resolve(fileReader.result);
-        };
-        fileReader.onerror = (error) => {
-          reject(error);
-        };
+  const compressImage = (imageBase64, maxWidth, maxHeight, quality) => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.src = imageBase64;
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        let width = img.width;
+        let height = img.height;
+
+        if (width > maxWidth) {
+          height *= maxWidth / width;
+          width = maxWidth;
+        }
+        if (height > maxHeight) {
+          width *= maxHeight / height;
+          height = maxHeight;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(img, 0, 0, width, height);
+
+        const compressedBase64 = canvas.toDataURL("image/png", quality / 100);
+        resolve(compressedBase64);
+      };
+    });
+  };
+
+  const convertTo64Array = async (files) => {
+    const filePromises = files.map((file) => {
+      return new Promise(async (resolve, reject) => {
+        try {
+          const fileReader = new FileReader();
+          fileReader.readAsDataURL(file);
+
+          fileReader.onload = async () => {
+            const base64 = fileReader.result;
+            const compressedBase64 = await compressImage(base64, 800, 800, 80);
+            resolve(compressedBase64);
+          };
+
+          fileReader.onerror = (error) => reject(error);
+        } catch (error) {
+          reject(new Error("Failed to convert the image to base64."));
+        }
       });
     });
 
     return Promise.all(filePromises);
   };
+
   console.log(images);
 
   return (

@@ -8,7 +8,6 @@ const WithdrawMoneyPage = () => {
 
   const serviceCharge = amount * 0.1;
   const totalAmount = (amount - serviceCharge).toFixed(2);
-  console.log(orders);
   return (
     <div className="w-full flex justify-center items-center bg-white m-3">
       <div className="w-full justify-center items-center flex flex-col">

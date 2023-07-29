@@ -65,19 +65,56 @@ const ShopCreate = () => {
       console.error("Error converting file to base64:", error);
     }
   };
-  const convertTo64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
+ const compressImage = (imageBase64, maxWidth, maxHeight, quality) => {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.src = imageBase64;
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (error) => {
-        reject(error);
-      };
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      let width = img.width;
+      let height = img.height;
+
+      // Calculate the new dimensions to maintain the aspect ratio
+      if (width > maxWidth) {
+        height *= maxWidth / width;
+        width = maxWidth;
+      }
+      if (height > maxHeight) {
+        width *= maxHeight / height;
+        height = maxHeight;
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0, width, height);
+
+      // Convert the compressed image back to base64 with the specified quality
+      const compressedBase64 = canvas.toDataURL("image/jpeg", quality / 100);
+      resolve(compressedBase64);
+    };
+  });
+};
+
+const convertTo64 = async (file) => {
+  try {
+    const fileReader = new FileReader();
+    const base64 = await new Promise((resolve, reject) => {
+      fileReader.onload = () => resolve(fileReader.result);
+      fileReader.onerror = (error) => reject(error);
+      fileReader.readAsDataURL(file);
     });
-  };
+
+    // Compress the image to approximately 1 MB with 80% quality
+    const compressedBase64 = await compressImage(base64, 800, 800, 80);
+
+    return compressedBase64;
+  } catch (error) {
+    throw new Error("Failed to convert the image to base64.");
+  }
+};
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-3 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">

@@ -4,7 +4,6 @@ import EventsCard from "./EventsCard";
 
 const Events = () => {
   const allEvents = useSelector((state) => state.events.allEvents);
-  const event = allEvents.filter((event) => event[0]);
 
   return (
     <div className={`${styles.section}`}>

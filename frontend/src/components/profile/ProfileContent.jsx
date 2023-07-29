@@ -693,7 +693,6 @@ const Profile = () => {
   const [avatar, setAvatar] = useState(null);
 
   const dispatch = useDispatch();
-  console.log(user);
 
   const handleImageChange = async (e) => {
     const file = e.target.files[0];

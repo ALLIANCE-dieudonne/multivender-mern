@@ -8,7 +8,6 @@ import Footer from "../../components/layout/Footer";
 
 const BestSelling = () => {
   const { allproducts, isLoading } = useSelector((state) => state.product);
-  console.log(allproducts);
 
     useEffect(()=>{
       window.scrollTo(0, 0);

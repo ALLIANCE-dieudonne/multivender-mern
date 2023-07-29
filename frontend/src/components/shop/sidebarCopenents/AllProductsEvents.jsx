@@ -72,11 +72,11 @@ const AllProductsEvents = () => {
   ];
 
   const rows =
-    events && events.length !== 0
+    events && events.length
       ? events.map((event) => ({
           id: event._id,
           name: event.name,
-          price: "US$" + event.discountPrice,
+          price: `US$${event.discountPrice}`,
           stock: event.stock,
           sold: 10,
         }))

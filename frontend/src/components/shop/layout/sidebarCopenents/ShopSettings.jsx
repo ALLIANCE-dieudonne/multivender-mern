@@ -66,7 +66,6 @@ const ShopSettings = () => {
         toast.error("Error updating shop");
       });
   };
-    console.log(seller)
   
   return (
     <div className="mt-7 w-[80%]">

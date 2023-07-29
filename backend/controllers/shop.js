@@ -48,7 +48,9 @@ router.post("/shop-create", upload.single("file"), async (req, res, next) => {
       shop: newShop,
     });
   } catch (error) {
+    await deleteImage(pubId);
     return next(new ErrorHandler(error.message, 400));
+
   }
 });
 
@@ -198,6 +200,7 @@ router.put(
 
       res.status(200).json({ success: true, shop });
     } catch (error) {
+      await deleteImage(pubId);
       return next(new ErrorHandler("Failed to update avatar"), 400);
     }
   })

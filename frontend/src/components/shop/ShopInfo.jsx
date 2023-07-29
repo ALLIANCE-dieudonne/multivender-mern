@@ -38,7 +38,6 @@ const ShopInfo = ({ isOwner }) => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setIsLoading(false);
       });
     dispatch(getAllShopEvents(id));
@@ -74,7 +73,6 @@ const ShopInfo = ({ isOwner }) => {
     },
   ];
 
-  console.log(data)
 
   return (
     <>

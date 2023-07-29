@@ -1,10 +1,9 @@
-import { RxCross2, RxCross1 } from "react-icons/rx";
+import { RxCross2 } from "react-icons/rx";
 import { AiOutlineHeart } from "react-icons/ai";
 import { BsCartPlus } from "react-icons/bs";
 import styles from "../../styles/styles";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { backend_url } from "../../server";
 import { removeFromWishlist } from "../../redux/actions/wishlist";
 import { addToCart } from "../../redux/actions/cart";
 import { toast } from "react-toastify";
@@ -14,7 +13,7 @@ const Wishlist = ({ setOpenWishlist }) => {
 
   return (
     <div className="w-full fixed top-0 right-0 bg-[#0000004b] h-screen  z-10 transition">
-      <div className="w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full h-[100vh] ">
+      <div className="w-[95%] m-3 800px:m-0 800px:w-[25%] bg-white fixed top-0 right-0 flex flex-col shadow-sm min-h-full h-[80%] 800px:h-[100vh] ">
         <div className="w-full flex justify-end pt-3 pr-3">
           <RxCross2 size={30} onClick={() => setOpenWishlist(false)} />
         </div>

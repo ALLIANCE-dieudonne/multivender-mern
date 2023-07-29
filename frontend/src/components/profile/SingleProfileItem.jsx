@@ -20,7 +20,7 @@ const SingleProfileItem = () => {
         window.location.reload(true);
         navigate("/");
       })
-      .catch((err) => console.log(err));
+      .catch((err) => toast.error(err.message));
   };
   return (
     <>

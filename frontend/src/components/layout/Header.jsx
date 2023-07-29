@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "../../styles/styles";
 import { Link } from "react-router-dom";
-import { categoriesData, productData } from "../../static/data";
+import { categoriesData } from "../../static/data";
 import {
   AiOutlineSearch,
   AiOutlineHeart,
@@ -20,7 +20,7 @@ import Wishlist from "../wishlist/Wishlist.jsx";
 import { RxCross1 } from "react-icons/rx";
 
 const Header = ({ activeHeading }) => {
-  const { isAuthenticated, user, loading } = useSelector((state) => state.user);
+  const { isAuthenticated, user } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState("");
   const [searchData, setSearchData] = useState(null);
   const [active, setActive] = useState(false);
@@ -124,9 +124,7 @@ const Header = ({ activeHeading }) => {
                         <div className="w-full flex items-start py-3 ">
                           <img
                             crossOrigin="anonymous"
-                            src={`${backend_url}${
-                              item.images && item.images[0]
-                            }`}
+                            src={item?.images[0].secure_url}
                             alt="product-mage"
                             className="w-10 h-10 mr-2.5 rounded-md"
                           />
@@ -269,7 +267,10 @@ const Header = ({ activeHeading }) => {
             </Link>
           </div>
 
-          <div className="mr-5 flex cursor-pointer" onClick={() => setOpenCart(true)}>
+          <div
+            className="mr-5 flex cursor-pointer"
+            onClick={() => setOpenCart(true)}
+          >
             <AiOutlineShoppingCart size={30} />
             <span className="absolute rounded-full right-4 top-1.5 bg-[#3bc177] w-4 h-4 p-0 m-0 text-white text-[12px] text-center leading-tight font-medium  ">
               {cart && cart.length}
@@ -277,17 +278,24 @@ const Header = ({ activeHeading }) => {
           </div>
         </div>
 
-        <div className="w-full bg-white pt-2 "></div>
+        {openCart ? <Cart setOpenCart={setOpenCart} /> : null}
+        {openWishlist ? <Wishlist setOpenWishlist={setOpenWishlist} /> : null}
 
         {/* mobile sidebar */}
         {open && (
           <div className="w-full bg-[#0000005f]  h-screen top-0 left-0 transition duration-300 ease-in-out">
             <div className="w-[70%] bg-white fixed top-0 left-0  h-screen ">
-              <div className="w-full justify-between flex ">
-                <div className="relative p-3 ">
+              <div className="w-full justify-between flex cursor-pointer ">
+                <div
+                  className="relative p-3 "
+                  onClick={() => {
+                    setOpen(false)
+                    setOpenWishlist(true);
+                  }}
+                >
                   <AiOutlineHeart size={30} />
                   <span className="absolute rounded-full  top-3 right-2 bg-[#3bc177] w-4 h-4 p-0 m-0 text-white text-[12px] text-center leading-tight font-medium  ">
-                    0
+                    {wishlist && wishlist.length}
                   </span>
                 </div>
                 <div className="relative p-3">
@@ -298,7 +306,7 @@ const Header = ({ activeHeading }) => {
               <hr />
               <div className="w-[90%] relative mx-auto mt-5">
                 <input
-                  type="search"
+                  type="text"
                   placeholder="Search Products..."
                   className="w-full py-1.5 rounded-xl px-2 border-2 border-[#3967db] "
                   value={searchTerm}
@@ -325,11 +333,9 @@ const Header = ({ activeHeading }) => {
                             <div className="w-full flex items-start py-3">
                               <img
                                 crossOrigin="anonymous"
-                                src={`${backend_url}${
-                                  item.images && item.images[0]
-                                }`}
+                                src={item?.images[0].secure_url}
                                 alt="product-mage"
-                                className="w-10 h-10 mr-2.5 pt-4 rounded-md"
+                                className="w-10 h-10 mr-2.5  rounded-md object-contain"
                               />
                               <h1>{item.name}</h1>
                             </div>
