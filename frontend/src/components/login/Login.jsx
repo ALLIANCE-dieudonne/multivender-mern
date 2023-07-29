@@ -26,7 +26,7 @@ const Login = () => {
       )
       .then((res) => {
         toast.success("Logged in successfully");
-        window.location.reload(true);
+        // window.location.reload(true);
         navigate("/");
       })
       .catch((err) => {
