@@ -8,16 +8,12 @@ const helmet = require("helmet");
 
 app.use(express.json());
 app.use(cookieParser());
-
-
-const corsOptions = {
-  origin: "*", // Allow requests from any origin
-  methods: "GET, POST, PUT, DELETE", // Allow specified HTTP methods
-  allowedHeaders: "Content-Type, Authorization", // Allow specified headers
-};
-
-// Enable CORS for all routes
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: "https://multivender-front.onrender.com",
+    credentials: true,
+  })
+);
 
 app.use(
   helmet({
